@@ -1,10 +1,11 @@
 ---
 source: crates/sui-prover/tests/integration.rs
+assertion_line: 303
 expression: output
 ---
 exiting with bytecode transformation errors
 error: Spec function is calling a network module
-   ┌─ tests/inputs/spec_purity/spec_purity_event_module.move:30:9
+   ┌─ tests/inputs/spec_purity/spec_purity_event_module.move:37:9
    │
-30 │         subcheck(x);
+37 │         subcheck(x);
    │         ^^^^^^^^^^^

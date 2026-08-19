@@ -8,7 +8,7 @@ fun foo(s: &mut vec_set::VecSet<u64>) {
 }
 
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun foo_spec(s: &mut vec_set::VecSet<u64>) {
     requires(!s.contains(&10));
     foo(s);

@@ -19,7 +19,7 @@ fun decrement_ref(x: &mut u64, n: u64) {
     };
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun decrement_ref_spec(x: &mut u64, n: u64) {
     asserts(*x >= n);
     let old_x = clone!(x);

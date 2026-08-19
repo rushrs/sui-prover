@@ -1,10 +1,10 @@
 [package]
-name = "SuiSpecs"
+name = "specs"
 version = "0.0.1"
 edition = "2024.beta"
 
 [dependencies]
-Sui = { git = "https://github.com/asymptotic-code/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "next", override = true }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "027e13b2c14022b58067bd536c7e4f2afff72164", override = true }
 Prover = { local = "../prover", override = true }
 
 [addresses]

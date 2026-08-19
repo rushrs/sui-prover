@@ -5,7 +5,7 @@
 use anyhow::anyhow;
 use codespan_reporting::{diagnostic::Severity, term::termcolor::Buffer};
 use move_command_line_common::insta_assert;
-use move_compiler::{diagnostics::warning_filters::WarningFiltersBuilder, shared::PackagePaths};
+use move_compiler::{diagnostics::filter::unused_for_test_filter_scope, shared::PackagePaths};
 use move_model::{model::GlobalEnv, run_model_builder_with_options};
 use move_stackless_bytecode::{
     borrow_analysis::BorrowAnalysisProcessor,
@@ -154,9 +154,19 @@ fn test_runner(path: &Path) -> datatest_stable::Result<()> {
     let sources = if ignore_deps {
         vec![path.to_string_lossy().to_string()]
     } else {
-        let mut deps = extract_test_directives(path, "// dep:")?;
-        // Keep only deps that exist on disk to avoid hard failures on missing stdlib
-        deps.retain(|p| std::path::Path::new(p).exists());
+        let mut deps = extract_test_directives(path, "// dep:")?
+            .into_iter()
+            .map(|dep| {
+                if Path::new(&dep).exists() {
+                    dep
+                } else {
+                    let file_name = Path::new(&dep).file_name().unwrap().to_string_lossy();
+                    move_stdlib::path_in_crate(format!("sources/{file_name}"))
+                        .to_string_lossy()
+                        .to_string()
+                }
+            })
+            .collect::<Vec<_>>();
         deps.push(path.to_string_lossy().to_string());
         deps
     };
@@ -167,7 +177,7 @@ fn test_runner(path: &Path) -> datatest_stable::Result<()> {
             named_address_map: move_stdlib::named_addresses(),
         }],
         vec![],
-        Some(WarningFiltersBuilder::unused_warnings_filter_for_test()),
+        Some(unused_for_test_filter_scope()),
     )?;
     let out = if env.has_errors() {
         let mut error_writer = Buffer::no_color();

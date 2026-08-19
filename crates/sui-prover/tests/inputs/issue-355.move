@@ -10,14 +10,14 @@ fun bar(x: u64): u64 {
     x
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun foo_spec(x: u64): u64 {
     let result = foo(x);
     prover::ensures(result < bar(x));
     result
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun bar_spec(x: u64): u64 {
     let result = bar(x);
     prover::ensures(result < foo(x));

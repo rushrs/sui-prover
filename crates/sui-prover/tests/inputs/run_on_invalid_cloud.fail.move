@@ -5,7 +5,7 @@ public fun foo() {
 }
 
 // This spec should fail, --cloud is not configured
-#[spec(prove, run_on=b"cloud")]
+#[ext(spec(prove, run_on=b"cloud"))] #[allow(unused_function)]
 public fun foo_spec_cloud() {
     foo();
 }

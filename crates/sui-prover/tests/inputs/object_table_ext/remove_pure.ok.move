@@ -3,17 +3,17 @@ module 0x42::object_table_ext_remove_pure_ok;
 
 use sui::object_table::ObjectTable;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures, requires, clone};
 
-#[spec_only]
-use sui::object_table::remove_pure;
+#[ext(spec_only)]
+use prover::object_table_ext::remove_pure;
 
 public struct Foo has key, store {
     id: UID,
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_remove_matches(t: &mut ObjectTable<u64, Foo>, k: u64) {
     requires(t.contains(k));
     let old_t = clone!(t);

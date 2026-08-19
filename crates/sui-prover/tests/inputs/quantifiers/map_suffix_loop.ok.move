@@ -9,7 +9,7 @@ module 0x42::map_suffix_loop_ok;
 
 use prover::prover::{ensures, invariant};
 use prover::vector_iter::{map, map_range};
-use std::vector::append_pure;
+use prover::vector_ext::append_pure;
 
 #[ext(pure)]
 fun double(x: &u64): u64 {
@@ -35,7 +35,7 @@ fun map_doubles(v: &vector<u64>): vector<u64> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun map_doubles_spec(v: &vector<u64>): vector<u64> {
     let r = map_doubles(v);
     ensures(r == *map!(v, |x| double(x)));

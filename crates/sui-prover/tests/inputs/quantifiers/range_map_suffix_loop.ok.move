@@ -9,7 +9,7 @@ module 0x42::range_map_suffix_loop_ok;
 
 use prover::prover::{ensures, invariant};
 use prover::vector_iter::range_map;
-use std::vector::append_pure;
+use prover::vector_ext::append_pure;
 
 #[ext(pure)]
 fun double(x: u64): u64 {
@@ -35,7 +35,7 @@ fun doubles_up_to(n: u64): vector<u64> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun doubles_up_to_spec(n: u64): vector<u64> {
     let r = doubles_up_to(n);
     ensures(r == *range_map!<u64>(0, n, |k| double(k)));

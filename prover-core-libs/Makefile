@@ -1,7 +1,8 @@
 .PHONY: setup clean help
 
 # Sui framework repository
-SUI_REPO = https://github.com/asymptotic-code/sui.git
+SUI_REPO = https://github.com/MystenLabs/sui.git
+SUI_REF = 027e13b2c14022b58067bd536c7e4f2afff72164
 SUI_DIR = sui
 SUI_FRAMEWORK_PATH = $(SUI_DIR)/crates/sui-framework/packages
 
@@ -35,7 +36,7 @@ clone-sui:
 	@echo "Cloning sui repository (shallow clone)..."
 	@if [ ! -d "$(SUI_DIR)" ]; then \
 		git clone --depth 1 --filter=blob:none --sparse $(SUI_REPO) $(SUI_DIR); \
-		cd $(SUI_DIR) && git sparse-checkout set crates/sui-framework/packages; \
+		cd $(SUI_DIR) && git fetch --depth 1 origin $(SUI_REF) && git checkout $(SUI_REF) && git sparse-checkout set crates/sui-framework/packages; \
 		echo "Cloned sui to $(SUI_DIR)"; \
 	else \
 		echo "sui repository already exists at $(SUI_DIR)"; \

@@ -11,7 +11,7 @@ fun foo(): u64 {
     bar()
 }
 
-#[spec(prove, uninterpreted = bar)]
+#[ext(spec(prove, uninterpreted = bar))] #[allow(unused_function)]
 fun foo_spec(): u64 {
     let result = foo();
     ensures(result == 42); // should fail with uninterpreted

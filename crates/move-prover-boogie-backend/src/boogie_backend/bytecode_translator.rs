@@ -60,17 +60,18 @@ use crate::boogie_backend::{
     boogie_helpers::{
         boogie_address_blob, boogie_bv_type, boogie_byte_blob, boogie_constant_blob,
         boogie_debug_track_abort, boogie_debug_track_local, boogie_debug_track_return,
-        boogie_declare_global, boogie_default_value, boogie_dynamic_field_sel,
-        boogie_dynamic_field_update, boogie_enum_field_name, boogie_enum_field_update,
-        boogie_enum_name, boogie_enum_variant_ctor_name, boogie_equality_for_type,
-        boogie_field_sel, boogie_field_update, boogie_function_bv_name, boogie_function_name,
-        boogie_inst_suffix, boogie_make_vec_from_strings, boogie_modifies_memory_name,
-        boogie_num_literal, boogie_num_type_base, boogie_num_type_string_capital,
-        boogie_resource_memory_name, boogie_spec_global_var_name, boogie_struct_name, boogie_temp,
-        boogie_temp_from_suffix, boogie_type, boogie_type_param, boogie_type_suffix,
-        boogie_type_suffix_bv, boogie_type_suffix_for_struct, boogie_variant_merge_expr,
-        boogie_well_formed_check, boogie_well_formed_expr_bv, FunctionTranslationStyle,
-        TypeIdentToken,
+        boogie_declare_global, boogie_default_value, boogie_dynamic_field_is_recursive,
+        boogie_dynamic_field_pack, boogie_dynamic_field_sel, boogie_dynamic_field_storage_type,
+        boogie_dynamic_field_unpack, boogie_dynamic_field_update, boogie_enum_field_name,
+        boogie_enum_field_update, boogie_enum_name, boogie_enum_variant_ctor_name,
+        boogie_equality_for_type, boogie_field_sel, boogie_field_update, boogie_function_bv_name,
+        boogie_function_name, boogie_inst_suffix, boogie_make_vec_from_strings,
+        boogie_modifies_memory_name, boogie_num_literal, boogie_num_type_base,
+        boogie_num_type_string_capital, boogie_resource_memory_name, boogie_spec_global_var_name,
+        boogie_struct_name, boogie_temp, boogie_temp_from_suffix, boogie_type, boogie_type_param,
+        boogie_type_suffix, boogie_type_suffix_bv, boogie_type_suffix_for_struct,
+        boogie_variant_merge_expr, boogie_well_formed_check, boogie_well_formed_expr_bv,
+        FunctionTranslationStyle, TypeIdentToken,
     },
     options::BoogieOptions,
     spec_translator::SpecTranslator,
@@ -1494,6 +1495,62 @@ impl<'env> StructTranslator<'env> {
             .dynamic_field_names_values(&struct_type)
             .collect_vec();
 
+        // Dynamic fields normally live directly in the parent datatype as a
+        // Boogie table. If a value contains the parent type (for example,
+        // UID -> Table<K, V> -> UID), that encoding is recursively ill-founded.
+        // Store the whole field map behind a bijective opaque sort to break the
+        // datatype cycle without hiding any value from the proof.
+        for (name, value) in &dynamic_field_names_values {
+            if !boogie_dynamic_field_is_recursive(env, struct_env, value) {
+                continue;
+            }
+            let storage_type =
+                boogie_dynamic_field_storage_type(env, struct_env, self.type_inst, name, value);
+            let pack = boogie_dynamic_field_pack(env, struct_env, self.type_inst, name, value);
+            let unpack = boogie_dynamic_field_unpack(env, struct_env, self.type_inst, name, value);
+            let value_type = boogie_type(env, value);
+            let value_type = if value_type.contains(' ') {
+                format!("({})", value_type)
+            } else {
+                value_type
+            };
+            let table_type = format!("(Table int {})", value_type);
+
+            emitln!(writer, "type {};", storage_type);
+            emitln!(
+                writer,
+                "function {}(x: {}): {};",
+                pack,
+                table_type,
+                storage_type
+            );
+            emitln!(
+                writer,
+                "function {}(x: {}): {};",
+                unpack,
+                storage_type,
+                table_type
+            );
+            emitln!(
+                writer,
+                "axiom (forall x: {} :: {{{}({}(x))}} {}({}(x)) == x);",
+                table_type,
+                unpack,
+                pack,
+                unpack,
+                pack,
+            );
+            emitln!(
+                writer,
+                "axiom (forall x: {} :: {{{}({}(x))}} {}({}(x)) == x);",
+                storage_type,
+                pack,
+                unpack,
+                pack,
+                unpack,
+            );
+        }
+
         // Emit data type
         let struct_name = boogie_struct_name(struct_env, self.type_inst);
         emitln!(writer, "datatype {} {{", struct_name);
@@ -1510,19 +1567,33 @@ impl<'env> StructTranslator<'env> {
                 )
             )
         });
-        let dynamic_fields = dynamic_field_names_values.iter().map(|(name, value)| {
-            let value_type = boogie_type(env, value);
-            let value_type = if value_type.contains(' ') {
-                format!("({})", value_type)
-            } else {
-                value_type
-            };
-            format!(
-                "{}: (Table int {})",
-                boogie_dynamic_field_sel(self.parent.env, name, value),
-                value_type,
-            )
-        });
+        let dynamic_fields =
+            dynamic_field_names_values.iter().map(|(name, value)| {
+                if boogie_dynamic_field_is_recursive(env, struct_env, value) {
+                    return format!(
+                        "{}: {}",
+                        boogie_dynamic_field_sel(self.parent.env, name, value),
+                        boogie_dynamic_field_storage_type(
+                            env,
+                            struct_env,
+                            self.type_inst,
+                            name,
+                            value,
+                        ),
+                    );
+                }
+                let value_type = boogie_type(env, value);
+                let value_type = if value_type.contains(' ') {
+                    format!("({})", value_type)
+                } else {
+                    value_type
+                };
+                format!(
+                    "{}: (Table int {})",
+                    boogie_dynamic_field_sel(self.parent.env, name, value),
+                    value_type,
+                )
+            });
         let all_fields = fields.chain(dynamic_fields).join(", ");
         emitln!(writer, "    {}({})", struct_name, all_fields);
         emitln!(writer, "}");
@@ -1591,7 +1662,20 @@ impl<'env> StructTranslator<'env> {
                             .enumerate()
                             .map(|(p, (n, v))| {
                                 if p == pos {
-                                    "x".to_string()
+                                    if boogie_dynamic_field_is_recursive(env, struct_env, v) {
+                                        format!(
+                                            "{}(x)",
+                                            boogie_dynamic_field_pack(
+                                                env,
+                                                struct_env,
+                                                self.type_inst,
+                                                n,
+                                                v,
+                                            ),
+                                        )
+                                    } else {
+                                        "x".to_string()
+                                    }
                                 } else {
                                     format!(
                                         "s->{}",
@@ -3283,10 +3367,29 @@ impl<'env> FunctionTranslator<'env> {
                                 .dynamic_field_names_values(&struct_type)
                                 .collect_vec();
 
-                            // Create EmptyTable() arguments for each dynamic field
+                            // Create empty storage for each dynamic field.
                             let dynamic_args = dynamic_field_names_values
                                 .iter()
-                                .map(|_| "EmptyTable()".to_string())
+                                .map(|(name, value)| {
+                                    if boogie_dynamic_field_is_recursive(
+                                        fun_target.global_env(),
+                                        &struct_env,
+                                        value,
+                                    ) {
+                                        format!(
+                                            "{}(EmptyTable())",
+                                            boogie_dynamic_field_pack(
+                                                fun_target.global_env(),
+                                                &struct_env,
+                                                inst,
+                                                name,
+                                                value,
+                                            ),
+                                        )
+                                    } else {
+                                        "EmptyTable()".to_string()
+                                    }
+                                })
                                 .collect_vec();
 
                             // Combine all arguments
@@ -4945,10 +5048,25 @@ impl<'env> FunctionTranslator<'env> {
                             .dynamic_field_names_values(&struct_type)
                             .collect_vec();
 
-                        // Create EmptyTable() arguments for each dynamic field
+                        // Create empty storage for each dynamic field.
                         let dynamic_args = dynamic_field_names_values
                             .iter()
-                            .map(|_| "EmptyTable()".to_string())
+                            .map(|(name, value)| {
+                                if boogie_dynamic_field_is_recursive(env, &struct_env, value) {
+                                    format!(
+                                        "{}(EmptyTable())",
+                                        boogie_dynamic_field_pack(
+                                            env,
+                                            &struct_env,
+                                            inst,
+                                            name,
+                                            value,
+                                        ),
+                                    )
+                                } else {
+                                    "EmptyTable()".to_string()
+                                }
+                            })
                             .collect_vec();
 
                         // Combine all arguments
@@ -6134,7 +6252,26 @@ impl<'env> FunctionTranslator<'env> {
                         &instantiated_name_type,
                         &instantiated_value_type,
                     );
-                    let new_dest = format!("{}->{}", (*mk_dest)(), sel_fun);
+                    let new_dest = if boogie_dynamic_field_is_recursive(
+                        self.parent.env,
+                        struct_env,
+                        &instantiated_value_type,
+                    ) {
+                        format!(
+                            "{}({}->{})",
+                            boogie_dynamic_field_unpack(
+                                self.parent.env,
+                                struct_env,
+                                &instantiated_struct_qid.inst,
+                                &instantiated_name_type,
+                                &instantiated_value_type,
+                            ),
+                            (*mk_dest)(),
+                            sel_fun,
+                        )
+                    } else {
+                        format!("{}->{}", (*mk_dest)(), sel_fun)
+                    };
                     let mut new_dest_needed = false;
                     let new_src = self.translate_write_back_update(
                         &mut || {

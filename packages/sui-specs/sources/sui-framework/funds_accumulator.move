@@ -1,22 +1,22 @@
 module specs::funds_accumulator_spec;
 
-use sui::funds_accumulator::{add_to_accumulator_address, withdraw_from_accumulator_address};
+use prover::prover::{drop, fresh};
 
 
-#[spec(target = sui::funds_accumulator::add_to_accumulator_address)]
-public fun add_to_accumulator_address_spec<T: store>(
-    accumulator: address,
-    recipient: address,
-    value: T,
-) {
-    add_to_accumulator_address(accumulator, recipient, value)
-}
+#[ext(spec(target = sui::funds_accumulator::add_to_accumulator_address))]
+  public fun add_to_accumulator_address_spec<T: store>(
+      accumulator: address,
+      recipient: address,
+      value: T,
+  ) {
+    drop(value)
+  }
 
-#[spec(target = sui::funds_accumulator::withdraw_from_accumulator_address)]
-public fun withdraw_from_accumulator_address_spec<T: store>(
-    accumulator: address,
-    owner: address,
-    value: u256,
-): T {
-    withdraw_from_accumulator_address(accumulator, owner, value)
-}
+#[ext(spec(target = sui::funds_accumulator::withdraw_from_accumulator_address))]
+  public fun withdraw_from_accumulator_address_spec<T: store>(
+      accumulator: address,
+      owner: address,
+      value: u256,
+  ): T {
+    fresh<T>()
+  }

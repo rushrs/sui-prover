@@ -11,7 +11,7 @@ module 0x42::find_indices_suffix_loop_ok;
 
 use prover::prover::{ensures, invariant};
 use prover::vector_iter::{find_indices, find_indices_range};
-use std::vector::append_pure;
+use prover::vector_ext::append_pure;
 
 #[ext(pure)]
 fun is_odd(x: &u64): bool {
@@ -36,7 +36,7 @@ fun find_odd_indices(v: &vector<u64>): vector<u64> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun find_odd_indices_spec(v: &vector<u64>): vector<u64> {
     let r = find_odd_indices(v);
     ensures(r == *find_indices!(v, |x| is_odd(x)));

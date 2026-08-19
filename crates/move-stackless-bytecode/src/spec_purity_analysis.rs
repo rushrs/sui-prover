@@ -207,7 +207,10 @@ impl SpecPurityAnalysis {
 
         let is_spec = targets.is_function_spec(&func_env.get_qualified_id());
         if is_spec {
-            if underlying_func_id.is_some() && call_operation.is_none() {
+            if underlying_func_id.is_some()
+                && call_operation.is_none()
+                && !targets.is_system_spec(&func_env.get_qualified_id())
+            {
                 let spec_name = func_env.get_full_name_str();
                 let target_func_env = env.get_function(*underlying_func_id.unwrap());
                 let target_name = target_func_env.get_full_name_str();

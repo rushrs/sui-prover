@@ -1,7 +1,7 @@
 module 0x42::fb {
-  native fun foo();
+  public native fun foo();
 
-  native fun bar();
+  public native fun bar();
 
   public fun foobar() {
     foo();
@@ -14,10 +14,10 @@ module 0x42::foo_specs {
   use prover::prover::ensures;
   use 0x42::fb::foo;
 
-  #[spec(prove, target = 0x42::fb::foo)]
+  #[ext(spec(prove, target = 0x42::fb::foo))] #[allow(unused_function)]
   public fun foo_spec() {
     foo();
-    ensures(true); 
+    ensures(true);
   }
 }
 
@@ -25,34 +25,34 @@ module 0x42::bar_specs {
   use prover::prover::ensures;
   use 0x42::fb::bar;
 
-  #[spec(prove, target = 0x42::fb::bar)]
+  #[ext(spec(prove, target = 0x42::fb::bar))] #[allow(unused_function)]
   public fun bar_spec() {
     bar();
-    ensures(true); 
+    ensures(true);
   }
 }
 
-#[spec_only(include = 0x42::foo_specs, include = 0x42::bar_specs)]
+#[ext(spec_only(include(foo = 0x42::foo_specs, bar = 0x42::bar_specs)))]
 module 0x42::foobar_specs_1 {
   use prover::prover::ensures;
   use 0x42::fb::foobar;
 
-  #[spec(prove, target = 0x42::fb::foobar)]
+  #[ext(spec(prove, target = 0x42::fb::foobar))] #[allow(unused_function)]
   public fun foobar_spec() {
     foobar();
-    ensures(true); 
+    ensures(true);
   }
 }
 
-#[spec_only(include = 0x42::foo_specs::foo_spec, include = 0x42::bar_specs::bar_spec)]
+#[ext(spec_only(include(foo = 0x42::foo_specs::foo_spec, bar = 0x42::bar_specs::bar_spec)))]
 module 0x42::foobar_specs_2 {
   use prover::prover::ensures;
   use 0x42::fb::foobar;
 
-  #[spec(prove, target = 0x42::fb::foobar)]
+  #[ext(spec(prove, target = 0x42::fb::foobar))] #[allow(unused_function)]
   public fun foobar_spec() {
     foobar();
-    ensures(true); 
+    ensures(true);
   }
 }
 

@@ -9,7 +9,7 @@ module 0x42::filter_suffix_loop_ok;
 
 use prover::prover::{ensures, invariant};
 use prover::vector_iter::{filter, filter_range};
-use std::vector::append_pure;
+use prover::vector_ext::append_pure;
 
 #[ext(pure)]
 fun is_odd(x: &u64): bool {
@@ -33,7 +33,7 @@ fun filter_odds(v: &vector<u64>): vector<u64> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun filter_odds_spec(v: &vector<u64>): vector<u64> {
     let r = filter_odds(v);
     ensures(r == *filter!(v, |x| is_odd(x)));

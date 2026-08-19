@@ -374,44 +374,44 @@ function {:inline} $0_vector_iter_slice{{S}}(v: Vec ({{T}}), start: int, end: in
     SliceVec(v, start, end)
 }
 
-// std::vector::append_pure — functional concatenation.
-function {:inline} $1_vector_append_pure{{S}}(v1: Vec ({{T}}), v2: Vec ({{T}})): Vec ({{T}}) {
+// prover::vector_ext::append_pure — functional concatenation.
+function {:inline} $0_vector_ext_append_pure{{S}}(v1: Vec ({{T}}), v2: Vec ({{T}})): Vec ({{T}}) {
     ConcatVec(v1, v2)
 }
 
-// std::vector::borrow_or_unknown — total borrow. Out-of-range
+// prover::vector_ext::borrow_or_unknown — total borrow. Out-of-range
 // returns an uninterpreted (but deterministic) value. Never aborts.
-function {:inline} $1_vector_borrow_or_unknown{{S}}(v: Vec ({{T}}), i: int): {{T}} {
+function {:inline} $0_vector_ext_borrow_or_unknown{{S}}(v: Vec ({{T}}), i: int): {{T}} {
     ReadVec(v, i)
 }
 
-// std::vector::push_back_pure
-function {:inline} $1_vector_push_back_pure{{S}}(v: Vec ({{T}}), e: {{T}}): Vec ({{T}}) {
+// prover::vector_ext::push_back_pure
+function {:inline} $0_vector_ext_push_back_pure{{S}}(v: Vec ({{T}}), e: {{T}}): Vec ({{T}}) {
     ExtendVec(v, e)
 }
 
-// std::vector::pop_back_pure — drop last; unchanged if empty.
-function {:inline} $1_vector_pop_back_pure{{S}}(v: Vec ({{T}})): Vec ({{T}}) {
+// prover::vector_ext::pop_back_pure — drop last; unchanged if empty.
+function {:inline} $0_vector_ext_pop_back_pure{{S}}(v: Vec ({{T}})): Vec ({{T}}) {
     (if LenVec(v) == 0 then v else SliceVec(v, 0, LenVec(v) - 1))
 }
 
-// std::vector::push_front_pure
-function {:inline} $1_vector_push_front_pure{{S}}(v: Vec ({{T}}), e: {{T}}): Vec ({{T}}) {
+// prover::vector_ext::push_front_pure
+function {:inline} $0_vector_ext_push_front_pure{{S}}(v: Vec ({{T}}), e: {{T}}): Vec ({{T}}) {
     InsertAtVec(v, 0, e)
 }
 
-// std::vector::pop_front_pure — drop first; unchanged if empty.
-function {:inline} $1_vector_pop_front_pure{{S}}(v: Vec ({{T}})): Vec ({{T}}) {
+// prover::vector_ext::pop_front_pure — drop first; unchanged if empty.
+function {:inline} $0_vector_ext_pop_front_pure{{S}}(v: Vec ({{T}})): Vec ({{T}}) {
     (if LenVec(v) == 0 then v else RemoveAtVec(v, 0))
 }
 
-// std::vector::insert_pure — insert at i; unchanged if i > length.
-function {:inline} $1_vector_insert_pure{{S}}(v: Vec ({{T}}), e: {{T}}, i: int): Vec ({{T}}) {
+// prover::vector_ext::insert_pure — insert at i; unchanged if i > length.
+function {:inline} $0_vector_ext_insert_pure{{S}}(v: Vec ({{T}}), e: {{T}}, i: int): Vec ({{T}}) {
     (if i > LenVec(v) then v else InsertAtVec(v, i, e))
 }
 
-// std::vector::remove_pure — remove at i; unchanged if i out of range.
-function {:inline} $1_vector_remove_pure{{S}}(v: Vec ({{T}}), i: int): Vec ({{T}}) {
+// prover::vector_ext::remove_pure — remove at i; unchanged if i out of range.
+function {:inline} $0_vector_ext_remove_pure{{S}}(v: Vec ({{T}}), i: int): Vec ({{T}}) {
     (if InRangeVec(v, i) then RemoveAtVec(v, i) else v)
 }
 
@@ -584,13 +584,13 @@ procedure {:inline 1} $2_vec_set_remove{{S}}(
     m' := $UpdateMutation(m, $2_vec_set_VecSet{{S}}(RemoveAtVec(v, idx)));
 }
 
-// sui::vec_set::insert_pure — functional insert by appending.
-function {:inline} $2_vec_set_insert_pure{{S}}(s: $2_vec_set_VecSet{{S}}, k: {{T}}): $2_vec_set_VecSet{{S}} {
+// prover::vec_set_ext::insert_pure — functional insert by appending.
+function {:inline} $0_vec_set_ext_insert_pure{{S}}(s: $2_vec_set_VecSet{{S}}, k: {{T}}): $2_vec_set_VecSet{{S}} {
     $2_vec_set_VecSet{{S}}(ExtendVec(s->$contents, k))
 }
 
-// sui::vec_set::remove_pure — functional remove; unchanged if absent.
-function {:inline} $2_vec_set_remove_pure{{S}}(s: $2_vec_set_VecSet{{S}}, k: {{T}}): $2_vec_set_VecSet{{S}} {
+// prover::vec_set_ext::remove_pure — functional remove; unchanged if absent.
+function {:inline} $0_vec_set_ext_remove_pure{{S}}(s: $2_vec_set_VecSet{{S}}, k: {{T}}): $2_vec_set_VecSet{{S}} {
     (var idx := $IndexOfVec{{S}}(s->$contents, k);
      if idx < 0 then s
      else $2_vec_set_VecSet{{S}}(RemoveAtVec(s->$contents, idx)))
@@ -737,38 +737,38 @@ function {:inline} $2_vec_map_get_idx_opt{{S}}(vm: $2_vec_map_VecMap{{S}}, key: 
          $1_option_Option'u64'(EmptyVec()))
 }
 
-// sui::vec_map::get_or_unknown — total lookup; for missing keys the
+// prover::vec_map_ext::get_or_unknown — total lookup; for missing keys the
 // result is ReadVec at IndexOfVecMap's -1, which the vector theory leaves
 // uninterpreted.
-function {:inline} $2_vec_map_get_or_unknown{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}): {{V}} {
+function {:inline} $0_vec_map_ext_get_or_unknown{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}): {{V}} {
     ReadVec(vm->$contents, $IndexOfVecMap{{S}}(vm->$contents, key))->$value
 }
 
-// sui::vec_map::get_entry_by_idx_or_unknown — total indexed entry
+// prover::vec_map_ext::get_entry_by_idx_or_unknown — total indexed entry
 // access; ReadVec returns an uninterpreted Entry for out-of-range indices.
 // Procedure (not function) because Boogie functions cannot return tuples.
-procedure {:inline 1} $2_vec_map_get_entry_by_idx_or_unknown{{S}}(vm: $2_vec_map_VecMap{{S}}, idx: int) returns (res0: {{K}}, res1: {{V}}) {
+procedure {:inline 1} $0_vec_map_ext_get_entry_by_idx_or_unknown{{S}}(vm: $2_vec_map_VecMap{{S}}, idx: int) returns (res0: {{K}}, res1: {{V}}) {
     var entry: $2_vec_map_Entry{{S}};
     entry := ReadVec(vm->$contents, idx);
     res0 := entry->$key;
     res1 := entry->$value;
 }
 
-// sui::vec_map::get_idx_or_unknown — total index lookup.
+// prover::vec_map_ext::get_idx_or_unknown — total index lookup.
 // For contained keys: same index as get_idx. For missing keys:
 // IndexOfVecMap returns -1 (a u64-invalid sentinel); spec callers should
 // guard with `contains` to get a meaningful result.
-function {:inline} $2_vec_map_get_idx_or_unknown{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}): int {
+function {:inline} $0_vec_map_ext_get_idx_or_unknown{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}): int {
     $IndexOfVecMap{{S}}(vm->$contents, key)
 }
 
-// sui::vec_map::insert_pure — functional insert by appending.
-function {:inline} $2_vec_map_insert_pure{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}, val: {{V}}): $2_vec_map_VecMap{{S}} {
+// prover::vec_map_ext::insert_pure — functional insert by appending.
+function {:inline} $0_vec_map_ext_insert_pure{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}, val: {{V}}): $2_vec_map_VecMap{{S}} {
     $2_vec_map_VecMap{{S}}(ExtendVec(vm->$contents, $2_vec_map_Entry{{S}}(key, val)))
 }
 
-// sui::vec_map::remove_pure — functional remove; unchanged if absent.
-function {:inline} $2_vec_map_remove_pure{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}): $2_vec_map_VecMap{{S}} {
+// prover::vec_map_ext::remove_pure — functional remove; unchanged if absent.
+function {:inline} $0_vec_map_ext_remove_pure{{S}}(vm: $2_vec_map_VecMap{{S}}, key: {{K}}): $2_vec_map_VecMap{{S}} {
     (var idx := $IndexOfVecMap{{S}}(vm->$contents, key);
      if idx < 0 then vm
      else $2_vec_map_VecMap{{S}}(RemoveAtVec(vm->$contents, idx)))
@@ -997,6 +997,12 @@ procedure {:inline 2} {{impl.fun_drop}}{{S}}(t: {{Type}}{{S}}) {}
 {%- set SV = "'" ~ instance.1.suffix ~ "'" -%}
 {%- set DF_S = "'" ~ instance.0.suffix ~ "_" ~ instance.1.suffix ~ "_" ~ impl.struct_name ~ "'" -%}
 {%- set ENC = "$EncodeKey'" ~ instance.0.suffix ~ "'" -%}
+{%- set DF = "t->$dynamic_fields" ~ S -%}
+{%- if instance.1.dynamic_field_unpack != "" -%}
+{%- set DF = instance.1.dynamic_field_unpack ~ "(" ~ DF ~ ")" -%}
+{%- endif -%}
+{%- set ADD = "AddTable(" ~ DF ~ ", enc_k, v)" -%}
+{%- set REMOVE = "RemoveTable(" ~ DF ~ ", enc_k)" -%}
 
 {%- if impl.fun_add != "" %}
 procedure {:inline 2} {{impl.fun_add}}{{DF_S}}(m: $Mutation ({{Type}}), k: {{K}}, v: {{V}}) returns (m': $Mutation({{Type}})) {
@@ -1004,10 +1010,10 @@ procedure {:inline 2} {{impl.fun_add}}{{DF_S}}(m: $Mutation ({{Type}}), k: {{K}}
     var t: {{Type}};
     enc_k := {{ENC}}(k);
     t := $Dereference(m);
-    if (ContainsTable(t->$dynamic_fields{{S}}, enc_k)) {
+    if (ContainsTable({{DF}}, enc_k)) {
         call $Abort($StdError(7/*INVALID_ARGUMENTS*/, 100/*EALREADY_EXISTS*/));
     } else {
-        m' := $UpdateMutation(m, $Update'{{Type}}'_dynamic_fields{{S}}(t, AddTable(t->$dynamic_fields{{S}}, enc_k, v)));
+        m' := $UpdateMutation(m, $Update'{{Type}}'_dynamic_fields{{S}}(t, {{ADD}}));
     }
 }
 {%- endif %}
@@ -1016,19 +1022,19 @@ procedure {:inline 2} {{impl.fun_add}}{{DF_S}}(m: $Mutation ({{Type}}), k: {{K}}
 procedure {:inline 2} {{impl.fun_borrow}}{{DF_S}}(t: {{Type}}, k: {{K}}) returns (v: {{V}}) {
     var enc_k: int;
     enc_k := {{ENC}}(k);
-    if (!ContainsTable(t->$dynamic_fields{{S}}, enc_k)) {
+    if (!ContainsTable({{DF}}, enc_k)) {
         call $Abort($StdError(7/*INVALID_ARGUMENTS*/, 101/*ENOT_FOUND*/));
     } else {
-        v := GetTable(t->$dynamic_fields{{S}}, {{ENC}}(k));
+        v := GetTable({{DF}}, {{ENC}}(k));
         assume $IsValid{{SV}}(v);
     }
 }
 function {:inline} {{impl.fun_borrow}}{{DF_S}}$pure(t: {{Type}}, k: {{K}}): {{V}} {
-    GetTable(t->$dynamic_fields{{S}}, {{ENC}}(k))
+    GetTable({{DF}}, {{ENC}}(k))
 }
 
 // This axiom will be a problem if ever some IsValid predicate is unsatisfiable.
-// axiom (forall t: {{Type}}, k: {{K}} :: $IsValid{{SV}}(GetTable(t->$dynamic_fields{{S}}, {{ENC}}(k))));
+// axiom (forall t: {{Type}}, k: {{K}} :: $IsValid{{SV}}(GetTable({{DF}}, {{ENC}}(k))));
 
 {%- endif %}
 
@@ -1036,7 +1042,7 @@ function {:inline} {{impl.fun_borrow}}{{DF_S}}$pure(t: {{Type}}, k: {{K}}): {{V}
 // prover::{dynamic_field,dynamic_object_field}_ext::borrow_or_unknown —
 // total lookup; GetTable returns an uninterpreted value for missing keys.
 function {:inline} {{impl.fun_borrow_or_unknown}}{{DF_S}}(t: {{Type}}, k: {{K}}): {{V}} {
-    GetTable(t->$dynamic_fields{{S}}, {{ENC}}(k))
+    GetTable({{DF}}, {{ENC}}(k))
 }
 {%- endif %}
 
@@ -1047,10 +1053,10 @@ procedure {:inline 2} {{impl.fun_borrow_mut}}{{DF_S}}(m: $Mutation ({{Type}}), k
     var v: {{V}};
     enc_k := {{ENC}}(k);
     t := $Dereference(m);
-    if (!ContainsTable(t->$dynamic_fields{{S}}, enc_k)) {
+    if (!ContainsTable({{DF}}, enc_k)) {
         call $Abort($StdError(7/*INVALID_ARGUMENTS*/, 101/*ENOT_FOUND*/));
     } else {
-        v := GetTable(t->$dynamic_fields{{S}}, enc_k);
+        v := GetTable({{DF}}, enc_k);
         assume $IsValid{{SV}}(v);
         dst := $Mutation(m->l, ExtendVec(ExtendVec(m->p, 1), enc_k), v);
         m' := m;
@@ -1064,12 +1070,12 @@ procedure {:inline 2} {{impl.fun_remove}}{{DF_S}}(m: $Mutation ({{Type}}), k: {{
     var t: {{Type}};
     enc_k := {{ENC}}(k);
     t := $Dereference(m);
-    if (!ContainsTable(t->$dynamic_fields{{S}}, enc_k)) {
+    if (!ContainsTable({{DF}}, enc_k)) {
         call $Abort($StdError(7/*INVALID_ARGUMENTS*/, 101/*ENOT_FOUND*/));
     } else {
-        v := GetTable(t->$dynamic_fields{{S}}, enc_k);
+        v := GetTable({{DF}}, enc_k);
         assume $IsValid{{SV}}(v);
-        m' := $UpdateMutation(m, $Update'{{Type}}'_dynamic_fields{{S}}(t, RemoveTable(t->$dynamic_fields{{S}}, enc_k)));
+        m' := $UpdateMutation(m, $Update'{{Type}}'_dynamic_fields{{S}}(t, {{REMOVE}}));
     }
 }
 {%- endif %}
@@ -1082,10 +1088,10 @@ procedure {:inline 2} {{impl.fun_remove_if_exists}}{{DF_S}}(m: $Mutation ({{Type
     var val: {{V}};
     enc_k := {{ENC}}(k);
     t := $Dereference(m);
-    if (ContainsTable(t->$dynamic_fields{{S}}, enc_k)) {
-        val := GetTable(t->$dynamic_fields{{S}}, enc_k);
+    if (ContainsTable({{DF}}, enc_k)) {
+        val := GetTable({{DF}}, enc_k);
         assume $IsValid{{SV}}(val);
-        m' := $UpdateMutation(m, $Update'{{Type}}'_dynamic_fields{{S}}(t, RemoveTable(t->$dynamic_fields{{S}}, enc_k)));
+        m' := $UpdateMutation(m, $Update'{{Type}}'_dynamic_fields{{S}}(t, {{REMOVE}}));
         v := $1_option_Option{{SV}}(MakeVec1(val));
     } else {
         m' := m;
@@ -1096,13 +1102,13 @@ procedure {:inline 2} {{impl.fun_remove_if_exists}}{{DF_S}}(m: $Mutation ({{Type
 
 {%- if impl.fun_exists_with_type != "" %}
 function {:inline} {{impl.fun_exists_with_type}}{{DF_S}}(t: ({{Type}}), k: {{K}}): bool {
-    ContainsTable(t->$dynamic_fields{{S}}, {{ENC}}(k))
+    ContainsTable({{DF}}, {{ENC}}(k))
 }
 {%- endif %}
 
 {%- if impl.fun_exists != "" %}
 axiom (forall t: {{Type}}, k: {{K}} :: {({{impl.fun_exists_inner}}{{SK}}(t, k))}
-   ContainsTable(t->$dynamic_fields{{S}}, {{ENC}}(k)) ==> {{impl.fun_exists_inner}}{{SK}}(t, k));
+   ContainsTable({{DF}}, {{ENC}}(k)) ==> {{impl.fun_exists_inner}}{{SK}}(t, k));
 {%- endif %}
 
 {% endmacro dynamic_field_module %}

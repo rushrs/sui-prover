@@ -19,12 +19,12 @@ public fun foo(self: &mut ValidatorWrapper, validator_address: address) {
     candidate.sui_address = validator_address;
 }
 
-#[spec(target=sui::versioned::load_value_mut)]
+#[ext(spec(target=sui::versioned::load_value_mut))] #[allow(unused_function)]
 public fun load_value_mut_spec<T: store>(self: &mut Versioned): &mut T {
     versioned::load_value_mut(self)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun foo_spec(self: &mut ValidatorWrapper, validator_address: address) {
     foo(self, validator_address);
 }

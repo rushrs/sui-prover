@@ -525,6 +525,13 @@ impl FunctionTargetProcessor for SpecWellFormedAnalysisProcessor {
             }
         }
 
+        // System specs summarize framework/native functions whose implementation is
+        // intentionally unavailable to Move. Their signatures must still match, but
+        // unlike ordinary external specs they cannot call the target function.
+        if targets.is_system_spec(&func_env.get_qualified_id()) {
+            return data;
+        }
+
         let code = func_target.get_bytecode();
         let cfg: StacklessControlFlowGraph = StacklessControlFlowGraph::new_forward(code);
         let entry = cfg.entry_block();

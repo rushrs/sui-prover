@@ -1,7 +1,7 @@
 #[allow(unused)]
 module 0x42::quantifiers_funs_aborts_fail;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{exists, ensures};
 
 
@@ -11,7 +11,7 @@ fun x_is_10_aborts(x: &u64): bool {
     x == 10
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_spec() {
     ensures(exists!<u64>(|x| x_is_10_aborts(x)));
 }

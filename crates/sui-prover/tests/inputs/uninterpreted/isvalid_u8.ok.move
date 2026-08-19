@@ -9,7 +9,7 @@ fun apply() {
     assert!(sub1(1) <= 255, 1);
 }
 
-#[spec(prove, uninterpreted = sub1)]
+#[ext(spec(prove, uninterpreted = sub1))] #[allow(unused_function)]
 fun apply_spec() {
     apply()
 }

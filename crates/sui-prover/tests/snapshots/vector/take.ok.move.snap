@@ -1,5 +1,13 @@
 ---
 source: crates/sui-prover/tests/integration.rs
+assertion_line: 303
 expression: output
 ---
 Verification successful
+warning: deprecated usage
+   ┌─ tests/inputs/vector/take.ok.move:10:21
+   │
+10 │     let v = vector::empty<u64>();
+   │                     ^^^^^ The function 'std::vector::empty' is deprecated: Use `vector[]` literal instead
+   │
+   = This warning can be suppressed with '#[allow(deprecated_usage)]' applied to the 'module' or module member ('const', 'fun', or 'struct')

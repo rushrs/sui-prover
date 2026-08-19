@@ -23,7 +23,7 @@ fun find_odd_indices(v: &vector<u64>): vector<u64> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun find_odd_indices_spec(v: &vector<u64>): vector<u64> {
     let r = find_odd_indices(v);
     ensures(r == *find_indices!(v, |j| is_odd(j)));

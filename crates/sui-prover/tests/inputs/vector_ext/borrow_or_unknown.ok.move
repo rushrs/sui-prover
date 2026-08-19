@@ -4,28 +4,30 @@
 #[allow(unused)]
 module 0x42::vector_ext_borrow_or_unknown_ok;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures, requires};
 
-#[spec_only]
-use std::vector::borrow_or_unknown;
+#[ext(spec_only)]
+use prover::vector_ext::borrow_or_unknown;
+#[ext(spec_only)]
+use fun prover::vector_ext::borrow_or_unknown as vector.borrow_or_unknown;
 
 // In-range: borrow_or_unknown agrees with vector::borrow.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_in_range_matches_borrow(v: &vector<u64>, i: u64) {
     requires(i < vector::length(v));
     ensures(borrow_or_unknown(v, i) == vector::borrow(v, i));
 }
 
 // Method syntax via local `use fun` alias.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_method_syntax(v: &vector<u64>, i: u64) {
     requires(i < vector::length(v));
     ensures(v.borrow_or_unknown(i) == vector::borrow(v, i));
 }
 
 // Concrete value read.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_concrete_in_range() {
     let v = vector[10u64, 20, 30];
     ensures(*borrow_or_unknown(&v, 0) == 10);

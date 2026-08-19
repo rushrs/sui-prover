@@ -17,7 +17,7 @@ public struct Range<phantom T> {
 
 public fun range_new<T>(begin: Point<T>, end: Point<T>): Range<T> {
     assert!(begin.x <= end.x);
-    Range { begin, end } 
+    Range { begin, end }
 }
 
 public fun range_length<T>(self: &Range<T>): u64 {
@@ -34,7 +34,7 @@ public fun range_split<T>(self: &mut Range<T>, p: Point<T>): Range<T> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun range_split_spec<T>(self: &mut Range<T>, p: Point<T>): Range<T> {
     requires(self.range_contains(p));
     let result = range_split(self, p);
@@ -51,7 +51,7 @@ public fun range_join<T>(self: &mut Range<T>, r: Range<T>) {
     };
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun range_join_spec<T>(self: &mut Range<T>, r: Range<T>) {
     requires(self.range_contains(r.begin) || self.range_contains(r.end));
     range_join(self, r);
@@ -66,19 +66,19 @@ public fun test<T>(a: Point<T>, b: Point<T>, c: Point<T>): (Range<T>, Range<T>) 
     (r1, r3)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun test_spec<T>(a: Point<T>, b: Point<T>, c: Point<T>): (Range<T>, Range<T>) {
     requires(a.x <= b.x);
     requires(b.x <= c.x);
     test(a, b, c)
 }
 
-#[spec_only]
+#[ext(spec_only)] #[allow(unused_function)]
 public fun Range_inv<T>(self: &Range<T>): bool {
     self.begin.x <= self.end.x && true_const()
 }
 
-#[spec_only]
+#[ext(spec_only)] #[allow(unused_function)]
 fun true_const(): bool {
     true
 }

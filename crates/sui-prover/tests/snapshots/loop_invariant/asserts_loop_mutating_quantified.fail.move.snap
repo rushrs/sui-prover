@@ -1,15 +1,16 @@
 ---
 source: crates/sui-prover/tests/integration.rs
+assertion_line: 303
 expression: output
 ---
 exiting with verification errors
 error: prover::ensures does not hold
-   ┌─ tests/inputs/loop_invariant/asserts_loop_mutating_quantified.fail.move:42:9
+   ┌─ tests/inputs/loop_invariant/asserts_loop_mutating_quantified.fail.move:50:9
    │
-42 │         ensures(forall!(|j| safe_at(*j, old_v)));
+50 │         ensures(forall!(|j| safe_at(*j, old_v)));
    │         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-43 │     });
-44 │     while (i < n) {
+51 │     });
+52 │     while (i < n) {
    │            - loop invariant does not hold on loop entry
    │
-   =     at tests/inputs/loop_invariant/asserts_loop_mutating_quantified.fail.move:52: increment_all_spec
+   =     at tests/inputs/loop_invariant/asserts_loop_mutating_quantified.fail.move:60: increment_all_spec

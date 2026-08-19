@@ -1,6 +1,6 @@
 module 0x42::foo;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures};
 
 #[ext(pure)]
@@ -16,7 +16,7 @@ public fun foo(x: u64): u64 {
     foo_impl(x)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun foo_spec(x: u64): u64 {
     let result = foo(x);
     ensures(result >= 1);

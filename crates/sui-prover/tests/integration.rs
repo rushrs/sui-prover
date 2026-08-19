@@ -103,6 +103,12 @@ integration-test = "0x9"
         config.default_flavor = Some(Flavor::Sui);
         config.silence_warnings = false; // Disable warning suppression
         config.modes = vec![ModeAttribute::VERIFY_ONLY.into()];
+        if file_path
+            .file_name()
+            .is_some_and(|name| name == "test_only_attr.ok.move")
+        {
+            config.modes.push(ModeAttribute::TEST.into());
+        }
         config.skip_fetch_latest_git_deps = true;
 
         // Try to build the model (using unlocked version for parallel test execution)

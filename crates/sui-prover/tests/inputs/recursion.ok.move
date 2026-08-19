@@ -1,6 +1,6 @@
 module 0x42::foo;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::ensures;
 
 // not inlined
@@ -12,7 +12,7 @@ public fun factorial(x: u64): u64 {
   }
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun my_spec() {
   ensures(5u64 * 5u64 == 25u64);
 }

@@ -35,6 +35,7 @@ playwright/.cache/
 # logs
 wallet.log.*
 sui.log.*
+sui-prover.log.*
 .vercel
 npm-debug.log*
 yarn-debug.log*

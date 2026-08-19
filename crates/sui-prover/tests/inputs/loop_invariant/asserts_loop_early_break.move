@@ -28,7 +28,7 @@ fun decrement_with_break(mut x: u64, n: u64): u64 {
     x
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun decrement_with_break_spec(x: u64, n: u64): u64 {
     let result = decrement_with_break(x, n);
     ensures(result <= x);

@@ -59,11 +59,7 @@ fn should_include_function(func_env: &FunctionEnv, targets: &PackageTargets) -> 
     if func_env.visibility() != Visibility::Public && !func_env.is_entry() {
         return false;
     }
-    if func_env
-        .get_toplevel_attributes()
-        .get_(&AttributeKind_::SpecOnly)
-        .is_some()
-    {
+    if has_attribute(func_env, "spec_only") {
         return false;
     }
     if has_attribute(func_env, "test_only") {

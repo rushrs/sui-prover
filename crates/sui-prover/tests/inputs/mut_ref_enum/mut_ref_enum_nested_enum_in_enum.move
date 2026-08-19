@@ -1,6 +1,6 @@
 module 0x42::foo;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures};
 
 public enum ColorTypeNested has drop, copy {
@@ -44,7 +44,7 @@ fun reset_nested_colors(color_ref: &mut ColorTest) {
     };
 }
 
-#[spec(focus)]
+#[ext(spec(focus))] #[allow(unused_function)]
 fun reset_nested_colors_spec(color_ref: &mut ColorTest) {
     reset_nested_colors(color_ref);
 

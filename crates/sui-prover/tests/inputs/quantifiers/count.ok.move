@@ -1,10 +1,10 @@
 #[allow(unused)]
 module 0x42::quantifiers_count_ok;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::ensures;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::vector_iter::{count, count_range};
 
 #[ext(pure)]
@@ -22,7 +22,7 @@ fun x_is_greater_than_100(x: &u64): bool {
     *x > 100
 }
 
-#[spec(prove, extra_bpl = b"count.ok.bpl")]
+#[ext(spec(prove, extra_bpl = b"count.ok.bpl"))] #[allow(unused_function)]
 fun test_count() {
     let v = vector[10, 20, 10, 30];
 
@@ -40,7 +40,7 @@ fun test_count() {
 
 // Empty vector: count on an empty source is always 0, and empty ranges on any
 // source are also 0.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_count_empty() {
     let empty: vector<u64> = vector[];
     ensures(count!<u64>(&empty, |x| x_is_10(x)) == 0);

@@ -19,7 +19,7 @@ Write specifications for your smart contract that the Sui Prover will verify.
 ### Specification Structure
 
 ```rust
-#[spec(prove)]
+#[ext(spec(prove))]
 fun function_spec<T>(args): ReturnType {
     // Preconditions on arguments
     
@@ -68,7 +68,7 @@ public fun withdraw<T>(pool: &mut Pool<T>, shares_in: Balance<LP<T>>): Balance<T
 A specification to verify that the price of a share doesn't decrease when withdrawing funds:
 
 ```rust
-#[spec(prove)]
+#[ext(spec(prove))]
 fun withdraw_spec<T>(pool: &mut Pool<T>, shares_in: Balance<LP<T>>): Balance<T> {
     requires(shares_in.value() <= pool.shares.supply_value());
 

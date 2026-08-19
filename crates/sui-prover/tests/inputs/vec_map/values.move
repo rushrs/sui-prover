@@ -12,10 +12,10 @@ public(package) fun foo(
     self: &mut Stuff,
 ): u64 {
     0u64
-} 
+}
 
-#[spec(prove, ignore_abort)]
-public fun foo_spec(    
+#[ext(spec(prove, ignore_abort))] #[allow(unused_function)]
+public fun foo_spec(
     self: &mut Stuff,
 ): u64 {
 

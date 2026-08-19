@@ -5,16 +5,16 @@
 #[allow(unused)]
 module 0x42::quantifiers_concat_ok;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures, requires, invariant};
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::vector_iter::slice;
-#[spec_only]
-use std::vector::append_pure;
+#[ext(spec_only)]
+use prover::vector_ext::append_pure;
 
 // Concrete values: concat of two literal vectors.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_concat_concrete() {
     let v1 = vector[1u64, 2, 3];
     let v2 = vector[4u64, 5];
@@ -22,14 +22,14 @@ fun test_concat_concrete() {
 }
 
 // Identity: concat with an empty vector on either side is the other vector.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_concat_empty_left() {
     let empty: vector<u64> = vector[];
     let v = vector[1, 2, 3];
     ensures(append_pure(&empty, &v) == v);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_concat_empty_right() {
     let v = vector[1, 2, 3];
     let empty: vector<u64> = vector[];
@@ -37,7 +37,7 @@ fun test_concat_empty_right() {
 }
 
 // Length additivity.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_concat_length() {
     let v1 = vector[1u64, 2];
     let v2 = vector[3u64, 4, 5];
@@ -47,7 +47,7 @@ fun test_concat_length() {
 
 // Splitting a vector into (prefix, suffix) and re-concatenating yields the
 // original. Exercises concat in combination with slice.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_concat_of_slices(v: &vector<u64>, i: u64) {
     requires(i <= vector::length(v));
     let prefix = slice(v, 0, i);
@@ -74,7 +74,7 @@ fun copy_vec(v: &vector<u64>): vector<u64> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun copy_vec_spec(v: &vector<u64>): vector<u64> {
     let r = copy_vec(v);
     ensures(r == *v);

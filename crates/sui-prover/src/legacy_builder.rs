@@ -3,15 +3,19 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::Result;
-use itertools::Itertools;
-use move_compiler::Flags;
+use move_compiler::{
+    diagnostics::filter::empty_filter_scope,
+    editions::Edition,
+    shared::{NumberFormat, NumericalAddress, PackageConfig, PackagePaths},
+    Flags,
+};
 use move_model::{model::GlobalEnv, run_model_builder_with_options_and_compilation_flags};
 use move_package::{
-    compilation::compiled_package::{
-        make_source_and_deps_for_compiler, DependencyInfo, ModuleFormat,
-    },
-    resolution::resolution_graph::ResolvedGraph,
+    compilation::build_plan::BuildPlan,
+    resolution::resolution_graph::{Package, Renaming, ResolvedGraph, ResolvedTable},
 };
+use move_symbol_pool::Symbol;
+use std::{collections::BTreeMap, fs, path::Path};
 
 #[derive(Debug, Clone)]
 pub struct ModelBuilderLegacy {
@@ -41,51 +45,121 @@ impl ModelBuilderLegacy {
         // Targets are all files in the root package
         let root_name = self.resolution_graph.root_package();
         let root_package = self.resolution_graph.get_package(root_name).clone();
-        let immediate_dependencies_names =
-            root_package.immediate_dependencies(&self.resolution_graph);
-        let deps_source_info = self
-            .resolution_graph
-            .package_table
-            .iter()
-            .filter_map(|(nm, pkg)| {
-                if *nm == root_name {
-                    return None;
-                }
-                let mut dep_source_paths = pkg
-                    .get_sources(&self.resolution_graph.build_options)
-                    .unwrap();
-                let mut source_available = true;
-                // If source is empty, search bytecode(mv) files
-                if dep_source_paths.is_empty() {
-                    dep_source_paths = pkg.get_bytecodes().unwrap();
-                    source_available = false;
-                }
-                Some(Ok(DependencyInfo {
-                    name: *nm,
-                    is_immediate: immediate_dependencies_names.contains(nm),
-                    source_paths: dep_source_paths,
-                    address_mapping: &pkg.resolved_table,
-                    compiler_config: pkg.compiler_config(
-                        /* is_dependency */ true,
-                        &self.resolution_graph.build_options,
-                    ),
-                    module_format: if source_available {
-                        ModuleFormat::Source
-                    } else {
-                        ModuleFormat::Bytecode
-                    },
-                }))
-            })
+        let target = self.root_package_paths(&root_package)?;
+        let deps = BuildPlan::create(&self.resolution_graph)?
+            .compute_dependencies()
+            .make_deps_for_compiler()?;
+
+        let all_targets = vec![source_package_paths(target)?];
+        let all_deps = deps
+            .into_iter()
+            .map(|(p, _)| source_package_paths(p))
             .collect::<Result<Vec<_>>>()?;
-
-        let (target, deps) = make_source_and_deps_for_compiler(
-            &self.resolution_graph,
-            &root_package,
-            deps_source_info,
-        )?;
-
-        let all_targets = vec![target];
-        let all_deps = deps.into_iter().map(|(p, _)| p).collect_vec();
         run_model_builder_with_options_and_compilation_flags(all_targets, all_deps, flags, None)
     }
+
+    fn root_package_paths(&self, root: &Package) -> Result<PackagePaths> {
+        let root_named_addrs = apply_named_address_renaming(
+            root.source_package.package.name,
+            named_address_mapping_for_compiler(&root.resolved_table),
+            &root.renaming,
+        );
+        Ok(PackagePaths {
+            name: Some((
+                root.source_package.package.name,
+                compiler_config(root, /* is_dependency */ false, &self.resolution_graph),
+            )),
+            paths: root.get_sources(&self.resolution_graph.build_options)?,
+            named_address_map: root_named_addrs,
+        })
+    }
+}
+
+fn source_package_paths(mut package_paths: PackagePaths) -> Result<PackagePaths> {
+    let mut sources = vec![];
+    for path in package_paths.paths {
+        collect_move_sources(Path::new(path.as_str()), &mut sources)?;
+    }
+    package_paths.paths = sources;
+    Ok(package_paths)
+}
+
+fn collect_move_sources(path: &Path, sources: &mut Vec<Symbol>) -> Result<()> {
+    if path.is_file() {
+        if path.extension().is_some_and(|ext| ext == "move") {
+            sources.push(Symbol::from(path.to_string_lossy().as_ref()));
+        }
+        return Ok(());
+    }
+
+    if !path.is_dir() || path.file_name().is_some_and(|name| name == "build") {
+        return Ok(());
+    }
+
+    for entry in fs::read_dir(path)? {
+        collect_move_sources(&entry?.path(), sources)?;
+    }
+
+    sources.sort();
+    Ok(())
+}
+
+fn compiler_config(
+    package: &Package,
+    is_dependency: bool,
+    resolution_graph: &ResolvedGraph,
+) -> PackageConfig {
+    PackageConfig {
+        is_dependency,
+        flavor: package
+            .source_package
+            .package
+            .flavor
+            .or(resolution_graph.build_options.default_flavor)
+            .unwrap_or_default(),
+        edition: package
+            .source_package
+            .package
+            .edition
+            .or(resolution_graph.build_options.default_edition)
+            .unwrap_or(Edition::LEGACY),
+        warning_filter: empty_filter_scope(),
+    }
+}
+
+fn named_address_mapping_for_compiler(
+    resolution_table: &ResolvedTable,
+) -> BTreeMap<Symbol, NumericalAddress> {
+    resolution_table
+        .iter()
+        .map(|(ident, addr)| {
+            let parsed_addr = NumericalAddress::new(addr.into_bytes(), NumberFormat::Hex);
+            (*ident, parsed_addr)
+        })
+        .collect()
+}
+
+fn apply_named_address_renaming(
+    current_package_name: Symbol,
+    address_resolution: BTreeMap<Symbol, NumericalAddress>,
+    renaming: &Renaming,
+) -> BTreeMap<Symbol, NumericalAddress> {
+    let package_renamings = renaming
+        .iter()
+        .filter_map(|(rename_to, (package_name, from_name))| {
+            if package_name == &current_package_name {
+                Some((from_name, *rename_to))
+            } else {
+                None
+            }
+        })
+        .collect::<BTreeMap<_, _>>();
+
+    address_resolution
+        .into_iter()
+        .map(|(name, value)| {
+            let new_name = package_renamings.get(&name).copied();
+            (new_name.unwrap_or(name), value)
+        })
+        .collect()
 }

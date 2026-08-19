@@ -10,17 +10,17 @@ public fun test_skip_basic(v: vector<u64>, n: u64): vector<u64> {
     vector::skip(v, n)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_take_skip_complement_spec() {
     let v = vector[0, 1, 2, 3, 4];
     let n = 2;
-    
+
     // Test take - should get first n elements
     let taken = test_take_basic(v, n);
     ensures(vector::length(&taken) == 2);
     ensures(*vector::borrow(&taken, 0) == 0);
     ensures(*vector::borrow(&taken, 1) == 1);
-    
+
     let v2 = vector[0, 1, 2, 3, 4];
     let skipped = test_skip_basic(v2, n);
     ensures(vector::length(&skipped) == 3);
@@ -29,13 +29,13 @@ fun test_take_skip_complement_spec() {
     ensures(*vector::borrow(&skipped, 2) == 4);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_take_skip_zero_spec() {
     let v = vector[10, 20, 30];
-    
+
     let taken = test_take_basic(v, 0);
     ensures(vector::length(&taken) == 0);
-    
+
     let v2 = vector[10, 20, 30];
     let skipped = test_skip_basic(v2, 0);
     ensures(vector::length(&skipped) == 3);
@@ -44,16 +44,16 @@ fun test_take_skip_zero_spec() {
     ensures(*vector::borrow(&skipped, 2) == 30);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_take_skip_full_length_spec() {
     let v = vector[100, 200];
     let len = 2;
-    
+
     let taken = test_take_basic(v, len);
     ensures(vector::length(&taken) == 2);
     ensures(*vector::borrow(&taken, 0) == 100);
     ensures(*vector::borrow(&taken, 1) == 200);
-    
+
     let v2 = vector[100, 200];
     let skipped = test_skip_basic(v2, len);
     ensures(vector::length(&skipped) == 0);

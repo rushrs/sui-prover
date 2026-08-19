@@ -13,7 +13,7 @@ fun foo(): u64 {
     bar()
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun foo_spec(): u64 {
     let result = foo();
     ensures(result == bar()); // passes: both calls are the same uninterpreted value

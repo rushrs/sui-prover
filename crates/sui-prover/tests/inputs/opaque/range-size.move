@@ -11,7 +11,7 @@ fun size<T>(r: &Range<T>): u64 {
     r.y - r.x
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun size_spec<T>(r: &Range<T>): u64 {
     requires(r.x <= r.y);
 

@@ -4,7 +4,7 @@ module 0x42::inv_foo {
     }
 
     public fun set_value(bar: &mut Bar, value: u64) {
-        bar.x = value; 
+        bar.x = value;
     }
 
     public fun get_values(bar: &Bar): u64 {
@@ -15,12 +15,12 @@ module 0x42::inv_foo {
         bar.set_value(150);
     }
 
-    #[spec_only]
+    #[ext(spec_only)] #[allow(unused_function)]
     public fun Bar_inv(bar: &Bar): bool {
         bar.x < 150
     }
 
-    #[spec(prove)]
+    #[ext(spec(prove))] #[allow(unused_function)]
     public fun increment_spec(bar: &mut Bar) {
         bar.increment();
     }

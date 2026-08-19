@@ -3,14 +3,14 @@ module 0x42::vec_map_ext_get_entry_by_idx_or_unknown_ok;
 
 use sui::vec_map;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures, requires};
 
-#[spec_only]
-use sui::vec_map::get_entry_by_idx_or_unknown;
+#[ext(spec_only)]
+use prover::vec_map_ext::get_entry_by_idx_or_unknown;
 
 // In-range: get_entry_by_idx_or_unknown agrees with vec_map::get_entry_by_idx.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_in_range_matches(m: &vec_map::VecMap<u64, u8>, i: u64) {
     requires(i < m.length());
     let (k1, v1) = get_entry_by_idx_or_unknown(m, i);

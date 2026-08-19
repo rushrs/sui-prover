@@ -1,8 +1,8 @@
 module specs::poseidon_spec;
 
-use sui::poseidon::poseidon_bn254_internal;
+use prover::prover::fresh;
 
-#[spec(target = sui::poseidon::poseidon_bn254_internal)]
+#[ext(spec(target = sui::poseidon::poseidon_bn254_internal))]
 public fun poseidon_bn254_internal_spec(data: &vector<vector<u8>>): vector<u8> {
-    poseidon_bn254_internal(data)
+    fresh<vector<u8>>()
 }

@@ -6,9 +6,9 @@ public struct S has key, store {
     id: UID,
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun purity_spec(s: &S) {
     let id1 = object::id(s);
     let id2 = object::id(s);
     ensures(id1 == id2);
-} 
+}

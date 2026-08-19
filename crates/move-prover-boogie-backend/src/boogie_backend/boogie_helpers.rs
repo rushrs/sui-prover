@@ -8,6 +8,7 @@
 
 use itertools::Itertools;
 use num::BigUint;
+use std::collections::BTreeSet;
 
 use move_binary_format::file_format::TypeParameterIndex;
 use move_model::{
@@ -123,6 +124,59 @@ pub fn boogie_dynamic_field_update(
         "$Update'{}'_{}",
         boogie_type_suffix_for_struct(struct_env, inst, false),
         boogie_dynamic_field_name(struct_env.module_env.env, name, value),
+    )
+}
+
+pub fn boogie_dynamic_field_is_recursive(
+    env: &GlobalEnv,
+    struct_env: &StructEnv<'_>,
+    value: &Type,
+) -> bool {
+    move_stackless_bytecode::dynamic_field_analysis::type_transitively_contains_struct(
+        env,
+        value,
+        &struct_env.get_qualified_id(),
+        &mut BTreeSet::new(),
+    )
+}
+
+pub fn boogie_dynamic_field_storage_type(
+    env: &GlobalEnv,
+    struct_env: &StructEnv<'_>,
+    inst: &[Type],
+    name: &Type,
+    value: &Type,
+) -> String {
+    format!(
+        "$DynamicFieldStore_{}_{}",
+        boogie_type_suffix_for_struct(struct_env, inst, false),
+        boogie_inst_suffix(env, &[name.clone(), value.clone()]),
+    )
+}
+
+pub fn boogie_dynamic_field_pack(
+    env: &GlobalEnv,
+    struct_env: &StructEnv<'_>,
+    inst: &[Type],
+    name: &Type,
+    value: &Type,
+) -> String {
+    format!(
+        "$Pack{}",
+        boogie_dynamic_field_storage_type(env, struct_env, inst, name, value)
+    )
+}
+
+pub fn boogie_dynamic_field_unpack(
+    env: &GlobalEnv,
+    struct_env: &StructEnv<'_>,
+    inst: &[Type],
+    name: &Type,
+    value: &Type,
+) -> String {
+    format!(
+        "$Unpack{}",
+        boogie_dynamic_field_storage_type(env, struct_env, inst, name, value)
     )
 }
 

@@ -2,9 +2,10 @@ use crate::target_filter::TargetFilterOptions;
 use codespan_reporting::diagnostic::Severity;
 use move_binary_format::file_format::FunctionHandleIndex;
 use move_compiler::{
-    expansion::ast::{ModuleAccess, ModuleAccess_, ModuleIdent_},
+    expansion::ast::{Attributes, ModuleAccess, ModuleAccess_, ModuleIdent_, Value_},
     shared::known_attributes::{
-        AttributeKind_, ExternalAttribute, KnownAttribute, VerificationAttribute,
+        AttributeKind_, ExternalAttribute, ExternalAttributeEntries, ExternalAttributeEntry,
+        ExternalAttributeEntry_, ExternalAttributeValue_, KnownAttribute,
     },
 };
 use move_ir_types::location::Spanned;
@@ -25,6 +26,40 @@ pub const VALID_RUN_ON_VALUES: &[&str] = &["local", "cloud", "boogie", "lean"];
 pub enum ModuleExternalSpecAttribute {
     Function(QualifiedId<FunId>),
     Module(ModuleId),
+}
+
+#[derive(Debug, Clone)]
+struct LoopInvAttribute {
+    target: ModuleAccess,
+    label: usize,
+}
+
+#[derive(Debug, Clone, Default)]
+struct SpecOnlyAttribute {
+    inv_target: Option<ModuleAccess>,
+    loop_inv: Option<LoopInvAttribute>,
+    axiom: bool,
+    explicit_spec_modules: Vec<Spanned<ModuleIdent_>>,
+    explicit_specs: Vec<Spanned<ModuleAccess_>>,
+    extra_bpl: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default)]
+struct SpecAttribute {
+    focus: bool,
+    prove: bool,
+    skip: Option<String>,
+    target: Option<ModuleAccess>,
+    no_opaque: bool,
+    ignore_abort: bool,
+    boogie_opt: Option<String>,
+    timeout: Option<u64>,
+    run_on: Option<String>,
+    explicit_spec_modules: Vec<Spanned<ModuleIdent_>>,
+    explicit_specs: Vec<Spanned<ModuleAccess_>>,
+    extra_bpl: Vec<String>,
+    uninterpreted: Vec<ModuleAccess>,
+    interpreted: Vec<ModuleAccess>,
 }
 
 #[derive(Debug, Clone)]
@@ -294,18 +329,242 @@ impl PackageTargets {
         }
     }
 
+    fn external_attrs(attributes: &Attributes) -> Option<&ExternalAttributeEntries> {
+        if let Some(KnownAttribute::External(ExternalAttribute { attrs })) = attributes
+            .get_(&AttributeKind_::External)
+            .map(|attr| &attr.value)
+        {
+            Some(attrs)
+        } else {
+            None
+        }
+    }
+
+    fn external_entry<'a>(
+        attrs: &'a ExternalAttributeEntries,
+        name: &str,
+    ) -> Option<&'a ExternalAttributeEntry> {
+        attrs
+            .into_iter()
+            .find_map(|attr| (attr.2.value.name().value.as_str() == name).then_some(attr.2))
+    }
+
+    fn nested_external_attrs(entry: &ExternalAttributeEntry) -> Option<&ExternalAttributeEntries> {
+        if let ExternalAttributeEntry_::Parameterized(_, attrs) = &entry.value {
+            Some(attrs)
+        } else {
+            None
+        }
+    }
+
+    fn attr_string(value: &ExternalAttributeValue_) -> Option<String> {
+        if let ExternalAttributeValue_::Value(value) = value {
+            match &value.value {
+                Value_::Bytearray(bytes) | Value_::InferredString(bytes) => {
+                    String::from_utf8(bytes.clone()).ok()
+                }
+                _ => None,
+            }
+        } else {
+            None
+        }
+    }
+
+    fn attr_u64(value: &ExternalAttributeValue_) -> Option<u64> {
+        if let ExternalAttributeValue_::Value(value) = value {
+            match &value.value {
+                Value_::U8(v) => Some((*v).into()),
+                Value_::U16(v) => Some((*v).into()),
+                Value_::U32(v) => Some((*v).into()),
+                Value_::U64(v) => Some(*v),
+                Value_::U128(v) => u64::try_from(*v).ok(),
+                Value_::InferredNum(v) | Value_::U256(v) => v.to_string().parse().ok(),
+                _ => None,
+            }
+        } else {
+            None
+        }
+    }
+
+    fn attr_module_access(value: &ExternalAttributeValue_) -> Option<ModuleAccess> {
+        if let ExternalAttributeValue_::ModuleAccess(access) = value {
+            Some(access.clone())
+        } else {
+            None
+        }
+    }
+
+    fn attr_module_ident(value: &ExternalAttributeValue_) -> Option<Spanned<ModuleIdent_>> {
+        if let ExternalAttributeValue_::Module(ident) = value {
+            Some(*ident)
+        } else {
+            None
+        }
+    }
+
+    fn parse_loop_inv_attr(attrs: &ExternalAttributeEntries) -> Option<LoopInvAttribute> {
+        let mut target = None;
+        let mut label = 0usize;
+        for attr in attrs {
+            match &attr.2.value {
+                ExternalAttributeEntry_::Assigned(name, value) => match name.value.as_str() {
+                    "target" => target = Self::attr_module_access(&value.value),
+                    "label" => {
+                        if let Some(value) = Self::attr_u64(&value.value) {
+                            label = value as usize;
+                        }
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
+        target.map(|target| LoopInvAttribute { target, label })
+    }
+
+    fn spec_only_attribute(attributes: &Attributes) -> Option<SpecOnlyAttribute> {
+        let entry = Self::external_entry(Self::external_attrs(attributes)?, "spec_only")?;
+        let mut result = SpecOnlyAttribute::default();
+        let Some(attrs) = Self::nested_external_attrs(entry) else {
+            return Some(result);
+        };
+        for attr in attrs {
+            match &attr.2.value {
+                ExternalAttributeEntry_::Name(name) => {
+                    if name.value.as_str() == "axiom" {
+                        result.axiom = true;
+                    }
+                }
+                ExternalAttributeEntry_::Assigned(name, value) => match name.value.as_str() {
+                    "target" | "inv_target" => {
+                        result.inv_target = Self::attr_module_access(&value.value)
+                    }
+                    "extra_bpl" => {
+                        if let Some(path) = Self::attr_string(&value.value) {
+                            result.extra_bpl.push(path);
+                        }
+                    }
+                    "include" | "explicit_spec_module" | "explicit_spec" => {
+                        if let Some(module) = Self::attr_module_ident(&value.value) {
+                            result.explicit_spec_modules.push(module);
+                        } else if let Some(spec) = Self::attr_module_access(&value.value) {
+                            result.explicit_specs.push(spec);
+                        }
+                    }
+                    _ => {}
+                },
+                ExternalAttributeEntry_::Parameterized(name, nested) => match name.value.as_str() {
+                    "loop_inv" => result.loop_inv = Self::parse_loop_inv_attr(nested),
+                    "extra_bpl" => {
+                        for attr in nested {
+                            if let ExternalAttributeEntry_::Assigned(_, value) = &attr.2.value {
+                                if let Some(path) = Self::attr_string(&value.value) {
+                                    result.extra_bpl.push(path);
+                                }
+                            }
+                        }
+                    }
+                    "include" => {
+                        for attr in nested {
+                            if let ExternalAttributeEntry_::Assigned(_, value) = &attr.2.value {
+                                if let Some(module) = Self::attr_module_ident(&value.value) {
+                                    result.explicit_spec_modules.push(module);
+                                } else if let Some(spec) = Self::attr_module_access(&value.value) {
+                                    result.explicit_specs.push(spec);
+                                }
+                            }
+                        }
+                    }
+                    _ => {}
+                },
+            }
+        }
+        Some(result)
+    }
+
+    fn spec_attribute(attributes: &Attributes) -> Option<SpecAttribute> {
+        let entry = Self::external_entry(Self::external_attrs(attributes)?, "spec")?;
+        let mut result = SpecAttribute::default();
+        let Some(attrs) = Self::nested_external_attrs(entry) else {
+            return Some(result);
+        };
+        for attr in attrs {
+            match &attr.2.value {
+                ExternalAttributeEntry_::Name(name) => match name.value.as_str() {
+                    "focus" => result.focus = true,
+                    "prove" => result.prove = true,
+                    "skip" => result.skip = Some("skipped".to_string()),
+                    "no_opaque" => result.no_opaque = true,
+                    "ignore_abort" => result.ignore_abort = true,
+                    _ => {}
+                },
+                ExternalAttributeEntry_::Assigned(name, value) => match name.value.as_str() {
+                    "target" => result.target = Self::attr_module_access(&value.value),
+                    "skip" => result.skip = Self::attr_string(&value.value),
+                    "boogie_opt" => result.boogie_opt = Self::attr_string(&value.value),
+                    "timeout" => result.timeout = Self::attr_u64(&value.value),
+                    "run_on" => result.run_on = Self::attr_string(&value.value),
+                    "extra_bpl" => {
+                        if let Some(path) = Self::attr_string(&value.value) {
+                            result.extra_bpl.push(path);
+                        }
+                    }
+                    "include" | "explicit_spec_module" | "explicit_spec" => {
+                        if let Some(module) = Self::attr_module_ident(&value.value) {
+                            result.explicit_spec_modules.push(module);
+                        } else if let Some(spec) = Self::attr_module_access(&value.value) {
+                            result.explicit_specs.push(spec);
+                        }
+                    }
+                    "uninterpreted" => {
+                        if let Some(access) = Self::attr_module_access(&value.value) {
+                            result.uninterpreted.push(access);
+                        }
+                    }
+                    "interpreted" => {
+                        if let Some(access) = Self::attr_module_access(&value.value) {
+                            result.interpreted.push(access);
+                        }
+                    }
+                    _ => {}
+                },
+                ExternalAttributeEntry_::Parameterized(name, nested) => match name.value.as_str() {
+                    "extra_bpl" => {
+                        for attr in nested {
+                            if let ExternalAttributeEntry_::Assigned(_, value) = &attr.2.value {
+                                if let Some(path) = Self::attr_string(&value.value) {
+                                    result.extra_bpl.push(path);
+                                }
+                            }
+                        }
+                    }
+                    "include" => {
+                        for attr in nested {
+                            if let ExternalAttributeEntry_::Assigned(_, value) = &attr.2.value {
+                                if let Some(module) = Self::attr_module_ident(&value.value) {
+                                    result.explicit_spec_modules.push(module);
+                                } else if let Some(spec) = Self::attr_module_access(&value.value) {
+                                    result.explicit_specs.push(spec);
+                                }
+                            }
+                        }
+                    }
+                    _ => {}
+                },
+            }
+        }
+        Some(result)
+    }
+
     fn check_spec_only_scope(&mut self, func_env: &FunctionEnv) {
-        if let Some(KnownAttribute::Verification(VerificationAttribute::SpecOnly {
+        if let Some(SpecOnlyAttribute {
             inv_target,
             loop_inv,
             explicit_spec_modules: _,
             explicit_specs: _,
             axiom,
             extra_bpl,
-        })) = func_env
-            .get_toplevel_attributes()
-            .get_(&AttributeKind_::SpecOnly)
-            .map(|attr| &attr.value)
+        }) = Self::spec_only_attribute(func_env.get_toplevel_attributes())
         {
             if func_env.get_name_str().contains("type_inv") {
                 return;
@@ -313,7 +572,7 @@ impl PackageTargets {
 
             let env = func_env.module_env.env;
 
-            if *axiom {
+            if axiom {
                 self.axiom_functions.insert(func_env.get_qualified_id());
             }
 
@@ -321,7 +580,7 @@ impl PackageTargets {
                 env,
                 &func_env.get_loc(),
                 func_env.module_env.get_source_path(),
-                extra_bpl,
+                &extra_bpl,
             ) {
                 self.function_extra_bpl
                     .insert(func_env.get_qualified_id(), content);
@@ -356,9 +615,8 @@ impl PackageTargets {
                 return;
             }
 
-            if inv_target.is_some() {
-                match Self::parse_module_access(inv_target.as_ref().unwrap(), &func_env.module_env)
-                {
+            if let Some(inv_target) = inv_target {
+                match Self::parse_module_access(&inv_target, &func_env.module_env) {
                     Some((module_name, struct_name)) => {
                         if let Some(module_env) = env.find_module(&module_name) {
                             self.process_inv(func_env, &module_env, struct_name);
@@ -396,7 +654,7 @@ impl PackageTargets {
 
     fn check_spec_scope(&mut self, func_env: &FunctionEnv) {
         let env = func_env.module_env.env;
-        if let Some(KnownAttribute::Verification(VerificationAttribute::Spec {
+        if let Some(SpecAttribute {
             focus,
             prove,
             skip,
@@ -410,16 +668,13 @@ impl PackageTargets {
             explicit_specs,
             extra_bpl,
             uninterpreted: _,
-            ..
-        })) = func_env
-            .get_toplevel_attributes()
-            .get_(&AttributeKind_::Spec)
-            .map(|attr| &attr.value)
+            interpreted: _,
+        }) = Self::spec_attribute(func_env.get_toplevel_attributes())
         {
             if let Some(attrs) = Self::handle_explicit_spec_attributes(
                 &func_env.module_env,
-                explicit_spec_modules,
-                explicit_specs,
+                &explicit_spec_modules,
+                &explicit_specs,
             ) {
                 self.function_external_attributes
                     .insert(func_env.get_qualified_id(), attrs);
@@ -431,16 +686,16 @@ impl PackageTargets {
 
             if let Some(opt) = boogie_opt {
                 self.spec_boogie_options
-                    .insert(func_env.get_qualified_id(), opt.clone());
+                    .insert(func_env.get_qualified_id(), opt);
             }
 
             if let Some(timeout) = timeout {
                 self.spec_timeouts
-                    .insert(func_env.get_qualified_id(), *timeout);
+                    .insert(func_env.get_qualified_id(), timeout);
             }
 
             if let Some(run_on_value) = run_on {
-                if !*prove || skip.is_some() {
+                if !prove || skip.is_some() {
                     env.diag(
                         Severity::Error,
                         &func_env.get_loc(),
@@ -448,7 +703,7 @@ impl PackageTargets {
                     );
                 } else if VALID_RUN_ON_VALUES.contains(&run_on_value.as_str()) {
                     self.spec_run_on
-                        .insert(func_env.get_qualified_id(), run_on_value.clone());
+                        .insert(func_env.get_qualified_id(), run_on_value);
                 } else {
                     env.diag(
                         Severity::Error,
@@ -466,31 +721,31 @@ impl PackageTargets {
                 env,
                 &func_env.get_loc(),
                 func_env.module_env.get_source_path(),
-                extra_bpl,
+                &extra_bpl,
             ) {
                 self.function_extra_bpl
                     .insert(func_env.get_qualified_id(), content);
             }
 
-            if *no_opaque {
+            if no_opaque {
                 self.omit_opaque_specs.insert(func_env.get_qualified_id());
             }
 
-            if *ignore_abort {
+            if ignore_abort {
                 self.ignore_aborts.insert(func_env.get_qualified_id());
             }
 
-            if let Some(skip_reason) = skip {
+            if let Some(skip_reason) = skip.as_ref() {
                 if self.is_target(func_env) {
                     self.skipped_specs
                         .insert(func_env.get_qualified_id(), skip_reason.clone());
                 }
             }
 
-            if !self.is_target(func_env) || skip.is_some() || (!*prove && !*focus) {
+            if !self.is_target(func_env) || skip.is_some() || (!prove && !focus) {
                 self.no_verify_specs.insert(func_env.get_qualified_id());
             } else {
-                if *focus {
+                if focus {
                     if !self.allow_focus_attr {
                         env.diag(
                             Severity::Error,
@@ -504,8 +759,8 @@ impl PackageTargets {
                 self.target_specs.insert(func_env.get_qualified_id());
             }
 
-            if target.is_some() {
-                match Self::parse_module_access(target.as_ref().unwrap(), &func_env.module_env) {
+            if let Some(target) = target {
+                match Self::parse_module_access(&target, &func_env.module_env) {
                     Some((module_name, func_name)) => {
                         if let Some(module_env) = env.find_module(&module_name) {
                             if let Some(target_func_env) = module_env
@@ -560,7 +815,7 @@ impl PackageTargets {
                     }
                     None => {
                         // scenario specs either ignore aborts or do not have any asserts
-                        if !*ignore_abort
+                        if !ignore_abort
                             && func_env
                                 .get_called_functions()
                                 .iter()
@@ -632,27 +887,13 @@ impl PackageTargets {
 
     fn check_uninterpreted_scope(&mut self, func_env: &FunctionEnv) {
         let env = func_env.module_env.env;
-        if let Some(KnownAttribute::Verification(VerificationAttribute::Spec {
-            focus: _,
-            prove: _,
-            skip: _,
-            target: _,
-            no_opaque: _,
-            ignore_abort: _,
-            boogie_opt: _,
-            timeout: _,
-            explicit_spec_modules: _,
-            explicit_specs: _,
-            extra_bpl: _,
+        if let Some(SpecAttribute {
             uninterpreted,
             interpreted,
             ..
-        })) = func_env
-            .get_toplevel_attributes()
-            .get_(&AttributeKind_::Spec)
-            .map(|attr| &attr.value)
+        }) = Self::spec_attribute(func_env.get_toplevel_attributes())
         {
-            for module_access in uninterpreted {
+            for module_access in &uninterpreted {
                 match Self::parse_module_access(module_access, &func_env.module_env) {
                     Some((module_name, fun_name)) => {
                         if let Some(target_module_env) = env.find_module(&module_name) {
@@ -713,7 +954,7 @@ impl PackageTargets {
                 }
             }
 
-            for module_access in interpreted {
+            for module_access in &interpreted {
                 match Self::parse_module_access(module_access, &func_env.module_env) {
                     Some((module_name, fun_name)) => {
                         if let Some(target_module_env) = env.find_module(&module_name) {
@@ -971,22 +1212,19 @@ impl PackageTargets {
     }
 
     fn handle_module_explicit_spec_attributes(&mut self, module_env: &ModuleEnv) {
-        if let Some(KnownAttribute::Verification(VerificationAttribute::SpecOnly {
+        if let Some(SpecOnlyAttribute {
             inv_target: _,
             loop_inv: _,
             axiom: _,
             explicit_spec_modules,
             explicit_specs,
             extra_bpl,
-        })) = module_env
-            .get_toplevel_attributes()
-            .get_(&AttributeKind_::SpecOnly)
-            .map(|attr| &attr.value)
+        }) = Self::spec_only_attribute(module_env.get_toplevel_attributes())
         {
             if let Some(attrs) = Self::handle_explicit_spec_attributes(
                 module_env,
-                explicit_spec_modules,
-                explicit_specs,
+                &explicit_spec_modules,
+                &explicit_specs,
             ) {
                 self.module_external_attributes
                     .insert(module_env.get_id(), attrs);
@@ -996,7 +1234,7 @@ impl PackageTargets {
                 module_env.env,
                 &module_env.get_loc(),
                 module_env.get_source_path(),
-                extra_bpl,
+                &extra_bpl,
             ) {
                 self.module_extra_bpl.insert(module_env.get_id(), content);
             }

@@ -22,7 +22,7 @@ fun any_odd(v: &vector<u64>): bool {
     false
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun any_odd_spec(v: &vector<u64>): bool {
     let r = any_odd(v);
     ensures(r == any!(v, |j| is_odd(j)));

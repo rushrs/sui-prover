@@ -2,12 +2,12 @@ module 0x42::loop_invariant_external_inv_aborts_fail;
 
 use prover::prover::ensures;
 
-#[spec_only(loop_inv(target = test_spec))]
+#[ext(spec_only(loop_inv(target = test_spec)))] #[allow(unused_function)]
 fun loop_inv(i: u64, n: u64, s: u128): bool {
     i <= n && (s == (i as u128) * ((i as u128) + 1) / 2)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_spec(n: u64): u128 {
     let mut s: u128 = 0;
     let mut i = 0;

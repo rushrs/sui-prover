@@ -4,7 +4,7 @@ public fun foo() {
   assert!(true);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun foo_spec() {
   foo();
 }

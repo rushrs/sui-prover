@@ -1,13 +1,13 @@
 #[allow(unused)]
 module 0x42::vector_ext_push_back_pure_ok;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures, requires, clone};
 
-#[spec_only]
-use std::vector::push_back_pure;
+#[ext(spec_only)]
+use prover::vector_ext::push_back_pure;
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_push_back_matches(v: &mut vector<u64>, e: u64) {
     let old_v = clone!(v);
     v.push_back(e);
