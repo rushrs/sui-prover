@@ -1,6 +1,5 @@
 ---
 source: crates/move-stackless-bytecode/tests/testsuite.rs
-assertion_line: 272
 ---
 ============ initial translation from Move ================
 
@@ -3246,97 +3245,33 @@ public fun vector::append<#0>($t0|lhs: &mut vector<#0>, $t1|other: vector<#0>) {
      var $t13: #0
      var $t14: u64
      var $t15: vector<#0>
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t6 := $t1
-     # live_nodes: LocalRoot($t1), LocalRoot($t6), Reference($t0)
   1: $t7 := borrow_local($t6)
-     # live_nodes: LocalRoot($t1), LocalRoot($t6), Reference($t0), Reference($t7)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
+     # [(Reference(7), [[WriteBackAction { src: 7, dst: LocalRoot(6), edge: Direct }]])]
   2: vector::reverse<#0>($t7)
-     # live_nodes: LocalRoot($t1), LocalRoot($t6), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   3: $t8 := copy($t6)
-     # live_nodes: LocalRoot($t1), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   4: $t9 := vector::length<#0>($t8)
-     # live_nodes: LocalRoot($t1), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   5: $t10 := 0
-     # live_nodes: LocalRoot($t1), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   6: $t4 := $t10
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
   7: label L2
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
   8: $t11 := <($t4, $t9)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
   9: if ($t11) goto 10 else goto 18
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  10: label L1
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  11: destroy($t4)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  12: $t12 := borrow_local($t6)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0), Reference($t12)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
+     # [(Reference(12), [[WriteBackAction { src: 12, dst: LocalRoot(6), edge: Direct }]])]
  13: $t13 := vector::pop_back<#0>($t12)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  14: vector::push_back<#0>($t0, $t13)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  15: $t14 := 1
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  16: $t4 := +($t4, $t14)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  17: goto 7
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  18: label L0
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  19: destroy($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t6), LocalRoot($t8), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
+     # [(LocalRoot(6), [[]])]
  20: $t15 := move($t6)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t8), LocalRoot($t15), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  21: vector::destroy_empty<#0>($t15)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t8), LocalRoot($t15), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
+     # [(Reference(0), [[]])]
  22: trace_local[lhs]($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t4), LocalRoot($t8), LocalRoot($t15)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}
  23: return ()
 }
 
@@ -3361,47 +3296,26 @@ public fun vector::contains<#0>($t0|v: vector<#0>, $t1|e: #0): bool {
      var $t9: bool
      var $t10: u64
      var $t11: bool
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t4 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t2 := $t4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   2: $t5 := vector::length<#0>($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   3: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   4: $t6 := <($t2, $t5)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   5: if ($t6) goto 6 else goto 18
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   6: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   7: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   8: $t7 := vector::borrow<#0>($t0, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   9: $t8 := ==($t7, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  10: if ($t8) goto 11 else goto 14
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  11: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  12: $t9 := true
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  13: return $t9
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  14: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  15: $t10 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  16: $t2 := +($t2, $t10)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  17: goto 3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  18: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  19: $t11 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  20: return $t11
 }
 
@@ -3433,99 +3347,34 @@ public fun vector::flatten<#0>($t0|v: vector<vector<#0>>): vector<#0> {
      var $t15: u64
      var $t16: vector<vector<#0>>
      var $t17: vector<#0>
-     # live_nodes: LocalRoot($t0)
   0: $t3 := vector::empty<#0>()
-     # live_nodes: LocalRoot($t0)
   1: $t6 := $t0
-     # live_nodes: LocalRoot($t0), LocalRoot($t6)
   2: $t7 := borrow_local($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), Reference($t7)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
+     # [(Reference(7), [[WriteBackAction { src: 7, dst: LocalRoot(6), edge: Direct }]])]
   3: vector::reverse<vector<#0>>($t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   4: $t8 := copy($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   5: $t9 := vector::length<vector<#0>>($t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   6: $t10 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t7))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}
   7: $t2 := $t10
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
   8: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
   9: $t11 := <($t2, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  10: if ($t11) goto 11 else goto 20
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  11: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  12: destroy($t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  13: $t12 := borrow_local($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8), Reference($t12)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
+     # [(Reference(12), [[WriteBackAction { src: 12, dst: LocalRoot(6), edge: Direct }]])]
  14: $t13 := vector::pop_back<vector<#0>>($t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  15: $t14 := borrow_local($t3)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8), Reference($t14)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
+     # [(Reference(14), [[WriteBackAction { src: 14, dst: LocalRoot(3), edge: Direct }]])]
  16: vector::append<#0>($t14, $t13)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  17: $t15 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  18: $t2 := +($t2, $t15)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  19: goto 8
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  20: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t6), LocalRoot($t8)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
+     # [(LocalRoot(6), [[]])]
  21: $t16 := move($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t8), LocalRoot($t16)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  22: vector::destroy_empty<vector<#0>>($t16)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t8), LocalRoot($t16)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  23: $t17 := move($t3)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t8), LocalRoot($t16), LocalRoot($t17)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t14))}, LocalRoot($t6) -> {(@, Reference($t7)), (@, Reference($t12))}
-     # borrows_from: Reference($t7) -> {(@, LocalRoot($t6))}, Reference($t12) -> {(@, LocalRoot($t6))}, Reference($t14) -> {(@, LocalRoot($t3))}
  24: return $t17
 }
 
@@ -3543,49 +3392,27 @@ public fun vector::index_of<#0>($t0|v: vector<#0>, $t1|e: #0): (bool, u64) {
      var $t10: u64
      var $t11: bool
      var $t12: u64
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t4 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t2 := $t4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   2: $t5 := vector::length<#0>($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   3: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   4: $t6 := <($t2, $t5)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   5: if ($t6) goto 6 else goto 18
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   6: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   7: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   8: $t7 := vector::borrow<#0>($t0, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   9: $t8 := ==($t7, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  10: if ($t8) goto 11 else goto 14
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  11: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  12: $t9 := true
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  13: return ($t9, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  14: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  15: $t10 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  16: $t2 := +($t2, $t10)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  17: goto 3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  18: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  19: $t11 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  20: $t12 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  21: return ($t11, $t12)
 }
 
@@ -3599,49 +3426,29 @@ public fun vector::insert<#0>($t0|v: &mut vector<#0>, $t1|e: #0, $t2|i: u64) {
      var $t7: u64
      var $t8: bool
      var $t9: u64
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   0: $t4 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   1: $t5 := vector::length<#0>($t4)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   2: $t6 := >($t2, $t5)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   3: if ($t6) goto 4 else goto 8
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   4: label L1
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
+     # [(Reference(0), [[]])]
   5: destroy($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2)
   6: $t7 := 131072
-     # live_nodes: LocalRoot($t1), LocalRoot($t2)
   7: abort($t7)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   8: label L0
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   9: vector::push_back<#0>($t0, $t1)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  10: label L4
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  11: $t8 := <($t2, $t5)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  12: if ($t8) goto 13 else goto 18
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  13: label L3
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  14: vector::swap<#0>($t0, $t2, $t5)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  15: $t9 := 1
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  16: $t2 := +($t2, $t9)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  17: goto 10
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  18: label L2
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  19: destroy($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
+     # [(Reference(0), [[]])]
  20: trace_local[v]($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2)
  21: return ()
 }
 
@@ -3651,13 +3458,9 @@ public fun vector::is_empty<#0>($t0|v: vector<#0>): bool {
      var $t1: u64
      var $t2: u64
      var $t3: bool
-     # live_nodes: LocalRoot($t0)
   0: $t1 := vector::length<#0>($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := 0
-     # live_nodes: LocalRoot($t0)
   2: $t3 := ==($t1, $t2)
-     # live_nodes: LocalRoot($t0)
   3: return $t3
 }
 
@@ -3690,55 +3493,32 @@ public fun vector::remove<#0>($t0|v: &mut vector<#0>, $t1|i: u64): #0 {
      var $t13: u64
      var $t14: u64
      var $t15: #0
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t5 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   1: $t6 := vector::length<#0>($t5)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   2: $t7 := >=($t1, $t6)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   3: if ($t7) goto 4 else goto 8
-     # live_nodes: LocalRoot($t1), Reference($t0)
   4: label L1
-     # live_nodes: LocalRoot($t1), Reference($t0)
+     # [(Reference(0), [[]])]
   5: destroy($t0)
-     # live_nodes: LocalRoot($t1)
   6: $t8 := 131072
-     # live_nodes: LocalRoot($t1)
   7: abort($t8)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   8: label L0
-     # live_nodes: LocalRoot($t1), Reference($t0)
   9: $t9 := 1
-     # live_nodes: LocalRoot($t1), Reference($t0)
  10: $t10 := -($t6, $t9)
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  11: label L4
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  12: $t11 := <($t1, $t10)
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  13: if ($t11) goto 14 else goto 21
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  14: label L3
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  15: $t12 := copy($t1)
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  16: $t13 := 1
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  17: $t14 := +($t1, $t13)
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  18: $t1 := $t14
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  19: vector::swap<#0>($t0, $t12, $t14)
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  20: goto 11
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  21: label L2
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
  22: $t15 := vector::pop_back<#0>($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t12), Reference($t0)
+     # [(Reference(0), [[]])]
  23: trace_local[v]($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t12)
  24: return $t15
 }
 
@@ -3757,60 +3537,35 @@ public fun vector::reverse<#0>($t0|v: &mut vector<#0>) {
      var $t10: bool
      var $t11: u64
      var $t12: u64
-     # live_nodes: Reference($t0)
   0: $t4 := read_ref($t0)
-     # live_nodes: Reference($t0)
   1: $t5 := vector::length<#0>($t4)
-     # live_nodes: Reference($t0)
   2: $t6 := 0
-     # live_nodes: Reference($t0)
   3: $t7 := ==($t5, $t6)
-     # live_nodes: Reference($t0)
   4: if ($t7) goto 5 else goto 9
-     # live_nodes: Reference($t0)
   5: label L1
-     # live_nodes: Reference($t0)
   6: destroy($t0)
-     # live_nodes: Reference($t0)
+     # [(Reference(0), [[]])]
   7: trace_local[v]($t0)
   8: return ()
-     # live_nodes: Reference($t0)
   9: label L0
-     # live_nodes: Reference($t0)
  10: $t8 := 0
-     # live_nodes: Reference($t0)
  11: $t2 := $t8
-     # live_nodes: LocalRoot($t2), Reference($t0)
  12: $t9 := 1
-     # live_nodes: LocalRoot($t2), Reference($t0)
  13: $t1 := -($t5, $t9)
-     # live_nodes: LocalRoot($t2), Reference($t0)
  14: label L4
-     # live_nodes: LocalRoot($t2), Reference($t0)
  15: $t10 := <($t2, $t1)
-     # live_nodes: LocalRoot($t2), Reference($t0)
  16: if ($t10) goto 17 else goto 24
-     # live_nodes: LocalRoot($t2), Reference($t0)
  17: label L3
-     # live_nodes: LocalRoot($t2), Reference($t0)
  18: vector::swap<#0>($t0, $t2, $t1)
-     # live_nodes: LocalRoot($t2), Reference($t0)
  19: $t11 := 1
-     # live_nodes: LocalRoot($t2), Reference($t0)
  20: $t2 := +($t2, $t11)
-     # live_nodes: LocalRoot($t2), Reference($t0)
  21: $t12 := 1
-     # live_nodes: LocalRoot($t2), Reference($t0)
  22: $t1 := -($t1, $t12)
-     # live_nodes: LocalRoot($t2), Reference($t0)
  23: goto 14
-     # live_nodes: LocalRoot($t2), Reference($t0)
  24: label L2
-     # live_nodes: LocalRoot($t2), Reference($t0)
  25: destroy($t0)
-     # live_nodes: LocalRoot($t2), Reference($t0)
+     # [(Reference(0), [[]])]
  26: trace_local[v]($t0)
-     # live_nodes: LocalRoot($t2)
  27: return ()
 }
 
@@ -3820,21 +3575,11 @@ public fun vector::singleton<#0>($t0|e: #0): vector<#0> {
      var $t1|v#1#0: vector<#0>
      var $t2: &mut vector<#0>
      var $t3: vector<#0>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := vector::empty<#0>()
-     # live_nodes: LocalRoot($t0)
   1: $t2 := borrow_local($t1)
-     # live_nodes: LocalRoot($t0), Reference($t2)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t2))}
-     # borrows_from: Reference($t2) -> {(@, LocalRoot($t1))}
+     # [(Reference(2), [[WriteBackAction { src: 2, dst: LocalRoot(1), edge: Direct }]])]
   2: vector::push_back<#0>($t2, $t0)
-     # live_nodes: LocalRoot($t0)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t2))}
-     # borrows_from: Reference($t2) -> {(@, LocalRoot($t1))}
   3: $t3 := move($t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t2))}
-     # borrows_from: Reference($t2) -> {(@, LocalRoot($t1))}
   4: return $t3
 }
 
@@ -3864,105 +3609,40 @@ public fun vector::skip<#0>($t0|v: vector<#0>, $t1|n: u64): vector<#0> {
      var $t22: vector<#0>
      var $t23: &mut vector<#0>
      var $t24: vector<#0>
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t11 := copy($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   1: $t12 := vector::length<#0>($t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   2: $t13 := >=($t1, $t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   3: if ($t13) goto 4 else goto 7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   4: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   5: $t14 := vector::empty<#0>()
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   6: return $t14
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   7: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   8: $t10 := vector::empty<#0>()
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
   9: $t15 := -($t12, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
  10: $t16 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t11)
  11: $t6 := $t16
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  12: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  13: $t17 := <($t6, $t15)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  14: if ($t17) goto 15 else goto 24
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  15: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  16: $t18 := borrow_local($t10)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11), Reference($t18)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  17: destroy($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11), Reference($t18)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  18: $t19 := borrow_local($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11), Reference($t18), Reference($t19)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
+     # [(Reference(19), [[WriteBackAction { src: 19, dst: LocalRoot(0), edge: Direct }]])]
  19: $t20 := vector::pop_back<#0>($t19)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11), Reference($t18)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
+     # [(Reference(18), [[WriteBackAction { src: 18, dst: LocalRoot(10), edge: Direct }]])]
  20: vector::push_back<#0>($t18, $t20)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  21: $t21 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  22: $t6 := +($t6, $t21)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  23: goto 12
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  24: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  25: $t22 := move($t10)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11), LocalRoot($t22)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  26: $t8 := $t22
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t8), LocalRoot($t11), LocalRoot($t22)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}
  27: $t23 := borrow_local($t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t8), LocalRoot($t11), LocalRoot($t22), Reference($t23)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t8) -> {(@, Reference($t23))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}, Reference($t23) -> {(@, LocalRoot($t8))}
+     # [(Reference(23), [[WriteBackAction { src: 23, dst: LocalRoot(8), edge: Direct }]])]
  28: vector::reverse<#0>($t23)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t8), LocalRoot($t11), LocalRoot($t22)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t8) -> {(@, Reference($t23))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}, Reference($t23) -> {(@, LocalRoot($t8))}
+     # [(LocalRoot(8), [[]])]
  29: $t24 := move($t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t11), LocalRoot($t22), LocalRoot($t24)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t19))}, LocalRoot($t8) -> {(@, Reference($t23))}, LocalRoot($t10) -> {(@, Reference($t18))}
-     # borrows_from: Reference($t18) -> {(@, LocalRoot($t10))}, Reference($t19) -> {(@, LocalRoot($t0))}, Reference($t23) -> {(@, LocalRoot($t8))}
  30: return $t24
 }
 
@@ -3984,45 +3664,27 @@ public fun vector::swap_remove<#0>($t0|v: &mut vector<#0>, $t1|i: u64): #0 {
      var $t10: u64
      var $t11: u64
      var $t12: #0
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t3 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   1: $t4 := vector::length<#0>($t3)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   2: $t5 := 0
-     # live_nodes: LocalRoot($t1), Reference($t0)
   3: $t6 := !=($t4, $t5)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   4: if ($t6) goto 5 else goto 7
-     # live_nodes: LocalRoot($t1), Reference($t0)
   5: label L1
-     # live_nodes: LocalRoot($t1), Reference($t0)
   6: goto 11
-     # live_nodes: LocalRoot($t1), Reference($t0)
   7: label L0
-     # live_nodes: LocalRoot($t1), Reference($t0)
+     # [(Reference(0), [[]])]
   8: destroy($t0)
-     # live_nodes: LocalRoot($t1)
   9: $t7 := 131072
-     # live_nodes: LocalRoot($t1)
  10: abort($t7)
-     # live_nodes: LocalRoot($t1), Reference($t0)
  11: label L2
-     # live_nodes: LocalRoot($t1), Reference($t0)
  12: $t8 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0)
  13: $t9 := vector::length<#0>($t8)
-     # live_nodes: LocalRoot($t1), Reference($t0)
  14: $t10 := 1
-     # live_nodes: LocalRoot($t1), Reference($t0)
  15: $t11 := -($t9, $t10)
-     # live_nodes: LocalRoot($t1), Reference($t0)
  16: vector::swap<#0>($t0, $t1, $t11)
-     # live_nodes: LocalRoot($t1), Reference($t0)
  17: $t12 := vector::pop_back<#0>($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0)
+     # [(Reference(0), [[]])]
  18: trace_local[v]($t0)
-     # live_nodes: LocalRoot($t1)
  19: return $t12
 }
 
@@ -4052,119 +3714,47 @@ public fun vector::take<#0>($t0|v: vector<#0>, $t1|n: u64): vector<#0> {
      var $t22: #0
      var $t23: u64
      var $t24: vector<#0>
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t9 := copy($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   1: $t10 := vector::length<#0>($t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   2: $t11 := <=($t1, $t10)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   3: if ($t11) goto 4 else goto 6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   4: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   5: goto 9
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   6: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   7: $t12 := 13906834930257625087
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   8: abort($t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
   9: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9)
  10: $t13 := copy($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
  11: $t14 := vector::length<#0>($t13)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
  12: $t15 := ==($t1, $t14)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
  13: if ($t15) goto 14 else goto 17
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
  14: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
+     # [(LocalRoot(0), [[]])]
  15: $t16 := move($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t9), LocalRoot($t13), LocalRoot($t16)
  16: return $t16
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
  17: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
  18: $t17 := borrow_local($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13), Reference($t17)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}
+     # [(Reference(17), [[WriteBackAction { src: 17, dst: LocalRoot(0), edge: Direct }]])]
  19: vector::reverse<#0>($t17)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}
  20: $t8 := vector::empty<#0>()
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}
  21: $t18 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}
  22: $t6 := $t18
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  23: label L7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  24: $t19 := <($t6, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  25: if ($t19) goto 26 else goto 35
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  26: label L6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  27: $t20 := borrow_local($t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13), Reference($t20)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  28: destroy($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13), Reference($t20)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  29: $t21 := borrow_local($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13), Reference($t20), Reference($t21)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
+     # [(Reference(21), [[WriteBackAction { src: 21, dst: LocalRoot(0), edge: Direct }]])]
  30: $t22 := vector::pop_back<#0>($t21)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13), Reference($t20)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
+     # [(Reference(20), [[WriteBackAction { src: 20, dst: LocalRoot(8), edge: Direct }]])]
  31: vector::push_back<#0>($t20, $t22)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  32: $t23 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  33: $t6 := +($t6, $t23)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  34: goto 23
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  35: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  36: $t24 := move($t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t6), LocalRoot($t9), LocalRoot($t13), LocalRoot($t24)
-     # borrowed_by: LocalRoot($t0) -> {(@, Reference($t17)), (@, Reference($t21))}, LocalRoot($t8) -> {(@, Reference($t20))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t0))}, Reference($t20) -> {(@, LocalRoot($t8))}, Reference($t21) -> {(@, LocalRoot($t0))}
  37: return $t24
 }
 
@@ -4176,29 +3766,17 @@ public fun option::borrow<#0>($t0|t: option::Option<#0>): #0 {
      var $t3: vector<#0>
      var $t4: u64
      var $t5: #0
-     # live_nodes: LocalRoot($t0)
   0: $t1 := option::is_some<#0>($t0)
-     # live_nodes: LocalRoot($t0)
   1: if ($t1) goto 2 else goto 4
-     # live_nodes: LocalRoot($t0)
   2: label L1
-     # live_nodes: LocalRoot($t0)
   3: goto 7
-     # live_nodes: LocalRoot($t0)
   4: label L0
-     # live_nodes: LocalRoot($t0)
   5: $t2 := 262145
-     # live_nodes: LocalRoot($t0)
   6: abort($t2)
-     # live_nodes: LocalRoot($t0)
   7: label L2
-     # live_nodes: LocalRoot($t0)
   8: $t3 := get_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t0)
   9: $t4 := 0
-     # live_nodes: LocalRoot($t0)
  10: $t5 := vector::borrow<#0>($t3, $t4)
-     # live_nodes: LocalRoot($t0)
  11: return $t5
 }
 
@@ -4211,41 +3789,22 @@ public fun option::borrow_mut<#0>($t0|t: &mut option::Option<#0>): &mut #0 {
      var $t4: &mut vector<#0>
      var $t5: u64
      var $t6: &mut #0
-     # live_nodes: Reference($t0)
   0: $t1 := read_ref($t0)
-     # live_nodes: Reference($t0)
   1: $t2 := option::is_some<#0>($t1)
-     # live_nodes: Reference($t0)
   2: if ($t2) goto 3 else goto 5
-     # live_nodes: Reference($t0)
   3: label L1
-     # live_nodes: Reference($t0)
   4: goto 9
-     # live_nodes: Reference($t0)
   5: label L0
-     # live_nodes: Reference($t0)
+     # [(Reference(0), [[]])]
   6: destroy($t0)
   7: $t3 := 262145
   8: abort($t3)
-     # live_nodes: Reference($t0)
   9: label L2
-     # live_nodes: Reference($t0)
  10: $t4 := borrow_field<option::Option<#0>>.vec($t0)
-     # live_nodes: Reference($t0), Reference($t4)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t4))}
-     # borrows_from: Reference($t4) -> {(.vec (vector<#0>), Reference($t0))}
  11: $t5 := 0
-     # live_nodes: Reference($t0), Reference($t4)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t4))}
-     # borrows_from: Reference($t4) -> {(.vec (vector<#0>), Reference($t0))}
  12: $t6 := vector::borrow_mut<#0>($t4, $t5)
-     # live_nodes: Reference($t0), Reference($t6)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t4))}, Reference($t4) -> {([], Reference($t6))}
-     # borrows_from: Reference($t4) -> {(.vec (vector<#0>), Reference($t0))}, Reference($t6) -> {([], Reference($t4))}
  13: trace_local[t]($t0)
-     # live_nodes: Reference($t6)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t4))}, Reference($t4) -> {([], Reference($t6))}
-     # borrows_from: Reference($t4) -> {(.vec (vector<#0>), Reference($t0))}, Reference($t6) -> {([], Reference($t4))}
+     # [(Reference(6), [[WriteBackAction { src: 6, dst: Reference(4), edge: Index(Vector) }, WriteBackAction { src: 4, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(2), inst: [TypeParameter(0)], id: DatatypeId(Symbol(35)) }, 0) }]])]
  14: return $t6
 }
 
@@ -4254,11 +3813,8 @@ public fun option::borrow_mut<#0>($t0|t: &mut option::Option<#0>): &mut #0 {
 public fun option::contains<#0>($t0|t: option::Option<#0>, $t1|e_ref: #0): bool {
      var $t2: vector<#0>
      var $t3: bool
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t2 := get_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t3 := vector::contains<#0>($t2, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: return $t3
 }
 
@@ -4272,43 +3828,23 @@ public fun option::swap<#0>($t0|t: &mut option::Option<#0>, $t1|e: #0): #0 {
      var $t6: u64
      var $t7: &mut vector<#0>
      var $t8: #0
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t4 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   1: $t5 := option::is_some<#0>($t4)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   2: if ($t5) goto 3 else goto 5
-     # live_nodes: LocalRoot($t1), Reference($t0)
   3: label L1
-     # live_nodes: LocalRoot($t1), Reference($t0)
   4: goto 9
-     # live_nodes: LocalRoot($t1), Reference($t0)
   5: label L0
-     # live_nodes: LocalRoot($t1), Reference($t0)
+     # [(Reference(0), [[]])]
   6: destroy($t0)
-     # live_nodes: LocalRoot($t1)
   7: $t6 := 262145
-     # live_nodes: LocalRoot($t1)
   8: abort($t6)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   9: label L2
-     # live_nodes: LocalRoot($t1), Reference($t0)
  10: $t7 := borrow_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t7)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t7))}
-     # borrows_from: Reference($t7) -> {(.vec (vector<#0>), Reference($t0))}
  11: $t8 := vector::pop_back<#0>($t7)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t7)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t7))}
-     # borrows_from: Reference($t7) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(7), [[WriteBackAction { src: 7, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(2), inst: [TypeParameter(0)], id: DatatypeId(Symbol(35)) }, 0) }]])]
  12: vector::push_back<#0>($t7, $t1)
-     # live_nodes: LocalRoot($t1), Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t7))}
-     # borrows_from: Reference($t7) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(0), [[]])]
  13: trace_local[t]($t0)
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t7))}
-     # borrows_from: Reference($t7) -> {(.vec (vector<#0>), Reference($t0))}
  14: return $t8
 }
 
@@ -4320,27 +3856,16 @@ public fun option::borrow_with_default<#0>($t0|t: option::Option<#0>, $t1|defaul
      var $t4: vector<#0>
      var $t5: bool
      var $t6: u64
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t4 := get_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t5 := vector::is_empty<#0>($t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: if ($t5) goto 3 else goto 6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   4: $t2 := $t1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   5: goto 9
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   6: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   7: $t6 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   8: $t2 := vector::borrow<#0>($t4, $t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   9: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  10: return $t2
 }
 
@@ -4350,27 +3875,16 @@ public fun option::destroy_none<#0>($t0|t: option::Option<#0>) {
      var $t1: bool
      var $t2: u64
      var $t3: vector<#0>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := option::is_none<#0>($t0)
-     # live_nodes: LocalRoot($t0)
   1: if ($t1) goto 2 else goto 4
-     # live_nodes: LocalRoot($t0)
   2: label L1
-     # live_nodes: LocalRoot($t0)
   3: goto 7
-     # live_nodes: LocalRoot($t0)
   4: label L0
-     # live_nodes: LocalRoot($t0)
   5: $t2 := 262144
-     # live_nodes: LocalRoot($t0)
   6: abort($t2)
-     # live_nodes: LocalRoot($t0)
   7: label L2
-     # live_nodes: LocalRoot($t0)
   8: $t3 := unpack option::Option<#0>($t0)
-     # live_nodes: LocalRoot($t0)
   9: vector::destroy_empty<#0>($t3)
-     # live_nodes: LocalRoot($t0)
  10: return ()
 }
 
@@ -4384,41 +3898,20 @@ public fun option::destroy_some<#0>($t0|t: option::Option<#0>): #0 {
      var $t5: &mut vector<#0>
      var $t6: #0
      var $t7: vector<#0>
-     # live_nodes: LocalRoot($t0)
   0: $t3 := option::is_some<#0>($t0)
-     # live_nodes: LocalRoot($t0)
   1: if ($t3) goto 2 else goto 4
-     # live_nodes: LocalRoot($t0)
   2: label L1
-     # live_nodes: LocalRoot($t0)
   3: goto 7
-     # live_nodes: LocalRoot($t0)
   4: label L0
-     # live_nodes: LocalRoot($t0)
   5: $t4 := 262145
-     # live_nodes: LocalRoot($t0)
   6: abort($t4)
-     # live_nodes: LocalRoot($t0)
   7: label L2
-     # live_nodes: LocalRoot($t0)
   8: $t2 := unpack option::Option<#0>($t0)
-     # live_nodes: LocalRoot($t0)
   9: $t5 := borrow_local($t2)
-     # live_nodes: LocalRoot($t0), Reference($t5)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t5))}
-     # borrows_from: Reference($t5) -> {(@, LocalRoot($t2))}
+     # [(Reference(5), [[WriteBackAction { src: 5, dst: LocalRoot(2), edge: Direct }]])]
  10: $t6 := vector::pop_back<#0>($t5)
-     # live_nodes: LocalRoot($t0)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t5))}
-     # borrows_from: Reference($t5) -> {(@, LocalRoot($t2))}
  11: $t7 := move($t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t5))}
-     # borrows_from: Reference($t5) -> {(@, LocalRoot($t2))}
  12: vector::destroy_empty<#0>($t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t5))}
-     # borrows_from: Reference($t5) -> {(@, LocalRoot($t2))}
  13: return $t6
 }
 
@@ -4430,35 +3923,18 @@ public fun option::destroy_with_default<#0>($t0|t: option::Option<#0>, $t1|defau
      var $t4: vector<#0>
      var $t5: bool
      var $t6: &mut vector<#0>
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t3 := unpack option::Option<#0>($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t4 := copy($t3)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t4)
   2: $t5 := vector::is_empty<#0>($t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t4)
   3: if ($t5) goto 4 else goto 7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t4)
   4: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t4)
   5: $t2 := $t1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t4)
   6: goto 10
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t4)
   7: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t4)
   8: $t6 := borrow_local($t3)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t4), Reference($t6)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t6))}
-     # borrows_from: Reference($t6) -> {(@, LocalRoot($t3))}
+     # [(Reference(6), [[WriteBackAction { src: 6, dst: LocalRoot(3), edge: Direct }]])]
   9: $t2 := vector::pop_back<#0>($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t4)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t6))}
-     # borrows_from: Reference($t6) -> {(@, LocalRoot($t3))}
  10: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t4)
-     # borrowed_by: LocalRoot($t3) -> {(@, Reference($t6))}
-     # borrows_from: Reference($t6) -> {(@, LocalRoot($t3))}
  11: return $t2
 }
 
@@ -4470,36 +3946,22 @@ public fun option::extract<#0>($t0|t: &mut option::Option<#0>): #0 {
      var $t3: u64
      var $t4: &mut vector<#0>
      var $t5: #0
-     # live_nodes: Reference($t0)
   0: $t1 := read_ref($t0)
-     # live_nodes: Reference($t0)
   1: $t2 := option::is_some<#0>($t1)
-     # live_nodes: Reference($t0)
   2: if ($t2) goto 3 else goto 5
-     # live_nodes: Reference($t0)
   3: label L1
-     # live_nodes: Reference($t0)
   4: goto 9
-     # live_nodes: Reference($t0)
   5: label L0
-     # live_nodes: Reference($t0)
+     # [(Reference(0), [[]])]
   6: destroy($t0)
   7: $t3 := 262145
   8: abort($t3)
-     # live_nodes: Reference($t0)
   9: label L2
-     # live_nodes: Reference($t0)
  10: $t4 := borrow_field<option::Option<#0>>.vec($t0)
-     # live_nodes: Reference($t0), Reference($t4)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t4))}
-     # borrows_from: Reference($t4) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(4), [[WriteBackAction { src: 4, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(2), inst: [TypeParameter(0)], id: DatatypeId(Symbol(35)) }, 0) }]])]
  11: $t5 := vector::pop_back<#0>($t4)
-     # live_nodes: Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t4))}
-     # borrows_from: Reference($t4) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(0), [[]])]
  12: trace_local[t]($t0)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t4))}
-     # borrows_from: Reference($t4) -> {(.vec (vector<#0>), Reference($t0))}
  13: return $t5
 }
 
@@ -4511,71 +3973,25 @@ public fun option::fill<#0>($t0|t: &mut option::Option<#0>, $t1|e: #0) {
      var $t4: vector<#0>
      var $t5: bool
      var $t6: u64
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t3 := borrow_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   1: $t4 := read_ref($t3)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   2: $t5 := vector::is_empty<#0>($t4)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   3: if ($t5) goto 7 else goto 4
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   4: label L3
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   5: destroy($t0)
-     # live_nodes: LocalRoot($t1), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   6: goto 9
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   7: label L1
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   8: goto 13
-     # live_nodes: LocalRoot($t1), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
   9: label L0
-     # live_nodes: LocalRoot($t1), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(3), [[WriteBackAction { src: 3, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(2), inst: [TypeParameter(0)], id: DatatypeId(Symbol(35)) }, 0) }]])]
  10: destroy($t3)
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
  11: $t6 := 262144
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
  12: abort($t6)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
  13: label L2
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(3), [[WriteBackAction { src: 3, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(2), inst: [TypeParameter(0)], id: DatatypeId(Symbol(35)) }, 0) }]])]
  14: vector::push_back<#0>($t3, $t1)
-     # live_nodes: LocalRoot($t1), Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(0), [[]])]
  15: trace_local[t]($t0)
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t3))}
-     # borrows_from: Reference($t3) -> {(.vec (vector<#0>), Reference($t0))}
  16: return ()
 }
 
@@ -4588,29 +4004,17 @@ public fun option::get_with_default<#0>($t0|t: option::Option<#0>, $t1|default: 
      var $t5: bool
      var $t6: u64
      var $t7: #0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t4 := get_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t5 := vector::is_empty<#0>($t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: if ($t5) goto 3 else goto 6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   4: $t2 := $t1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   5: goto 10
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   6: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   7: $t6 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   8: $t7 := vector::borrow<#0>($t4, $t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   9: $t2 := $t7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  10: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  11: return $t2
 }
 
@@ -4619,11 +4023,8 @@ public fun option::get_with_default<#0>($t0|t: option::Option<#0>, $t1|default: 
 public fun option::is_none<#0>($t0|t: option::Option<#0>): bool {
      var $t1: vector<#0>
      var $t2: bool
-     # live_nodes: LocalRoot($t0)
   0: $t1 := get_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := vector::is_empty<#0>($t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -4633,13 +4034,9 @@ public fun option::is_some<#0>($t0|t: option::Option<#0>): bool {
      var $t1: vector<#0>
      var $t2: bool
      var $t3: bool
-     # live_nodes: LocalRoot($t0)
   0: $t1 := get_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := vector::is_empty<#0>($t1)
-     # live_nodes: LocalRoot($t0)
   2: $t3 := !($t2)
-     # live_nodes: LocalRoot($t0)
   3: return $t3
 }
 
@@ -4659,21 +4056,11 @@ public fun option::some<#0>($t0|e: #0): option::Option<#0> {
      var $t1: vector<#0>
      var $t2: &mut vector<#0>
      var $t3: option::Option<#0>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := vector::empty<#0>()
-     # live_nodes: LocalRoot($t0)
   1: $t2 := borrow_local($t1)
-     # live_nodes: LocalRoot($t0), Reference($t2)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t2))}
-     # borrows_from: Reference($t2) -> {(@, LocalRoot($t1))}
+     # [(Reference(2), [[WriteBackAction { src: 2, dst: LocalRoot(1), edge: Direct }]])]
   2: vector::push_back<#0>($t2, $t0)
-     # live_nodes: LocalRoot($t0)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t2))}
-     # borrows_from: Reference($t2) -> {(@, LocalRoot($t1))}
   3: $t3 := pack option::Option<#0>($t1)
-     # live_nodes: LocalRoot($t0)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t2))}
-     # borrows_from: Reference($t2) -> {(@, LocalRoot($t1))}
   4: return $t3
 }
 
@@ -4687,59 +4074,21 @@ public fun option::swap_or_fill<#0>($t0|t: &mut option::Option<#0>, $t1|e: #0): 
      var $t6: vector<#0>
      var $t7: bool
      var $t8: #0
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t5 := borrow_field<option::Option<#0>>.vec($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   1: $t6 := read_ref($t5)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   2: $t7 := vector::is_empty<#0>($t6)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   3: if ($t7) goto 4 else goto 7
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   4: label L1
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   5: $t2 := option::none<#0>()
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   6: goto 10
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   7: label L0
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   8: $t8 := vector::pop_back<#0>($t5)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
   9: $t2 := option::some<#0>($t8)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
  10: label L2
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t5)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(5), [[WriteBackAction { src: 5, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(2), inst: [TypeParameter(0)], id: DatatypeId(Symbol(35)) }, 0) }]])]
  11: vector::push_back<#0>($t5, $t1)
-     # live_nodes: LocalRoot($t1), Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
+     # [(Reference(0), [[]])]
  12: trace_local[t]($t0)
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.vec (vector<#0>), Reference($t5))}
-     # borrows_from: Reference($t5) -> {(.vec (vector<#0>), Reference($t0))}
  13: return $t2
 }
 
@@ -4747,9 +4096,7 @@ public fun option::swap_or_fill<#0>($t0|t: &mut option::Option<#0>, $t1|e: #0): 
 [variant baseline]
 public fun option::to_vec<#0>($t0|t: option::Option<#0>): vector<#0> {
      var $t1: vector<#0>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := unpack option::Option<#0>($t0)
-     # live_nodes: LocalRoot($t0)
   1: return $t1
 }
 
@@ -4758,23 +4105,12 @@ public fun option::to_vec<#0>($t0|t: option::Option<#0>): vector<#0> {
 public fun ascii::append($t0|string: &mut ascii::String, $t1|other: ascii::String) {
      var $t2: &mut vector<u8>
      var $t3: vector<u8>
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t2 := borrow_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t2)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
   1: $t3 := ascii::into_bytes($t1)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t2)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(2), [[WriteBackAction { src: 2, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(3), inst: [], id: DatatypeId(Symbol(58)) }, 0) }]])]
   2: vector::append<u8>($t2, $t3)
-     # live_nodes: LocalRoot($t1), Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(0), [[]])]
   3: trace_local[string]($t0)
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
   4: return ()
 }
 
@@ -4803,99 +4139,52 @@ public fun ascii::index_of($t0|string: ascii::String, $t1|substr: ascii::String)
      var $t21: u64
      var $t22: bool
      var $t23: u64
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t7 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t3 := $t7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t3)
   2: $t8 := ascii::length($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t3)
   3: $t9 := ascii::length($t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t3)
   4: $t10 := <($t8, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t3)
   5: if ($t10) goto 6 else goto 8
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t3)
   6: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t3)
   7: return $t8
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   8: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   9: $t11 := -($t8, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  10: $t12 := <=($t3, $t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  11: if ($t12) goto 12 else goto 45
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  12: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  13: $t13 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  14: $t4 := $t13
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  15: label L10
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  16: $t14 := <($t4, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  17: if ($t14) goto 18 else goto 27
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  18: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  19: label L6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  20: $t15 := get_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  21: $t16 := +($t3, $t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  22: $t17 := vector::borrow<u8>($t15, $t16)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  23: $t18 := get_field<ascii::String>.bytes($t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  24: $t19 := vector::borrow<u8>($t18, $t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  25: $t2 := ==($t17, $t19)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  26: goto 30
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  27: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  28: $t20 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  29: $t2 := $t20
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  30: label L7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  31: if ($t2) goto 32 else goto 36
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  32: label L9
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  33: $t21 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  34: $t4 := +($t4, $t21)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  35: goto 15
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  36: label L8
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  37: $t22 := ==($t4, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  38: if ($t22) goto 39 else goto 41
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  39: label L12
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  40: return $t3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  41: label L11
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  42: $t23 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  43: $t3 := +($t3, $t23)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  44: goto 8
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  45: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  46: return $t8
 }
 
@@ -4920,109 +4209,43 @@ public fun ascii::insert($t0|s: &mut ascii::String, $t1|at: u64, $t2|o: ascii::S
      var $t18: &mut vector<u8>
      var $t19: u64
      var $t20: vector<u8>
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   0: $t8 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   1: $t9 := ascii::length($t8)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   2: $t10 := <=($t1, $t9)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   3: if ($t10) goto 4 else goto 6
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   4: label L1
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   5: goto 10
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   6: label L0
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
+     # [(Reference(0), [[]])]
   7: destroy($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2)
   8: $t11 := 65537
-     # live_nodes: LocalRoot($t1), LocalRoot($t2)
   9: abort($t11)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  10: label L2
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  11: $t7 := ascii::into_bytes($t2)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
  12: $t12 := copy($t7)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t12), Reference($t0)
  13: $t13 := vector::length<u8>($t12)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t12), Reference($t0)
  14: $t14 := 0
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t12), Reference($t0)
  15: $t5 := $t14
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  16: label L5
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  17: $t15 := <($t5, $t13)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  18: if ($t15) goto 19 else goto 28
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  19: label L4
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  20: destroy($t5)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  21: $t16 := borrow_local($t7)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0), Reference($t16)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(16), [[WriteBackAction { src: 16, dst: LocalRoot(7), edge: Direct }]])]
  22: $t17 := vector::pop_back<u8>($t16)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  23: $t18 := borrow_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0), Reference($t18)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(18), [[WriteBackAction { src: 18, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(3), inst: [], id: DatatypeId(Symbol(58)) }, 0) }]])]
  24: vector::insert<u8>($t18, $t17, $t1)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  25: $t19 := 1
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  26: $t5 := +($t5, $t19)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  27: goto 16
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  28: label L3
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  29: destroy($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  30: $t20 := move($t7)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), LocalRoot($t20), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  31: vector::destroy_empty<u8>($t20)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), LocalRoot($t20), Reference($t0)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(0), [[]])]
  32: trace_local[s]($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t5), LocalRoot($t12), LocalRoot($t20)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t16))}, Reference($t0) -> {(.bytes (vector<u8>), Reference($t18))}
-     # borrows_from: Reference($t16) -> {(@, LocalRoot($t7))}, Reference($t18) -> {(.bytes (vector<u8>), Reference($t0))}
  33: return ()
 }
 
@@ -5031,11 +4254,8 @@ public fun ascii::insert($t0|s: &mut ascii::String, $t1|at: u64, $t2|o: ascii::S
 public fun ascii::is_empty($t0|string: ascii::String): bool {
      var $t1: vector<u8>
      var $t2: bool
-     # live_nodes: LocalRoot($t0)
   0: $t1 := get_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := vector::is_empty<u8>($t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -5044,11 +4264,8 @@ public fun ascii::is_empty($t0|string: ascii::String): bool {
 public fun ascii::length($t0|string: ascii::String): u64 {
      var $t1: vector<u8>
      var $t2: u64
-     # live_nodes: LocalRoot($t0)
   0: $t1 := ascii::as_bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := vector::length<u8>($t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -5071,55 +4288,30 @@ public fun ascii::all_characters_printable($t0|string: ascii::String): bool {
      var $t14: bool
      var $t15: u64
      var $t16: bool
-     # live_nodes: LocalRoot($t0)
   0: $t7 := get_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t8 := vector::length<u8>($t7)
-     # live_nodes: LocalRoot($t0)
   2: $t9 := 0
-     # live_nodes: LocalRoot($t0)
   3: $t4 := $t9
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
   4: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
   5: $t10 := <($t4, $t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
   6: if ($t10) goto 7 else goto 20
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
   7: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
   8: $t11 := vector::borrow<u8>($t7, $t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
   9: $t12 := ascii::is_printable_char($t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  10: $t13 := !($t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  11: if ($t13) goto 12 else goto 16
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  12: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  13: $t14 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  14: $t2 := $t14
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t4)
  15: goto 23
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  16: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  17: $t15 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  18: $t4 := +($t4, $t15)
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  19: goto 4
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  20: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  21: $t16 := true
-     # live_nodes: LocalRoot($t0), LocalRoot($t4)
  22: $t2 := $t16
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t4)
  23: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t4)
  24: return $t2
 }
 
@@ -5131,27 +4323,16 @@ public fun ascii::string($t0|bytes: vector<u8>): ascii::String {
      var $t3: bool
      var $t4: u64
      var $t5: ascii::String
-     # live_nodes: LocalRoot($t0)
   0: $t2 := ascii::try_string($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t3 := option::is_some<ascii::String>($t2)
-     # live_nodes: LocalRoot($t0)
   2: if ($t3) goto 3 else goto 5
-     # live_nodes: LocalRoot($t0)
   3: label L1
-     # live_nodes: LocalRoot($t0)
   4: goto 8
-     # live_nodes: LocalRoot($t0)
   5: label L0
-     # live_nodes: LocalRoot($t0)
   6: $t4 := 65536
-     # live_nodes: LocalRoot($t0)
   7: abort($t4)
-     # live_nodes: LocalRoot($t0)
   8: label L2
-     # live_nodes: LocalRoot($t0)
   9: $t5 := option::destroy_some<ascii::String>($t2)
-     # live_nodes: LocalRoot($t0)
  10: return $t5
 }
 
@@ -5159,9 +4340,7 @@ public fun ascii::string($t0|bytes: vector<u8>): ascii::String {
 [variant baseline]
 public fun ascii::as_bytes($t0|string: ascii::String): vector<u8> {
      var $t1: vector<u8>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := get_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: return $t1
 }
 
@@ -5169,9 +4348,7 @@ public fun ascii::as_bytes($t0|string: ascii::String): vector<u8> {
 [variant baseline]
 public fun ascii::byte($t0|char: ascii::Char): u8 {
      var $t1: u8
-     # live_nodes: LocalRoot($t0)
   0: $t1 := unpack ascii::Char($t0)
-     # live_nodes: LocalRoot($t0)
   1: return $t1
 }
 
@@ -5181,25 +4358,15 @@ public fun ascii::char($t0|byte: u8): ascii::Char {
      var $t1: bool
      var $t2: u64
      var $t3: ascii::Char
-     # live_nodes: LocalRoot($t0)
   0: $t1 := ascii::is_valid_char($t0)
-     # live_nodes: LocalRoot($t0)
   1: if ($t1) goto 2 else goto 4
-     # live_nodes: LocalRoot($t0)
   2: label L1
-     # live_nodes: LocalRoot($t0)
   3: goto 7
-     # live_nodes: LocalRoot($t0)
   4: label L0
-     # live_nodes: LocalRoot($t0)
   5: $t2 := 65536
-     # live_nodes: LocalRoot($t0)
   6: abort($t2)
-     # live_nodes: LocalRoot($t0)
   7: label L2
-     # live_nodes: LocalRoot($t0)
   8: $t3 := pack ascii::Char($t0)
-     # live_nodes: LocalRoot($t0)
   9: return $t3
 }
 
@@ -5213,45 +4380,25 @@ fun ascii::char_to_lowercase($t0|byte: u8): u8 {
      var $t5: u8
      var $t6: bool
      var $t7: u8
-     # live_nodes: LocalRoot($t0)
   0: $t3 := 65
-     # live_nodes: LocalRoot($t0)
   1: $t4 := >=($t0, $t3)
-     # live_nodes: LocalRoot($t0)
   2: if ($t4) goto 3 else goto 7
-     # live_nodes: LocalRoot($t0)
   3: label L1
-     # live_nodes: LocalRoot($t0)
   4: $t5 := 90
-     # live_nodes: LocalRoot($t0)
   5: $t1 := <=($t0, $t5)
-     # live_nodes: LocalRoot($t0)
   6: goto 10
-     # live_nodes: LocalRoot($t0)
   7: label L0
-     # live_nodes: LocalRoot($t0)
   8: $t6 := false
-     # live_nodes: LocalRoot($t0)
   9: $t1 := $t6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  10: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  11: if ($t1) goto 12 else goto 16
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  12: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  13: $t7 := 32
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  14: $t2 := +($t0, $t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  15: goto 18
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  16: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  17: $t2 := $t0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  18: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  19: return $t2
 }
 
@@ -5265,45 +4412,25 @@ fun ascii::char_to_uppercase($t0|byte: u8): u8 {
      var $t5: u8
      var $t6: bool
      var $t7: u8
-     # live_nodes: LocalRoot($t0)
   0: $t3 := 97
-     # live_nodes: LocalRoot($t0)
   1: $t4 := >=($t0, $t3)
-     # live_nodes: LocalRoot($t0)
   2: if ($t4) goto 3 else goto 7
-     # live_nodes: LocalRoot($t0)
   3: label L1
-     # live_nodes: LocalRoot($t0)
   4: $t5 := 122
-     # live_nodes: LocalRoot($t0)
   5: $t1 := <=($t0, $t5)
-     # live_nodes: LocalRoot($t0)
   6: goto 10
-     # live_nodes: LocalRoot($t0)
   7: label L0
-     # live_nodes: LocalRoot($t0)
   8: $t6 := false
-     # live_nodes: LocalRoot($t0)
   9: $t1 := $t6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  10: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  11: if ($t1) goto 12 else goto 16
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  12: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  13: $t7 := 32
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  14: $t2 := -($t0, $t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  15: goto 18
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  16: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  17: $t2 := $t0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  18: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  19: return $t2
 }
 
@@ -5311,9 +4438,7 @@ fun ascii::char_to_uppercase($t0|byte: u8): u8 {
 [variant baseline]
 public fun ascii::into_bytes($t0|string: ascii::String): vector<u8> {
      var $t1: vector<u8>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := unpack ascii::String($t0)
-     # live_nodes: LocalRoot($t0)
   1: return $t1
 }
 
@@ -5325,29 +4450,17 @@ public fun ascii::is_printable_char($t0|byte: u8): bool {
      var $t3: bool
      var $t4: u8
      var $t5: bool
-     # live_nodes: LocalRoot($t0)
   0: $t2 := 32
-     # live_nodes: LocalRoot($t0)
   1: $t3 := >=($t0, $t2)
-     # live_nodes: LocalRoot($t0)
   2: if ($t3) goto 3 else goto 7
-     # live_nodes: LocalRoot($t0)
   3: label L1
-     # live_nodes: LocalRoot($t0)
   4: $t4 := 126
-     # live_nodes: LocalRoot($t0)
   5: $t1 := <=($t0, $t4)
-     # live_nodes: LocalRoot($t0)
   6: goto 10
-     # live_nodes: LocalRoot($t0)
   7: label L0
-     # live_nodes: LocalRoot($t0)
   8: $t5 := false
-     # live_nodes: LocalRoot($t0)
   9: $t1 := $t5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  10: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  11: return $t1
 }
 
@@ -5356,11 +4469,8 @@ public fun ascii::is_printable_char($t0|byte: u8): bool {
 public fun ascii::is_valid_char($t0|b: u8): bool {
      var $t1: u8
      var $t2: bool
-     # live_nodes: LocalRoot($t0)
   0: $t1 := 127
-     # live_nodes: LocalRoot($t0)
   1: $t2 := <=($t0, $t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -5370,22 +4480,12 @@ public fun ascii::pop_char($t0|string: &mut ascii::String): ascii::Char {
      var $t1: &mut vector<u8>
      var $t2: u8
      var $t3: ascii::Char
-     # live_nodes: Reference($t0)
   0: $t1 := borrow_field<ascii::String>.bytes($t0)
-     # live_nodes: Reference($t0), Reference($t1)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t1))}
-     # borrows_from: Reference($t1) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(1), [[WriteBackAction { src: 1, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(3), inst: [], id: DatatypeId(Symbol(58)) }, 0) }]])]
   1: $t2 := vector::pop_back<u8>($t1)
-     # live_nodes: Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t1))}
-     # borrows_from: Reference($t1) -> {(.bytes (vector<u8>), Reference($t0))}
   2: $t3 := pack ascii::Char($t2)
-     # live_nodes: Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t1))}
-     # borrows_from: Reference($t1) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(0), [[]])]
   3: trace_local[string]($t0)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t1))}
-     # borrows_from: Reference($t1) -> {(.bytes (vector<u8>), Reference($t0))}
   4: return $t3
 }
 
@@ -5394,23 +4494,12 @@ public fun ascii::pop_char($t0|string: &mut ascii::String): ascii::Char {
 public fun ascii::push_char($t0|string: &mut ascii::String, $t1|char: ascii::Char) {
      var $t2: &mut vector<u8>
      var $t3: u8
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t2 := borrow_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t2)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
   1: $t3 := get_field<ascii::Char>.byte($t1)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t2)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(2), [[WriteBackAction { src: 2, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(3), inst: [], id: DatatypeId(Symbol(58)) }, 0) }]])]
   2: vector::push_back<u8>($t2, $t3)
-     # live_nodes: LocalRoot($t1), Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(0), [[]])]
   3: trace_local[string]($t0)
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
   4: return ()
 }
 
@@ -5434,105 +4523,42 @@ public fun ascii::substring($t0|string: ascii::String, $t1|i: u64, $t2|j: u64): 
      var $t17: u64
      var $t18: vector<u8>
      var $t19: ascii::String
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   0: $t8 := <=($t1, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   1: if ($t8) goto 2 else goto 6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   2: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   3: $t9 := ascii::length($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   4: $t3 := <=($t2, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   5: goto 9
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   6: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   7: $t10 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   8: $t3 := $t10
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
   9: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  10: if ($t3) goto 11 else goto 13
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  11: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  12: goto 16
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  13: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  14: $t11 := 65537
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  15: abort($t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  16: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  17: $t12 := []
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  18: $t4 := $t12
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  19: $t5 := $t1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  20: label L8
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  21: $t13 := <($t5, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  22: if ($t13) goto 23 else goto 31
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  23: label L7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  24: $t14 := borrow_local($t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5), Reference($t14)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  25: $t15 := get_field<ascii::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5), Reference($t14)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  26: $t16 := vector::borrow<u8>($t15, $t5)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5), Reference($t14)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
+     # [(Reference(14), [[WriteBackAction { src: 14, dst: LocalRoot(4), edge: Direct }]])]
  27: vector::push_back<u8>($t14, $t16)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  28: $t17 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  29: $t5 := +($t5, $t17)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  30: goto 20
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  31: label L6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4), LocalRoot($t5)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
+     # [(LocalRoot(4), [[]])]
  32: $t18 := move($t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t5), LocalRoot($t18)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  33: $t19 := pack ascii::String($t18)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t5), LocalRoot($t18)
-     # borrowed_by: LocalRoot($t4) -> {(@, Reference($t14))}
-     # borrows_from: Reference($t14) -> {(@, LocalRoot($t4))}
  34: return $t19
 }
 
@@ -5560,77 +4586,28 @@ public fun ascii::to_lowercase($t0|string: ascii::String): ascii::String {
      var $t19: u64
      var $t20: vector<u8>
      var $t21: ascii::String
-     # live_nodes: LocalRoot($t0)
   0: $t11 := ascii::as_bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t12 := []
-     # live_nodes: LocalRoot($t0)
   2: $t7 := $t12
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
   3: $t13 := vector::length<u8>($t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
   4: $t14 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
   5: $t6 := $t14
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   6: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   7: $t15 := <($t6, $t13)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   8: if ($t15) goto 9 else goto 17
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   9: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  10: $t16 := vector::borrow<u8>($t11, $t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  11: $t17 := borrow_local($t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7), Reference($t17)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  12: $t18 := ascii::char_to_lowercase($t16)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7), Reference($t17)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
+     # [(Reference(17), [[WriteBackAction { src: 17, dst: LocalRoot(7), edge: Direct }]])]
  13: vector::push_back<u8>($t17, $t18)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  14: $t19 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  15: $t6 := +($t6, $t19)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  16: goto 6
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  17: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
+     # [(LocalRoot(7), [[]])]
  18: $t20 := move($t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t20)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  19: $t21 := pack ascii::String($t20)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t20)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  20: return $t21
 }
 
@@ -5658,77 +4635,28 @@ public fun ascii::to_uppercase($t0|string: ascii::String): ascii::String {
      var $t19: u64
      var $t20: vector<u8>
      var $t21: ascii::String
-     # live_nodes: LocalRoot($t0)
   0: $t11 := ascii::as_bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t12 := []
-     # live_nodes: LocalRoot($t0)
   2: $t7 := $t12
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
   3: $t13 := vector::length<u8>($t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
   4: $t14 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t7)
   5: $t6 := $t14
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   6: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   7: $t15 := <($t6, $t13)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   8: if ($t15) goto 9 else goto 17
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
   9: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  10: $t16 := vector::borrow<u8>($t11, $t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  11: $t17 := borrow_local($t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7), Reference($t17)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  12: $t18 := ascii::char_to_uppercase($t16)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7), Reference($t17)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
+     # [(Reference(17), [[WriteBackAction { src: 17, dst: LocalRoot(7), edge: Direct }]])]
  13: vector::push_back<u8>($t17, $t18)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  14: $t19 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  15: $t6 := +($t6, $t19)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  16: goto 6
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  17: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t7)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
+     # [(LocalRoot(7), [[]])]
  18: $t20 := move($t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t20)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  19: $t21 := pack ascii::String($t20)
-     # live_nodes: LocalRoot($t0), LocalRoot($t6), LocalRoot($t20)
-     # borrowed_by: LocalRoot($t7) -> {(@, Reference($t17))}
-     # borrows_from: Reference($t17) -> {(@, LocalRoot($t7))}
  20: return $t21
 }
 
@@ -5752,69 +4680,37 @@ public fun ascii::try_string($t0|bytes: vector<u8>): option::Option<ascii::Strin
      var $t15: u64
      var $t16: bool
      var $t17: ascii::String
-     # live_nodes: LocalRoot($t0)
   0: $t8 := vector::length<u8>($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t9 := 0
-     # live_nodes: LocalRoot($t0)
   2: $t5 := $t9
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
   3: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
   4: $t10 := <($t5, $t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
   5: if ($t10) goto 6 else goto 19
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
   6: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
   7: $t11 := vector::borrow<u8>($t0, $t5)
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
   8: $t12 := ascii::is_valid_char($t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
   9: $t13 := !($t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  10: if ($t13) goto 11 else goto 15
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  11: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  12: $t14 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  13: $t2 := $t14
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  14: goto 22
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  15: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  16: $t15 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  17: $t5 := +($t5, $t15)
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  18: goto 3
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  19: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  20: $t16 := true
-     # live_nodes: LocalRoot($t0), LocalRoot($t5)
  21: $t2 := $t16
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  22: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  23: if ($t2) goto 24 else goto 28
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  24: label L7
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  25: $t17 := pack ascii::String($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  26: $t3 := option::some<ascii::String>($t17)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  27: goto 30
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  28: label L6
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  29: $t3 := option::none<ascii::String>()
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  30: label L8
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t5)
  31: return $t3
 }
 
@@ -5823,23 +4719,12 @@ public fun ascii::try_string($t0|bytes: vector<u8>): option::Option<ascii::Strin
 public fun string::append($t0|s: &mut string::String, $t1|r: string::String) {
      var $t2: &mut vector<u8>
      var $t3: vector<u8>
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t2 := borrow_field<string::String>.bytes($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t2)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
   1: $t3 := get_field<string::String>.bytes($t1)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t2)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(2), [[WriteBackAction { src: 2, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(4), inst: [], id: DatatypeId(Symbol(58)) }, 0) }]])]
   2: vector::append<u8>($t2, $t3)
-     # live_nodes: LocalRoot($t1), Reference($t0)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
+     # [(Reference(0), [[]])]
   3: trace_local[s]($t0)
-     # live_nodes: LocalRoot($t1)
-     # borrowed_by: Reference($t0) -> {(.bytes (vector<u8>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.bytes (vector<u8>), Reference($t0))}
   4: return ()
 }
 
@@ -5849,13 +4734,9 @@ public fun string::index_of($t0|s: string::String, $t1|r: string::String): u64 {
      var $t2: vector<u8>
      var $t3: vector<u8>
      var $t4: u64
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t2 := get_field<string::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t3 := get_field<string::String>.bytes($t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: $t4 := string::internal_index_of($t2, $t3)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: return $t4
 }
 
@@ -5881,87 +4762,43 @@ public fun string::insert($t0|s: &mut string::String, $t1|at: u64, $t2|o: string
      var $t19: &mut string::String
      var $t20: &mut string::String
      var $t21: string::String
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   0: $t8 := get_field<string::String>.bytes($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   1: $t9 := vector::length<u8>($t8)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   2: $t10 := <=($t1, $t9)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   3: if ($t10) goto 4 else goto 7
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   4: label L1
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   5: $t3 := string::internal_is_char_boundary($t8, $t1)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   6: goto 10
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   7: label L0
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   8: $t11 := false
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), Reference($t0)
   9: $t3 := $t11
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  10: label L2
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  11: if ($t3) goto 12 else goto 14
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  12: label L4
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  13: goto 18
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  14: label L3
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
+     # [(Reference(0), [[]])]
  15: destroy($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  16: $t12 := 2
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  17: abort($t12)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  18: label L5
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  19: $t13 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  20: $t14 := string::length($t13)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  21: $t15 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  22: $t16 := 0
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  23: $t6 := string::substring($t15, $t16, $t1)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  24: $t17 := read_ref($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  25: $t18 := string::substring($t17, $t1, $t14)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
  26: $t19 := borrow_local($t6)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0), Reference($t19)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t19))}
-     # borrows_from: Reference($t19) -> {(@, LocalRoot($t6))}
+     # [(Reference(19), [[WriteBackAction { src: 19, dst: LocalRoot(6), edge: Direct }]])]
  27: string::append($t19, $t2)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t19))}
-     # borrows_from: Reference($t19) -> {(@, LocalRoot($t6))}
  28: $t20 := borrow_local($t6)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0), Reference($t20)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t19)), (@, Reference($t20))}
-     # borrows_from: Reference($t19) -> {(@, LocalRoot($t6))}, Reference($t20) -> {(@, LocalRoot($t6))}
+     # [(Reference(20), [[WriteBackAction { src: 20, dst: LocalRoot(6), edge: Direct }]])]
  29: string::append($t20, $t18)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t19)), (@, Reference($t20))}
-     # borrows_from: Reference($t19) -> {(@, LocalRoot($t6))}, Reference($t20) -> {(@, LocalRoot($t6))}
  30: $t21 := move($t6)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t21), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t19)), (@, Reference($t20))}
-     # borrows_from: Reference($t19) -> {(@, LocalRoot($t6))}, Reference($t20) -> {(@, LocalRoot($t6))}
  31: write_ref($t0, $t21)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t21), Reference($t0)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t19)), (@, Reference($t20))}
-     # borrows_from: Reference($t19) -> {(@, LocalRoot($t6))}, Reference($t20) -> {(@, LocalRoot($t6))}
+     # [(Reference(0), [[]])]
  32: trace_local[s]($t0)
-     # live_nodes: LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t21)
-     # borrowed_by: LocalRoot($t6) -> {(@, Reference($t19)), (@, Reference($t20))}
-     # borrows_from: Reference($t19) -> {(@, LocalRoot($t6))}, Reference($t20) -> {(@, LocalRoot($t6))}
  33: return ()
 }
 
@@ -5970,11 +4807,8 @@ public fun string::insert($t0|s: &mut string::String, $t1|at: u64, $t2|o: string
 public fun string::is_empty($t0|s: string::String): bool {
      var $t1: vector<u8>
      var $t2: bool
-     # live_nodes: LocalRoot($t0)
   0: $t1 := get_field<string::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := vector::is_empty<u8>($t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -5983,11 +4817,8 @@ public fun string::is_empty($t0|s: string::String): bool {
 public fun string::length($t0|s: string::String): u64 {
      var $t1: vector<u8>
      var $t2: u64
-     # live_nodes: LocalRoot($t0)
   0: $t1 := get_field<string::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := vector::length<u8>($t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -5995,9 +4826,7 @@ public fun string::length($t0|s: string::String): u64 {
 [variant baseline]
 public fun string::as_bytes($t0|s: string::String): vector<u8> {
      var $t1: vector<u8>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := get_field<string::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: return $t1
 }
 
@@ -6005,9 +4834,7 @@ public fun string::as_bytes($t0|s: string::String): vector<u8> {
 [variant baseline]
 public fun string::into_bytes($t0|s: string::String): vector<u8> {
      var $t1: vector<u8>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := unpack string::String($t0)
-     # live_nodes: LocalRoot($t0)
   1: return $t1
 }
 
@@ -6015,9 +4842,7 @@ public fun string::into_bytes($t0|s: string::String): vector<u8> {
 [variant baseline]
 public fun string::bytes($t0|s: string::String): vector<u8> {
      var $t1: vector<u8>
-     # live_nodes: LocalRoot($t0)
   0: $t1 := string::as_bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: return $t1
 }
 
@@ -6038,75 +4863,40 @@ public fun string::substring($t0|s: string::String, $t1|i: u64, $t2|j: u64): str
      var $t14: u64
      var $t15: vector<u8>
      var $t16: string::String
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   0: $t6 := get_field<string::String>.bytes($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   1: $t7 := vector::length<u8>($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   2: $t8 := <=($t2, $t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   3: if ($t8) goto 4 else goto 21
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   4: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   5: $t9 := <=($t1, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   6: if ($t9) goto 7 else goto 17
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   7: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   8: $t10 := string::internal_is_char_boundary($t6, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   9: if ($t10) goto 10 else goto 13
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  10: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  11: $t3 := string::internal_is_char_boundary($t6, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  12: goto 24
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  13: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  14: $t11 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  15: $t3 := $t11
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  16: goto 24
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  17: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  18: $t12 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  19: $t3 := $t12
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  20: goto 24
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  21: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  22: $t13 := false
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  23: $t3 := $t13
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  24: label L6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  25: if ($t3) goto 26 else goto 28
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  26: label L8
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  27: goto 31
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  28: label L7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  29: $t14 := 2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  30: abort($t14)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  31: label L9
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  32: $t15 := string::internal_sub_string($t6, $t1, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  33: $t16 := pack string::String($t15)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
  34: return $t16
 }
 
@@ -6114,13 +4904,10 @@ public fun string::substring($t0|s: string::String, $t1|i: u64, $t2|j: u64): str
 [variant baseline]
 public fun string::append_utf8($t0|s: &mut string::String, $t1|bytes: vector<u8>) {
      var $t2: string::String
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t2 := string::utf8($t1)
-     # live_nodes: LocalRoot($t1), Reference($t0)
   1: string::append($t0, $t2)
-     # live_nodes: LocalRoot($t1), Reference($t0)
+     # [(Reference(0), [[]])]
   2: trace_local[s]($t0)
-     # live_nodes: LocalRoot($t1)
   3: return ()
 }
 
@@ -6129,11 +4916,8 @@ public fun string::append_utf8($t0|s: &mut string::String, $t1|bytes: vector<u8>
 public fun string::from_ascii($t0|s: ascii::String): string::String {
      var $t1: vector<u8>
      var $t2: string::String
-     # live_nodes: LocalRoot($t0)
   0: $t1 := ascii::into_bytes($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := pack string::String($t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -6157,9 +4941,7 @@ native fun string::internal_sub_string($t0|v: vector<u8>, $t1|i: u64, $t2|j: u64
 [variant baseline]
 public fun string::sub_string($t0|s: string::String, $t1|i: u64, $t2|j: u64): string::String {
      var $t3: string::String
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   0: $t3 := string::substring($t0, $t1, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   1: return $t3
 }
 
@@ -6168,11 +4950,8 @@ public fun string::sub_string($t0|s: string::String, $t1|i: u64, $t2|j: u64): st
 public fun string::to_ascii($t0|s: string::String): ascii::String {
      var $t1: vector<u8>
      var $t2: ascii::String
-     # live_nodes: LocalRoot($t0)
   0: $t1 := unpack string::String($t0)
-     # live_nodes: LocalRoot($t0)
   1: $t2 := ascii::string($t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -6182,25 +4961,15 @@ public fun string::try_utf8($t0|bytes: vector<u8>): option::Option<string::Strin
      var $t1|tmp#$1: option::Option<string::String>
      var $t2: bool
      var $t3: string::String
-     # live_nodes: LocalRoot($t0)
   0: $t2 := string::internal_check_utf8($t0)
-     # live_nodes: LocalRoot($t0)
   1: if ($t2) goto 2 else goto 6
-     # live_nodes: LocalRoot($t0)
   2: label L1
-     # live_nodes: LocalRoot($t0)
   3: $t3 := pack string::String($t0)
-     # live_nodes: LocalRoot($t0)
   4: $t1 := option::some<string::String>($t3)
-     # live_nodes: LocalRoot($t0)
   5: goto 8
-     # live_nodes: LocalRoot($t0)
   6: label L0
-     # live_nodes: LocalRoot($t0)
   7: $t1 := option::none<string::String>()
-     # live_nodes: LocalRoot($t0)
   8: label L2
-     # live_nodes: LocalRoot($t0)
   9: return $t1
 }
 
@@ -6210,25 +4979,15 @@ public fun string::utf8($t0|bytes: vector<u8>): string::String {
      var $t1: bool
      var $t2: u64
      var $t3: string::String
-     # live_nodes: LocalRoot($t0)
   0: $t1 := string::internal_check_utf8($t0)
-     # live_nodes: LocalRoot($t0)
   1: if ($t1) goto 2 else goto 4
-     # live_nodes: LocalRoot($t0)
   2: label L1
-     # live_nodes: LocalRoot($t0)
   3: goto 7
-     # live_nodes: LocalRoot($t0)
   4: label L0
-     # live_nodes: LocalRoot($t0)
   5: $t2 := 1
-     # live_nodes: LocalRoot($t0)
   6: abort($t2)
-     # live_nodes: LocalRoot($t0)
   7: label L2
-     # live_nodes: LocalRoot($t0)
   8: $t3 := pack string::String($t0)
-     # live_nodes: LocalRoot($t0)
   9: return $t3
 }
 
@@ -6237,11 +4996,8 @@ public fun string::utf8($t0|bytes: vector<u8>): string::String {
 public fun u64::bitwise_not($t0|x: u64): u64 {
      var $t1: u64
      var $t2: u64
-     # live_nodes: LocalRoot($t0)
   0: $t1 := 18446744073709551615
-     # live_nodes: LocalRoot($t0)
   1: $t2 := ^($t0, $t1)
-     # live_nodes: LocalRoot($t0)
   2: return $t2
 }
 
@@ -6252,23 +5008,14 @@ public fun u64::diff($t0|x: u64, $t1|y: u64): u64 {
      var $t3|x#1#1: u64
      var $t4|y#1#1: u64
      var $t5: bool
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t5 := >($t0, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: if ($t5) goto 2 else goto 5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: $t2 := -($t0, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   4: goto 7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   5: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   6: $t2 := -($t1, $t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   7: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   8: return $t2
 }
 
@@ -6283,31 +5030,18 @@ public fun u64::divide_and_round_up($t0|x: u64, $t1|y: u64): u64 {
      var $t7: bool
      var $t8: u64
      var $t9: u64
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t5 := %($t0, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: $t6 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: $t7 := ==($t5, $t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: if ($t7) goto 4 else goto 7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   4: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   5: $t2 := /($t0, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   6: goto 11
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   7: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   8: $t8 := /($t0, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   9: $t9 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  10: $t2 := +($t8, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  11: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
  12: return $t2
 }
 
@@ -6318,23 +5052,14 @@ public fun u64::max($t0|x: u64, $t1|y: u64): u64 {
      var $t3|x#1#1: u64
      var $t4|y#1#1: u64
      var $t5: bool
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t5 := >($t0, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: if ($t5) goto 2 else goto 5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: $t2 := $t0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   4: goto 7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   5: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   6: $t2 := $t1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   7: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   8: return $t2
 }
 
@@ -6345,23 +5070,14 @@ public fun u64::min($t0|x: u64, $t1|y: u64): u64 {
      var $t3|x#1#1: u64
      var $t4|y#1#1: u64
      var $t5: bool
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t5 := <($t0, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   1: if ($t5) goto 2 else goto 5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: $t2 := $t0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   4: goto 7
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   5: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   6: $t2 := $t1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   7: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   8: return $t2
 }
 
@@ -6380,59 +5096,32 @@ public fun u64::pow($t0|base: u64, $t1|exponent: u8): u64 {
      var $t11: bool
      var $t12: u8
      var $t13: u8
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   0: $t2 := $t0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   1: $t3 := $t1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
   2: $t5 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3)
   3: $t4 := $t5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   4: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   5: $t6 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   6: $t7 := >=($t3, $t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   7: if ($t7) goto 8 else goto 25
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   8: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
   9: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  10: $t8 := 2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  11: $t9 := %($t3, $t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  12: $t10 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  13: $t11 := ==($t9, $t10)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  14: if ($t11) goto 15 else goto 20
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  15: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  16: $t2 := *($t2, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  17: $t12 := 2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  18: $t3 := /($t3, $t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  19: goto 4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  20: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  21: $t4 := *($t4, $t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  22: $t13 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  23: $t3 := -($t3, $t13)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  24: goto 4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  25: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2), LocalRoot($t3), LocalRoot($t4)
  26: return $t4
 }
 
@@ -6455,67 +5144,36 @@ public fun u64::sqrt($t0|x: u64): u64 {
      var $t14: u8
      var $t15: u8
      var $t16: u64
-     # live_nodes: LocalRoot($t0)
   0: $t5 := 18446744073709551616
-     # live_nodes: LocalRoot($t0)
   1: $t1 := $t5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   2: $t6 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1)
   3: $t2 := $t6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   4: $t4 := (u128)($t0)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   5: label L6
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   6: $t7 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   7: $t8 := !=($t1, $t7)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   8: if ($t8) goto 9 else goto 28
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
   9: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  10: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  11: $t9 := +($t2, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  12: $t10 := >=($t4, $t9)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  13: if ($t10) goto 14 else goto 21
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  14: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  15: $t11 := +($t2, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  16: $t4 := -($t4, $t11)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  17: $t12 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  18: $t13 := >>($t2, $t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  19: $t2 := +($t13, $t1)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  20: goto 24
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  21: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  22: $t14 := 1
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  23: $t2 := >>($t2, $t14)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  24: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  25: $t15 := 2
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  26: $t1 := >>($t1, $t15)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  27: goto 5
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  28: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  29: $t16 := (u64)($t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t1), LocalRoot($t2)
  30: return $t16
 }
 
@@ -6540,115 +5198,41 @@ public fun u64::to_string($t0|x: u64): string::String {
      var $t16: u64
      var $t17: &mut vector<u8>
      var $t18: vector<u8>
-     # live_nodes: LocalRoot($t0)
   0: $t3 := $t0
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   1: $t4 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   2: $t5 := ==($t0, $t4)
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   3: if ($t5) goto 4 else goto 8
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   4: label L1
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   5: $t6 := [48]
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   6: $t1 := string::utf8($t6)
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   7: goto 31
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   8: label L0
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
   9: $t7 := []
-     # live_nodes: LocalRoot($t0), LocalRoot($t3)
  10: $t2 := $t7
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  11: label L5
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  12: $t8 := 0
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  13: $t9 := !=($t3, $t8)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  14: if ($t9) goto 15 else goto 26
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  15: label L4
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  16: $t10 := borrow_local($t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3), Reference($t10)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  17: $t11 := 48
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3), Reference($t10)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  18: $t12 := 10
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3), Reference($t10)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  19: $t13 := %($t3, $t12)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3), Reference($t10)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  20: $t14 := +($t11, $t13)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3), Reference($t10)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  21: $t15 := (u8)($t14)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3), Reference($t10)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
+     # [(Reference(10), [[WriteBackAction { src: 10, dst: LocalRoot(2), edge: Direct }]])]
  22: vector::push_back<u8>($t10, $t15)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  23: $t16 := 10
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  24: $t3 := /($t3, $t16)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  25: goto 11
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  26: label L3
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}
  27: $t17 := borrow_local($t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3), Reference($t17)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10)), (@, Reference($t17))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}, Reference($t17) -> {(@, LocalRoot($t2))}
+     # [(Reference(17), [[WriteBackAction { src: 17, dst: LocalRoot(2), edge: Direct }]])]
  28: vector::reverse<u8>($t17)
-     # live_nodes: LocalRoot($t0), LocalRoot($t2), LocalRoot($t3)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10)), (@, Reference($t17))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}, Reference($t17) -> {(@, LocalRoot($t2))}
+     # [(LocalRoot(2), [[]])]
  29: $t18 := move($t2)
-     # live_nodes: LocalRoot($t0), LocalRoot($t3), LocalRoot($t18)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10)), (@, Reference($t17))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}, Reference($t17) -> {(@, LocalRoot($t2))}
  30: $t1 := string::utf8($t18)
-     # live_nodes: LocalRoot($t0), LocalRoot($t3), LocalRoot($t18)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10)), (@, Reference($t17))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}, Reference($t17) -> {(@, LocalRoot($t2))}
  31: label L2
-     # live_nodes: LocalRoot($t0), LocalRoot($t3), LocalRoot($t18)
-     # borrowed_by: LocalRoot($t2) -> {(@, Reference($t10)), (@, Reference($t17))}
-     # borrows_from: Reference($t10) -> {(@, LocalRoot($t2))}, Reference($t17) -> {(@, LocalRoot($t2))}
  32: return $t1
 }
 
@@ -6660,27 +5244,16 @@ public fun u64::try_as_u16($t0|x: u64): option::Option<u16> {
      var $t3: u64
      var $t4: bool
      var $t5: u16
-     # live_nodes: LocalRoot($t0)
   0: $t3 := 65535
-     # live_nodes: LocalRoot($t0)
   1: $t4 := >($t0, $t3)
-     # live_nodes: LocalRoot($t0)
   2: if ($t4) goto 3 else goto 6
-     # live_nodes: LocalRoot($t0)
   3: label L1
-     # live_nodes: LocalRoot($t0)
   4: $t1 := option::none<u16>()
-     # live_nodes: LocalRoot($t0)
   5: goto 9
-     # live_nodes: LocalRoot($t0)
   6: label L0
-     # live_nodes: LocalRoot($t0)
   7: $t5 := (u16)($t0)
-     # live_nodes: LocalRoot($t0)
   8: $t1 := option::some<u16>($t5)
-     # live_nodes: LocalRoot($t0)
   9: label L2
-     # live_nodes: LocalRoot($t0)
  10: return $t1
 }
 
@@ -6692,27 +5265,16 @@ public fun u64::try_as_u32($t0|x: u64): option::Option<u32> {
      var $t3: u64
      var $t4: bool
      var $t5: u32
-     # live_nodes: LocalRoot($t0)
   0: $t3 := 4294967295
-     # live_nodes: LocalRoot($t0)
   1: $t4 := >($t0, $t3)
-     # live_nodes: LocalRoot($t0)
   2: if ($t4) goto 3 else goto 6
-     # live_nodes: LocalRoot($t0)
   3: label L1
-     # live_nodes: LocalRoot($t0)
   4: $t1 := option::none<u32>()
-     # live_nodes: LocalRoot($t0)
   5: goto 9
-     # live_nodes: LocalRoot($t0)
   6: label L0
-     # live_nodes: LocalRoot($t0)
   7: $t5 := (u32)($t0)
-     # live_nodes: LocalRoot($t0)
   8: $t1 := option::some<u32>($t5)
-     # live_nodes: LocalRoot($t0)
   9: label L2
-     # live_nodes: LocalRoot($t0)
  10: return $t1
 }
 
@@ -6724,27 +5286,16 @@ public fun u64::try_as_u8($t0|x: u64): option::Option<u8> {
      var $t3: u64
      var $t4: bool
      var $t5: u8
-     # live_nodes: LocalRoot($t0)
   0: $t3 := 255
-     # live_nodes: LocalRoot($t0)
   1: $t4 := >($t0, $t3)
-     # live_nodes: LocalRoot($t0)
   2: if ($t4) goto 3 else goto 6
-     # live_nodes: LocalRoot($t0)
   3: label L1
-     # live_nodes: LocalRoot($t0)
   4: $t1 := option::none<u8>()
-     # live_nodes: LocalRoot($t0)
   5: goto 9
-     # live_nodes: LocalRoot($t0)
   6: label L0
-     # live_nodes: LocalRoot($t0)
   7: $t5 := (u8)($t0)
-     # live_nodes: LocalRoot($t0)
   8: $t1 := option::some<u8>($t5)
-     # live_nodes: LocalRoot($t0)
   9: label L2
-     # live_nodes: LocalRoot($t0)
  10: return $t1
 }
 
@@ -6753,19 +5304,10 @@ public fun u64::try_as_u8($t0|x: u64): option::Option<u8> {
 public fun Collection::borrow_mut<#0>($t0|c: &mut Collection::Collection<#0>, $t1|i: u64): &mut #0 {
      var $t2: &mut vector<#0>
      var $t3: &mut #0
-     # live_nodes: LocalRoot($t1), Reference($t0)
   0: $t2 := borrow_field<Collection::Collection<#0>>.items($t0)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t2)
-     # borrowed_by: Reference($t0) -> {(.items (vector<#0>), Reference($t2))}
-     # borrows_from: Reference($t2) -> {(.items (vector<#0>), Reference($t0))}
   1: $t3 := vector::borrow_mut<#0>($t2, $t1)
-     # live_nodes: LocalRoot($t1), Reference($t0), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.items (vector<#0>), Reference($t2))}, Reference($t2) -> {([], Reference($t3))}
-     # borrows_from: Reference($t2) -> {(.items (vector<#0>), Reference($t0))}, Reference($t3) -> {([], Reference($t2))}
   2: trace_local[c]($t0)
-     # live_nodes: LocalRoot($t1), Reference($t3)
-     # borrowed_by: Reference($t0) -> {(.items (vector<#0>), Reference($t2))}, Reference($t2) -> {([], Reference($t3))}
-     # borrows_from: Reference($t2) -> {(.items (vector<#0>), Reference($t0))}, Reference($t3) -> {([], Reference($t2))}
+     # [(Reference(3), [[WriteBackAction { src: 3, dst: Reference(2), edge: Index(Vector) }, WriteBackAction { src: 2, dst: Reference(0), edge: Field(QualifiedInstId { module_id: ModuleId(6), inst: [TypeParameter(0)], id: DatatypeId(Symbol(111)) }, 0) }]])]
   3: return $t3
 }
 
@@ -6790,29 +5332,13 @@ public fun Test::foo<#0>($t0|i: u64) {
      var $t4: &mut Test::Token<#0>
      var $t5: u64
      var $t6: &mut u64
-     # live_nodes: LocalRoot($t0)
   0: $t1 := Collection::make_collection<Test::Token<#0>>()
-     # live_nodes: LocalRoot($t0)
   1: $t3 := borrow_local($t1)
-     # live_nodes: LocalRoot($t0), Reference($t3)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t3))}
-     # borrows_from: Reference($t3) -> {(@, LocalRoot($t1))}
   2: $t4 := Collection::borrow_mut<Test::Token<#0>>($t3, $t0)
-     # live_nodes: LocalRoot($t0), Reference($t4)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t3))}, Reference($t3) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t4))}
-     # borrows_from: Reference($t3) -> {(@, LocalRoot($t1))}, Reference($t4) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t3))}
   3: $t5 := 0
-     # live_nodes: LocalRoot($t0), Reference($t4)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t3))}, Reference($t3) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t4))}
-     # borrows_from: Reference($t3) -> {(@, LocalRoot($t1))}, Reference($t4) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t3))}
   4: $t6 := borrow_field<Test::Token<#0>>.value($t4)
-     # live_nodes: LocalRoot($t0), Reference($t6)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t3))}, Reference($t3) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t4))}, Reference($t4) -> {(.value (u64), Reference($t6))}
-     # borrows_from: Reference($t3) -> {(@, LocalRoot($t1))}, Reference($t4) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t3))}, Reference($t6) -> {(.value (u64), Reference($t4))}
+     # [(Reference(6), [[WriteBackAction { src: 6, dst: Reference(4), edge: Field(QualifiedInstId { module_id: ModuleId(7), inst: [TypeParameter(0)], id: DatatypeId(Symbol(117)) }, 0) }, WriteBackAction { src: 4, dst: Reference(3), edge: Hyper([Field(QualifiedInstId { module_id: ModuleId(6), inst: [Datatype(ModuleId(7), DatatypeId(Symbol(117)), [TypeParameter(0)])], id: DatatypeId(Symbol(111)) }, 0), Index(Vector)]) }, WriteBackAction { src: 3, dst: LocalRoot(1), edge: Direct }]])]
   5: write_ref($t6, $t5)
-     # live_nodes: LocalRoot($t0)
-     # borrowed_by: LocalRoot($t1) -> {(@, Reference($t3))}, Reference($t3) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t4))}, Reference($t4) -> {(.value (u64), Reference($t6))}
-     # borrows_from: Reference($t3) -> {(@, LocalRoot($t1))}, Reference($t4) -> {(.items (vector<Test::Token<#0>>)/[], Reference($t3))}, Reference($t6) -> {(.value (u64), Reference($t4))}
   6: return ()
 }
 

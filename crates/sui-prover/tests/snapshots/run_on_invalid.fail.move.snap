@@ -4,7 +4,7 @@ assertion_line: 303
 expression: output
 ---
 exiting with bytecode transformation errors
-error: invalid run_on value "somewhere". Valid values are: local, cloud, boogie
+error: invalid run_on value "somewhere". Valid values are: local, cloud, boogie, lean
    ┌─ tests/inputs/run_on_invalid.fail.move:9:1
    │  
  9 │ ╭ public fun foo_spec_invalid() {
