@@ -18,7 +18,7 @@ pub struct SystemPackagesVersion {
 }
 
 static SYSTEM_SUI_GIT_REPO: &str = "https://github.com/MystenLabs/sui.git";
-static SYSTEM_PROVER_GIT_REPO: &str = "https://github.com/asymptotic-code/sui-prover.git";
+static SYSTEM_PROVER_GIT_REPO: &str = "https://github.com/rushrs/sui-prover.git";
 
 static LATEST_SYSTEM_PACKAGES: LazyLock<SystemPackagesVersion> =
     LazyLock::new(|| SystemPackagesVersion {
@@ -93,7 +93,9 @@ fn prover_deps() -> Dependencies {
     let dep = Dependency::Internal(InternalDependency {
         kind: DependencyKind::Git(GitInfo {
             git_url: SYSTEM_PROVER_GIT_REPO.into(),
-            git_rev: "main".to_string().into(),
+            git_rev: "96fbcda3501b0c3ce6c1467f8155695bbe6ccd45"
+                .to_string()
+                .into(),
             subdir: "packages/sui-prover".to_string().into(),
         }),
         subst: None,
