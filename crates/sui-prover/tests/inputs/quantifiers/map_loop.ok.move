@@ -21,7 +21,7 @@ fun map_pred(v: &vector<u64>): vector<u64> {
     r
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun map_pred_spec(v: &vector<u64>): vector<u64> {
     let r = map_pred(v);
     ensures(r == map!(v, |j| pred(*j)));

@@ -5,7 +5,7 @@ use prover::ghost;
 
 public struct GhostStruct {}
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun ghost_borrow_mut_7_spec() {
   ghost::declare_global_mut<GhostStruct, bool>();
   let ghost_ref = ghost::borrow_mut<GhostStruct, bool>();

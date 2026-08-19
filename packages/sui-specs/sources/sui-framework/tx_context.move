@@ -1,57 +1,35 @@
 module specs::tx_context_spec;
 
-use sui::tx_context::{
-    derive_id,
-    fresh_object_address,
-    TxContext,
-    sender,
-    digest,
-    epoch,
-    epoch_timestamp_ms,
-    fresh_id,
-    native_ids_created,
-    native_gas_budget,
-    last_created_id,
-    native_sponsor
-};
+use prover::prover::fresh;
+use sui::tx_context::TxContext;
 
-#[spec_only]
-use prover::prover::{ensures, clone};
 
-#[spec(target = sui::tx_context::fresh_object_address)]
+#[ext(spec(target = sui::tx_context::fresh_object_address))]
 fun fresh_object_address_spec(ctx: &mut TxContext): address {
-    let old_ctx = clone!(ctx);
-    let result = fresh_object_address(ctx);
-    ensures(ctx.digest() == old_ctx.digest());
-    result
+    fresh<address>()
 }
 
-#[spec(target = sui::tx_context::derive_id)]
+#[ext(spec(target = sui::tx_context::derive_id))]
 fun derive_id_spec(tx_hash: vector<u8>, ids_created: u64): address {
-    derive_id(tx_hash, ids_created)
+    fresh<address>()
 }
 
-#[spec(target = sui::tx_context::fresh_id)]
+#[ext(spec(target = sui::tx_context::fresh_id))]
 fun fresh_id_spec(): address {
-    fresh_id()
+    fresh<address>()
 }
 
-#[spec(target = sui::tx_context::native_ids_created)]
+#[ext(spec(target = sui::tx_context::native_ids_created))]
 fun native_ids_created_spec(): u64 {
-    native_ids_created()
+    fresh<u64>()
 }
 
-#[spec(target = sui::tx_context::native_gas_budget)]
+#[ext(spec(target = sui::tx_context::native_gas_budget))]
 fun native_gas_budget_spec(): u64 {
-    native_gas_budget()
+    fresh<u64>()
 }
 
-#[spec(target = sui::tx_context::last_created_id)]
-fun last_created_id_spec(): address {
-    last_created_id()
-}
-
-#[spec(target = sui::tx_context::native_sponsor)]
+#[ext(spec(target = sui::tx_context::native_sponsor))]
 fun native_sponsor_spec(): vector<address> {
-    native_sponsor()
+    fresh<vector<address>>()
 }

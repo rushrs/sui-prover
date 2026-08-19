@@ -16,7 +16,7 @@ public fun foo(x: u64): MyEnum {
     }
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun foo_spec(x: u64): MyEnum {
     let res = foo(x);
     log::var<MyEnum>(&res);

@@ -7,7 +7,7 @@ fun bar(x: u8): u8 {
     x
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun bar_spec(x: u8): u8 {
     asserts(x > 0);
     bar(x)

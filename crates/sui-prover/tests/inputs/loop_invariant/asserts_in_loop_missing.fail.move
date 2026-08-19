@@ -18,7 +18,7 @@ fun bounded_loop_no_asserts(n: u64) {
     };
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun bounded_loop_no_asserts_spec(n: u64) {
     bounded_loop_no_asserts(n);
 }

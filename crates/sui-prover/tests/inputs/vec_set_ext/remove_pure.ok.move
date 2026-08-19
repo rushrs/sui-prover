@@ -3,13 +3,13 @@ module 0x42::vec_set_ext_remove_pure_ok;
 
 use sui::vec_set;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures, requires, clone};
 
-#[spec_only]
-use sui::vec_set::remove_pure;
+#[ext(spec_only)]
+use prover::vec_set_ext::remove_pure;
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_remove_matches(s: &mut vec_set::VecSet<u64>, k: u64) {
     requires(s.contains(&k));
     let old_s = clone!(s);

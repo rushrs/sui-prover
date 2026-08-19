@@ -2,13 +2,20 @@
 // interaction between their axioms. e.g. `count(filter(v, p), q)` creates a
 // term where both the Filter and Count axioms must fire together.
 
-#[allow(unused)]
+#[allow(unused, unused_use)]
 module 0x42::quantifiers_nested_helpers_ok;
 
-#[spec_only]
+#[ext(spec_only)] use fun prover::integer::from_u8 as u8.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u16 as u16.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u32 as u32.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u64 as u64.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u128 as u128.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u256 as u256.to_int;
+
+#[ext(spec_only)]
 use prover::prover::ensures;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::vector_iter::{count, filter, map, sum_map, find_index};
 
 #[ext(pure)]
@@ -31,7 +38,7 @@ fun double(x: &u64): u64 {
 }
 
 // count over a filtered vector.
-#[spec(prove, extra_bpl = b"nested_helpers_filter_count.bpl")]
+#[ext(spec(prove, extra_bpl = b"nested_helpers_filter_count.bpl"))] #[allow(unused_function)]
 fun test_count_of_filter() {
     let v = vector[0, 1, 2, 3, 4, 5];
     // Filter to evens [0, 2, 4], then count positives [2, 4] -> 2.
@@ -39,7 +46,7 @@ fun test_count_of_filter() {
 }
 
 // sum_map over a filtered vector.
-#[spec(prove, extra_bpl = b"nested_helpers.ok.bpl")]
+#[ext(spec(prove, extra_bpl = b"nested_helpers.ok.bpl"))] #[allow(unused_function)]
 fun test_sum_map_of_filter() {
     let v = vector[1, 2, 3, 4];
     // Filter to evens [2, 4], then double -> [4, 8], sum = 12.
@@ -47,7 +54,7 @@ fun test_sum_map_of_filter() {
 }
 
 // find_index into a mapped vector.
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_find_index_of_map() {
     let v = vector[1, 2, 3, 4];
     // Map to doubles [2, 4, 6, 8], first even is at index 0.
@@ -55,7 +62,7 @@ fun test_find_index_of_map() {
 }
 
 // count over a mapped vector.
-#[spec(prove, extra_bpl = b"nested_helpers_count.bpl")]
+#[ext(spec(prove, extra_bpl = b"nested_helpers_count.bpl"))] #[allow(unused_function)]
 fun test_count_of_map() {
     let v = vector[0, 1, 2, 3];
     // Map to doubles [0, 2, 4, 6], count positives -> 3.

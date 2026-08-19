@@ -8,7 +8,7 @@ fun foo(m: &mut vec_map::VecMap<u64, u8>) {
 }
 
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun foo_spec(m: &mut vec_map::VecMap<u64, u8>) {
   requires(!m.keys().contains(&10));
   foo(m);

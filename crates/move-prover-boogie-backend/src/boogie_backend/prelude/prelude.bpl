@@ -33,14 +33,14 @@ procedure {:inline 1} $0_prover_requires(p: bool) {
     assume p;
 }
 
-type $1_integer_Integer = int;
-function {:inline} $IsValid'$1_integer_Integer'(x: int): bool {
+type $0_integer_Integer = int;
+function {:inline} $IsValid'$0_integer_Integer'(x: int): bool {
     true
 }
-function {:inline} $IsEqual'$1_integer_Integer'(x: int, y: int): bool {
+function {:inline} $IsEqual'$0_integer_Integer'(x: int, y: int): bool {
     x == y
 }
-procedure {:inline 1} $0_prover_type_inv'$1_integer_Integer'(x: int) returns (y: bool) {
+procedure {:inline 1} $0_prover_type_inv'$0_integer_Integer'(x: int) returns (y: bool) {
     y := true;
 }
 
@@ -59,124 +59,124 @@ axiom (
 
 {%- if options.bv_int_encoding -%}
 
-function {:inline} $1_integer_from_u8(x: int): int {
+function {:inline} $0_integer_from_u8(x: int): int {
     x
 }
-function {:inline} $1_integer_from_u16(x: int): int {
+function {:inline} $0_integer_from_u16(x: int): int {
     x
 }
-function {:inline} $1_integer_from_u32(x: int): int {
+function {:inline} $0_integer_from_u32(x: int): int {
     x
 }
-function {:inline} $1_integer_from_u64(x: int): int {
+function {:inline} $0_integer_from_u64(x: int): int {
     x
 }
-function {:inline} $1_integer_from_u128(x: int): int {
+function {:inline} $0_integer_from_u128(x: int): int {
     x
 }
-function {:inline} $1_integer_from_u256(x: int): int {
+function {:inline} $0_integer_from_u256(x: int): int {
     x
 }
-function {:inline} $1_integer_to_u8(x: int): int {
+function {:inline} $0_integer_to_u8(x: int): int {
     x mod 256
 }
-function {:inline} $1_integer_to_u16(x: int): int {
+function {:inline} $0_integer_to_u16(x: int): int {
     x mod 65536
 }
-function {:inline} $1_integer_to_u32(x: int): int {
+function {:inline} $0_integer_to_u32(x: int): int {
     x mod 4294967296
 }
-function {:inline} $1_integer_to_u64(x: int): int {
+function {:inline} $0_integer_to_u64(x: int): int {
     x mod 18446744073709551616
 }
-function {:inline} $1_integer_to_u128(x: int): int {
+function {:inline} $0_integer_to_u128(x: int): int {
     x mod 340282366920938463463374607431768211456
 }
-function {:inline} $1_integer_to_u256(x: int): int {
+function {:inline} $0_integer_to_u256(x: int): int {
     x mod 115792089237316195423570985008687907853269984665640564039457584007913129639936
 }
 
 {%- else %}
 
-function {:inline} $1_integer_from_u8(x: bv8): int {
+function {:inline} $0_integer_from_u8(x: bv8): int {
     $bv2int.8(x)
 }
 
-function {:inline} $1_integer_from_u16(x: bv16): int {
+function {:inline} $0_integer_from_u16(x: bv16): int {
     $bv2int.16(x)
 }
 
-function {:inline} $1_integer_from_u32(x: bv32): int {
+function {:inline} $0_integer_from_u32(x: bv32): int {
     $bv2int.32(x)
 }
 
-function {:inline} $1_integer_from_u64(x: bv64): int {
+function {:inline} $0_integer_from_u64(x: bv64): int {
     $bv2int.64(x)
 }
 
-function {:inline} $1_integer_from_u128(x: bv128): int {
+function {:inline} $0_integer_from_u128(x: bv128): int {
     $bv2int.128(x)
 }
 
-function {:inline} $1_integer_from_u256(x: bv256): int {
+function {:inline} $0_integer_from_u256(x: bv256): int {
     $bv2int.256(x)
 }
 
-function {:inline} $1_integer_to_u8(x: int): bv8 {
+function {:inline} $0_integer_to_u8(x: int): bv8 {
     $int2bv.8(x)
 }
 
-function {:inline} $1_integer_to_u16(x: int): bv16 {
+function {:inline} $0_integer_to_u16(x: int): bv16 {
     $int2bv.16(x)
 }
 
-function {:inline} $1_integer_to_u32(x: int): bv32 {
+function {:inline} $0_integer_to_u32(x: int): bv32 {
     $int2bv.32(x)
 }
 
-function {:inline} $1_integer_to_u64(x: int): bv64 {
+function {:inline} $0_integer_to_u64(x: int): bv64 {
     $int2bv.64(x)
 }
 
-function {:inline} $1_integer_to_u128(x: int): bv128 {
+function {:inline} $0_integer_to_u128(x: int): bv128 {
     $int2bv.128(x)
 }
 
-function {:inline} $1_integer_to_u256(x: int): bv256 {
+function {:inline} $0_integer_to_u256(x: int): bv256 {
     $int2bv.256(x)
 }
 
 {%- endif %}
 
-function {:inline} $1_integer_add(x: int, y: int): int {
+function {:inline} $0_integer_add(x: int, y: int): int {
     x + y
 }
 
-function {:inline} $1_integer_sub(x: int, y: int): int {
+function {:inline} $0_integer_sub(x: int, y: int): int {
     x - y
 }
 
-function {:inline} $1_integer_neg(x: int): int {
+function {:inline} $0_integer_neg(x: int): int {
     -x
 }
 
-function {:inline} $1_integer_mul(x: int, y: int): int {
+function {:inline} $0_integer_mul(x: int, y: int): int {
     x * y
 }
 
-function {:inline} $1_integer_div(x: int, y: int): int {
+function {:inline} $0_integer_div(x: int, y: int): int {
     x div y
 }
 
-function {:inline} $1_integer_mod(x: int, y: int): int {
+function {:inline} $0_integer_mod(x: int, y: int): int {
     x mod y
 }
 
-function {:inline} $1_integer_pow(x: int, y: int): int {
+function {:inline} $0_integer_pow(x: int, y: int): int {
     $pow(x, y)
 }
 
-function {:inline} $1_integer_sqrt(x: int): int {
+function {:inline} $0_integer_sqrt(x: int): int {
     $sqrt_int(x)
 }
 
@@ -185,39 +185,39 @@ function $orInt(x: int, y: int) returns (int);
 function $xorInt(x: int, y: int) returns (int);
 function $notInt(x: int) returns (int);
 
-function {:inline} $1_integer_bit_and(x: int, y: int): int {
+function {:inline} $0_integer_bit_and(x: int, y: int): int {
     $andInt(x, y)
 }
 
-function {:inline} $1_integer_bit_or(x: int, y: int): int {
+function {:inline} $0_integer_bit_or(x: int, y: int): int {
     $orInt(x, y)
 }
 
-function {:inline} $1_integer_bit_xor(x: int, y: int): int {
+function {:inline} $0_integer_bit_xor(x: int, y: int): int {
     $xorInt(x, y)
 }
 
-function {:inline} $1_integer_bit_not(x: int): int {
+function {:inline} $0_integer_bit_not(x: int): int {
     $notInt(x)
 }
 
-function {:inline} $1_integer_lt(x: int, y: int): bool {
+function {:inline} $0_integer_lt(x: int, y: int): bool {
     x < y
 }
 
-function {:inline} $1_integer_gt(x: int, y: int): bool {
+function {:inline} $0_integer_gt(x: int, y: int): bool {
     x > y
 }
 
-function {:inline} $1_integer_lte(x: int, y: int): bool {
+function {:inline} $0_integer_lte(x: int, y: int): bool {
     x <= y
 }
 
-function {:inline} $1_integer_gte(x: int, y: int): bool {
+function {:inline} $0_integer_gte(x: int, y: int): bool {
     x >= y
 }
 
-function {:inline} $1_integer_div_real(x: int, y: int): real {
+function {:inline} $0_integer_div_real(x: int, y: int): real {
     x / y
 }
 
@@ -296,47 +296,47 @@ function $to_i256(x: int): int {(
         y - 115792089237316195423570985008687907853269984665640564039457584007913129639936
 )}
 
-type $1_real_Real = real;
-function {:inline} $IsValid'$1_real_Real'(x: real): bool {
+type $0_real_Real = real;
+function {:inline} $IsValid'$0_real_Real'(x: real): bool {
     true
 }
-function {:inline} $IsEqual'$1_real_Real'(x: real, y: real): bool {
+function {:inline} $IsEqual'$0_real_Real'(x: real, y: real): bool {
     x == y
 }
 
-function {:inline} $0_prover_type_inv'$1_real_Real'(x: real): bool {
+function {:inline} $0_prover_type_inv'$0_real_Real'(x: real): bool {
     true
 }
 
-function {:inline} $1_real_from_integer(x: int): real {
+function {:inline} $0_real_from_integer(x: int): real {
     real(x)
 }
 
-function {:inline} $1_real_to_integer(x: real): int {
+function {:inline} $0_real_to_integer(x: real): int {
     int(x)
 }
 
-function {:inline} $1_real_add(x: real, y: real): real {
+function {:inline} $0_real_add(x: real, y: real): real {
     x + y
 }
 
-function {:inline} $1_real_sub(x: real, y: real): real {
+function {:inline} $0_real_sub(x: real, y: real): real {
     x - y
 }
 
-function {:inline} $1_real_neg(x: real): real {
+function {:inline} $0_real_neg(x: real): real {
     -x
 }
 
-function {:inline} $1_real_mul(x: real, y: real): real {
+function {:inline} $0_real_mul(x: real, y: real): real {
     x * y
 }
 
-function {:inline} $1_real_div(x: real, y: real): real {
+function {:inline} $0_real_div(x: real, y: real): real {
     x / y
 }
 
-function {:inline} $1_real_exp(x: real, y: int): real {
+function {:inline} $0_real_exp(x: real, y: int): real {
     // simplifications
     if y == 0 then 1.0
     else if y == 1 || y == -1 then x
@@ -345,23 +345,23 @@ function {:inline} $1_real_exp(x: real, y: int): real {
     else $pow_real(x, y)
 }
 
-function {:inline} $1_real_lt(x: real, y: real): bool {
+function {:inline} $0_real_lt(x: real, y: real): bool {
     x < y
 }
 
-function {:inline} $1_real_gt(x: real, y: real): bool {
+function {:inline} $0_real_gt(x: real, y: real): bool {
     x > y
 }
 
-function {:inline} $1_real_lte(x: real, y: real): bool {
+function {:inline} $0_real_lte(x: real, y: real): bool {
     x <= y
 }
 
-function {:inline} $1_real_gte(x: real, y: real): bool {
+function {:inline} $0_real_gte(x: real, y: real): bool {
     x >= y
 }
 
-function {:inline} $1_real_sqrt(x: real): real {
+function {:inline} $0_real_sqrt(x: real): real {
     $sqrt_real(x)
 }
 

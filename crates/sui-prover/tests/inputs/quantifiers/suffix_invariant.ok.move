@@ -32,7 +32,7 @@ fun count_odd_suffix(v: &vector<u64>): u64 {
     c
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun count_odd_suffix_spec(v: &vector<u64>): u64 {
     let r = count_odd_suffix(v);
     ensures(r == count!(v, |j| is_odd(j)));

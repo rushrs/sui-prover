@@ -22,7 +22,7 @@ fun find_odd(v: &vector<u8>): Option<u8> {
     option::none()
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun find_odd_spec(v: &vector<u8>): Option<u8> {
     let r = find_odd(v);
     ensures(r == find!(v, |j| is_odd(j)));

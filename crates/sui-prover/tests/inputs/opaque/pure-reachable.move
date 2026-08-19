@@ -1,7 +1,7 @@
 /// Test that pure functions which are only "reachable" (not "inlined") get
 /// inlined $pure bodies in Boogie, rather than bodyless uninterpreted declarations.
 ///
-/// `get_value` has a spec with `#[spec(skip)]`, making it only "reachable".
+/// `get_value` has a spec with `#[ext(spec(skip))]`, making it only "reachable".
 /// Previously, `get_value$pure` was emitted as a bodyless Boogie function,
 /// causing Z3 to treat it as uninterpreted and potentially returning invalid values.
 /// Now reachable pure functions get inlined bodies, so `get_value$pure(box)`
@@ -20,7 +20,7 @@ fun get_value(b: &Box): u64 {
 }
 
 // The skip attribute makes get_value only "reachable" (not "inlined")
-#[spec(skip, target = get_value)]
+#[ext(spec(skip, target = get_value))] #[allow(unused_function)]
 fun get_value_spec(b: &Box): u64 {
     let result = get_value(b);
     ensures(result == b.value);
@@ -31,7 +31,7 @@ fun set_value(b: &mut Box, v: u64) {
     b.value = v;
 }
 
-#[spec(prove, target = set_value)]
+#[ext(spec(prove, target = set_value))] #[allow(unused_function)]
 fun set_value_spec(b: &mut Box, v: u64) {
     set_value(b, v);
     // This ensures relies on get_value$pure having a body that resolves

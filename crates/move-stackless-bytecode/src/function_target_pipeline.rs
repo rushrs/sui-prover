@@ -347,6 +347,10 @@ impl FunctionTargetsHolder {
         self.get_fun_by_spec(id).is_some()
     }
 
+    pub fn is_system_spec(&self, id: &QualifiedId<FunId>) -> bool {
+        self.package_targets.is_system_spec(id)
+    }
+
     pub fn is_verified_spec(&self, id: &QualifiedId<FunId>) -> bool {
         self.is_spec(id) && !self.no_verify_specs().contains(id)
     }
@@ -786,7 +790,6 @@ impl FunctionTargetsHolder {
     pub fn remove_target(&mut self, id: &QualifiedId<FunId>) {
         self.targets.remove(id);
         self.function_specs.remove_by_left(id);
-        self.function_specs.remove_by_right(id);
     }
 
     /// Sets function data for a function's variant.

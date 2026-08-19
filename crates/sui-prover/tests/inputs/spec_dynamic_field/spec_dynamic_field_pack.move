@@ -15,7 +15,7 @@ public fun create<T: store>(init_version: u64, init_value: T, ctx: &mut TxContex
     self
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun create_spec<T: store>(init_version: u64, init_value: T, ctx: &mut TxContext): Versioned {
     create(init_version, init_value, ctx)
 }

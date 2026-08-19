@@ -1,6 +1,6 @@
 ---
 source: crates/sui-prover/tests/integration.rs
-assertion_line: 297
+assertion_line: 303
 expression: output
 ---
 exiting with verification errors
@@ -13,7 +13,7 @@ error: prover::ensures does not hold
  15 │ │ }
     │ ╰─^
     │  
-    ┌─ /NORMALIZED_HOME/.move/https___github_com_asymptotic-code_sui_git_NORMALIZED/crates/sui-framework/packages/move-stdlib/sources/macros.move:180:12
+    ┌─ /NORMALIZED_HOME/.move/https___github_com_MystenLabs_sui_git_NORMALIZED/crates/sui-framework/packages/move-stdlib/sources/macros.move:180:12
     │
 180 │     while (i < stop) {
     │            - loop invariant is not preserved by the loop body

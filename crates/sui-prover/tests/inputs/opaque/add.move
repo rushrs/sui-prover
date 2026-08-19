@@ -7,7 +7,7 @@ fun add(x: u64, y: u64): u64 {
     x + y
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun add_spec(x: u64, y: u64): u64 {
     asserts((x as u128) + (y as u128) <= u64::max_value!() as u128);
 

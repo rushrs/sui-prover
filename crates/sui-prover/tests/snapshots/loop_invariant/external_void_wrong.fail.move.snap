@@ -1,23 +1,24 @@
 ---
 source: crates/sui-prover/tests/integration.rs
+assertion_line: 303
 expression: output
 ---
 exiting with verification errors
 error: prover::ensures does not hold
-   ┌─ tests/inputs/loop_invariant/external_void_wrong.fail.move:22:5
+   ┌─ tests/inputs/loop_invariant/external_void_wrong.fail.move:21:5
    │
-22 │     ensures(s == (n as u128) * ((n as u128) + 1) / 2);
+21 │     ensures(s == (n as u128) * ((n as u128) + 1) / 2);
    │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    │
-   =     at tests/inputs/loop_invariant/external_void_wrong.fail.move:13: test_spec
+   =     at tests/inputs/loop_invariant/external_void_wrong.fail.move:12: test_spec
 
 error: prover::ensures does not hold
-   ┌─ tests/inputs/loop_invariant/external_void_wrong.fail.move:9:5
+   ┌─ tests/inputs/loop_invariant/external_void_wrong.fail.move:8:5
    │
- 9 │     ensures(s == (i as u128));  // Wrong invariant
+ 8 │     ensures(s == (i as u128));  // Wrong invariant
    │     ^^^^^^^^^^^^^^^^^^^^^^^^^
    ·
-17 │     while (i < n) {
+16 │     while (i < n) {
    │            - loop invariant is not preserved by the loop body
    │
-   =     at tests/inputs/loop_invariant/external_void_wrong.fail.move:13: test_spec
+   =     at tests/inputs/loop_invariant/external_void_wrong.fail.move:12: test_spec

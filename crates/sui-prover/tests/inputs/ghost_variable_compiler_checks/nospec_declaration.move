@@ -7,7 +7,7 @@ public fun foo<U, V>() {
     ghost::declare_global_mut<V, bool>();
 }
 
-#[spec_only]
+#[ext(spec_only)] #[allow(unused_function)]
 public fun bar<T>() {
     ghost::declare_global_mut<T, bool>();
     ghost::declare_global<u64, bool>();

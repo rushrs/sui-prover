@@ -11,7 +11,7 @@ public fun foo(x: &mut u64): u64 {
 
 public fun bar(x: &mut u64): u64 { *x = *x + 1; *x }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun foo_spec(x: &mut u64): u64 {
     ghost::declare_global_mut<Counter, u64>();
     requires(ghost::global<Counter, u64>() == x);
@@ -22,7 +22,7 @@ public fun foo_spec(x: &mut u64): u64 {
     res
 }
 
-#[spec(prove, no_opaque)]
+#[ext(spec(prove, no_opaque))] #[allow(unused_function)]
 public fun bar_spec(x: &mut u64): u64 {
     ghost::declare_global_mut<Counter, u64>();
 

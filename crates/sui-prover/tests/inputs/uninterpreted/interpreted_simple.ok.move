@@ -14,7 +14,7 @@ fun foo(): u64 {
     bar()
 }
 
-#[spec(prove, interpreted = bar)]
+#[ext(spec(prove, interpreted = bar))] #[allow(unused_function)]
 fun foo_spec(): u64 {
     let result = foo();
     ensures(result == 42); // passes: bar is interpreted here, so foo() == bar() == 42

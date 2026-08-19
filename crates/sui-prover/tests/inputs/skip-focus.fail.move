@@ -6,8 +6,8 @@ public fun foo() {
   assert!(true);
 }
 
-#[spec(prove, skip, focus)]
+#[ext(spec(prove, skip, focus))] #[allow(unused_function)]
 public fun foo_spec() {
   foo();
-  ensures(true); 
+  ensures(true);
 }

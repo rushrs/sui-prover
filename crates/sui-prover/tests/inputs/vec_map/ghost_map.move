@@ -28,12 +28,12 @@ fun get_value(self: &Stuff, key: u32): Option<Value> {
     self.key_value_map.try_get(&key)
 }
 
-#[spec(prove, ignore_abort)]
+#[ext(spec(prove, ignore_abort))] #[allow(unused_function)]
 public fun foo_spec(
     self: &mut Stuff,
     key: u32
     ): bool {
-        
+
     let res = self.foo(key);
 
     res

@@ -1,6 +1,6 @@
 module 0x42::foo;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{ensures};
 
 fun foo(x: &mut u8) {
@@ -11,12 +11,12 @@ fun bar(x: &mut u8) {
     foo(x);
 }
 
-#[spec(prove, no_opaque)]
+#[ext(spec(prove, no_opaque))] #[allow(unused_function)]
 fun foo_spec(x: &mut u8) {
     foo(x);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun bar_spec(x: &mut u8) {
     bar(x);
 

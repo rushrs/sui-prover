@@ -1,12 +1,13 @@
 ---
 source: crates/sui-prover/tests/integration.rs
+assertion_line: 303
 expression: output
 ---
 exiting with verification errors
 error: prover::ensures does not hold
-   ┌─ tests/inputs/sum_slice_range/sum.fail.move:12:5
+   ┌─ tests/inputs/sum_slice_range/sum.fail.move:20:5
    │
-12 │     ensures(v2_sum == ELIDEDu64.to_int());  
+20 │     ensures(v2_sum == ELIDEDu64.to_int());
    │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    │
-   =     at tests/inputs/sum_slice_range/sum.fail.move:9: test_sum
+   =     at tests/inputs/sum_slice_range/sum.fail.move:17: test_sum

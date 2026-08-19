@@ -1,29 +1,29 @@
 module 0x42::foo_specs;
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::ensures;
-#[spec_only]
+#[ext(spec_only)]
 use prover::ghost;
-#[spec_only]
-use sui::transfer::{transfer, transfer_impl};
+#[ext(spec_only)]
+use sui::transfer::public_transfer;
 
-public struct Foo has key {
+public struct Foo has key, store {
   id: UID
 }
 
 public struct CustomGlobal {}
 
-#[spec(target = sui::transfer::transfer_impl)]
-fun transfer_impl_spec<T: key>(obj: T, recipient: address) {
+#[ext(spec(target = sui::transfer::public_transfer))] #[allow(unused_function)]
+fun public_transfer_spec<T: key + store>(obj: T, recipient: address) {
   ghost::declare_global_mut<CustomGlobal, bool>();
-  transfer_impl(obj, recipient);
+  public_transfer(obj, recipient);
   ensures(ghost::global<CustomGlobal, bool>() == true);
 }
 
 public fun foo(obj: Foo, recipient: address) {
-  transfer(obj, recipient);
+  public_transfer(obj, recipient);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun foo_spec(obj: Foo, recipient: address) {
   ghost::declare_global_mut<CustomGlobal, bool>();
   foo(obj, recipient);

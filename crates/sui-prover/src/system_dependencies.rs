@@ -17,12 +17,12 @@ pub struct SystemPackagesVersion {
     pub packages: Vec<SystemPackage>,
 }
 
-static SYSTEM_SUI_GIT_REPO: &str = "https://github.com/asymptotic-code/sui.git";
+static SYSTEM_SUI_GIT_REPO: &str = "https://github.com/MystenLabs/sui.git";
 static SYSTEM_PROVER_GIT_REPO: &str = "https://github.com/asymptotic-code/sui-prover.git";
 
 static LATEST_SYSTEM_PACKAGES: LazyLock<SystemPackagesVersion> =
     LazyLock::new(|| SystemPackagesVersion {
-        git_revision: "next".to_owned(),
+        git_revision: "027e13b2c14022b58067bd536c7e4f2afff72164".to_owned(),
         packages: vec![
             SystemPackage {
                 package_name: "MoveStdlib".to_owned(),
@@ -49,6 +49,20 @@ static LATEST_SYSTEM_PACKAGES: LazyLock<SystemPackagesVersion> =
 
 fn prover_deps() -> Dependencies {
     let mut deps: Dependencies = BTreeMap::new();
+
+    if let Ok(repo_root) = std::env::var("ASYMPTOTIC_PROVER_ROOT") {
+        let local_path = PathBuf::from(repo_root).join("packages/sui-prover");
+        if local_path.join("Move.toml").exists() {
+            let dep = Dependency::Internal(InternalDependency {
+                kind: DependencyKind::Local(local_path.to_string_lossy().to_string().into()),
+                subst: None,
+                digest: None,
+                dep_override: true,
+            });
+            deps.insert("SuiProver".to_string().into(), dep);
+            return deps;
+        }
+    }
 
     // Check if we should use a local framework directory
     let local_framework_path = std::env::var("SUI_PROVER_FRAMEWORK_PATH").ok();

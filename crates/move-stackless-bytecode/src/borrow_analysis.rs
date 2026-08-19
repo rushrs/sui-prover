@@ -472,8 +472,9 @@ impl FunctionTargetProcessor for BorrowAnalysisProcessor {
                 .get_funs_and_variants()
                 .flat_map(|(fun_id, variant)| targets.get_data(&fun_id, &variant))
                 .filter(|data| {
-                    let verification_info = data.annotations.get::<VerificationInfo>().unwrap();
-                    verification_info.accessible()
+                    data.annotations
+                        .get::<VerificationInfo>()
+                        .is_some_and(VerificationInfo::accessible)
                 })
                 .flat_map(|data| {
                     data.annotations
@@ -872,12 +873,17 @@ impl TransferFunctions for BorrowAnalysis<'_> {
                                     .targets
                                     .get_data(fun_qid_with_info, &FunctionVariant::Baseline)
                                 {
-                                    Some(data) => spec_global_variable_analysis::get_info(data)
-                                        .instantiate(targs)
-                                        .unwrap()
-                                        .all_vars()
-                                        .cloned()
-                                        .collect_vec(),
+                                    Some(data) => data
+                                        .annotations
+                                        .get::<spec_global_variable_analysis::SpecGlobalVariableInfo>()
+                                        .map(|info| {
+                                            info.instantiate(targs)
+                                                .unwrap()
+                                                .all_vars()
+                                                .cloned()
+                                                .collect_vec()
+                                        })
+                                        .unwrap_or_default(),
                                     None => {
                                         // Spec function was removed by a previous processor
                                         // Skip the spec variable checking for this call
@@ -885,12 +891,18 @@ impl TransferFunctions for BorrowAnalysis<'_> {
                                     }
                                 }
                             } else {
-                                spec_global_variable_analysis::get_info(self.func_target.data)
-                                    .instantiate(targs)
-                                    .unwrap()
-                                    .all_vars()
-                                    .cloned()
-                                    .collect_vec()
+                                self.func_target
+                                    .data
+                                    .annotations
+                                    .get::<spec_global_variable_analysis::SpecGlobalVariableInfo>()
+                                    .map(|info| {
+                                        info.instantiate(targs)
+                                            .unwrap()
+                                            .all_vars()
+                                            .cloned()
+                                            .collect_vec()
+                                    })
+                                    .unwrap_or_default()
                             }
                         };
                         for var in spec_vars {

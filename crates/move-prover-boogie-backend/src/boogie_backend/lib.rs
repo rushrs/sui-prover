@@ -28,7 +28,8 @@ use move_stackless_bytecode::{
 
 use crate::boogie_backend::{
     boogie_helpers::{
-        boogie_bv_type, boogie_function_name, boogie_module_name, boogie_type, boogie_type_suffix,
+        boogie_bv_type, boogie_dynamic_field_is_recursive, boogie_dynamic_field_unpack,
+        boogie_function_name, boogie_module_name, boogie_type, boogie_type_suffix,
         boogie_type_suffix_bv, FunctionTranslationStyle,
     },
     bytecode_translator::has_native_equality,
@@ -60,6 +61,7 @@ struct TypeInfo {
     /// True for U8..U256 (fixed-width unsigned). False for Num (arbitrary precision).
     is_unsigned: bool,
     bit_width: String,
+    dynamic_field_unpack: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Default)]
@@ -672,7 +674,26 @@ impl TypeInfo {
             bit_width: ty.get_bit_width().unwrap_or(8).to_string(),
             is_number: ty.is_number(),
             is_unsigned: ty.get_bit_width().is_some(),
+            dynamic_field_unpack: String::new(),
         }
+    }
+
+    fn dynamic_field_value(
+        env: &GlobalEnv,
+        options: &BoogieOptions,
+        parent: &Type,
+        name: &Type,
+        value: &Type,
+        bv_flag: bool,
+    ) -> Self {
+        let mut result = Self::new(env, options, value, bv_flag);
+        let (qid, inst) = parent.get_datatype().unwrap();
+        let struct_env = env.get_struct(qid);
+        if boogie_dynamic_field_is_recursive(env, &struct_env, value) {
+            result.dynamic_field_unpack =
+                boogie_dynamic_field_unpack(env, &struct_env, inst, name, value);
+        }
+        result
     }
 }
 
@@ -816,7 +837,7 @@ impl DynamicFieldInfo {
             .map(|(name, value)| {
                 (
                     TypeInfo::new(env, options, name, false),
-                    TypeInfo::new(env, options, value, bv_flag),
+                    TypeInfo::dynamic_field_value(env, options, tp, name, value, bv_flag),
                 )
             })
             .collect();
@@ -870,7 +891,7 @@ impl DynamicFieldInfo {
             .map(|(name, value)| {
                 (
                     TypeInfo::new(env, options, name, false),
-                    TypeInfo::new(env, options, value, bv_flag),
+                    TypeInfo::dynamic_field_value(env, options, tp, name, value, bv_flag),
                 )
             })
             .collect();

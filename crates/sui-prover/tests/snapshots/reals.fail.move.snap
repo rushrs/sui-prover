@@ -1,14 +1,55 @@
 ---
 source: crates/sui-prover/tests/integration.rs
+assertion_line: 303
 expression: output
 ---
 exiting with verification errors
+warning: unused alias
+  ┌─ tests/inputs/reals.fail.move:3:19
+  │
+3 │ #[ext(spec_only)] use fun prover::real::from_u8 as u8.to_real;
+  │                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Unused 'use fun' of 'u8.to_real'. Consider removing it
+  │
+  = This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning: unused alias
+  ┌─ tests/inputs/reals.fail.move:4:19
+  │
+4 │ #[ext(spec_only)] use fun prover::real::from_u16 as u16.to_real;
+  │                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Unused 'use fun' of 'u16.to_real'. Consider removing it
+  │
+  = This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning: unused alias
+  ┌─ tests/inputs/reals.fail.move:5:19
+  │
+5 │ #[ext(spec_only)] use fun prover::real::from_u32 as u32.to_real;
+  │                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Unused 'use fun' of 'u32.to_real'. Consider removing it
+  │
+  = This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning: unused alias
+  ┌─ tests/inputs/reals.fail.move:7:19
+  │
+7 │ #[ext(spec_only)] use fun prover::real::from_u128 as u128.to_real;
+  │                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Unused 'use fun' of 'u128.to_real'. Consider removing it
+  │
+  = This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
+warning: unused alias
+  ┌─ tests/inputs/reals.fail.move:8:19
+  │
+8 │ #[ext(spec_only)] use fun prover::real::from_u256 as u256.to_real;
+  │                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Unused 'use fun' of 'u256.to_real'. Consider removing it
+  │
+  = This warning can be suppressed with '#[allow(unused_use)]' applied to the 'module' or module member ('const', 'fun', or 'struct')
+
 error: prover::ensures does not hold
-   ┌─ tests/inputs/reals.fail.move:21:3
+   ┌─ tests/inputs/reals.fail.move:28:3
    │
-21 │   ensures(y_real  != y_real);
+28 │   ensures(y_real  != y_real);
    │   ^^^^^^^^^^^^^^^^^^^^^^^^^^
    │
-   =     at tests/inputs/reals.fail.move:16: foo_spec
+   =     at tests/inputs/reals.fail.move:23: foo_spec
    =         y_real#1#0 = 1.0/7.0
-   =     at tests/inputs/reals.fail.move:21: foo_spec
+   =     at tests/inputs/reals.fail.move:28: foo_spec

@@ -7,7 +7,7 @@ public struct S has key, store {
 }
 
 // Test object::id with equality
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun equality_spec(s1: &S, s2: &S) {
     requires(s1 == s2);
     ensures(object::id(s1) == object::id(s2));

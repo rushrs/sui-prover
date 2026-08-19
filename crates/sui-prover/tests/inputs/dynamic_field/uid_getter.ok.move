@@ -7,16 +7,16 @@ public struct Market has key, store {
     id: UID,
 }
 
-public fun uid(market: &Market): &UID { 
-    &market.id 
+public fun uid(market: &Market): &UID {
+    &market.id
 }
 
-public fun uid_mut_delegated(market: &mut Market, _: u64): &mut UID { 
-    &mut market.id 
+public fun uid_mut_delegated(market: &mut Market, _: u64): &mut UID {
+    &mut market.id
 }
 
-public fun uid_mut(market: &mut Market): &mut UID { 
-    &mut market.id 
+public fun uid_mut(market: &mut Market): &mut UID {
+    &mut market.id
 }
 
 public struct SupplyLimitKey has copy, store, drop {}
@@ -42,7 +42,7 @@ fun test_add_with_uid_getter_del(market: &mut Market, value: u64) {
     df::add<SupplyLimitKey, u64>(id, supply_limit_key, value);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_spec(market: &mut Market) {
     let supply_value = 1000;
     let fee_value = 50;
@@ -51,16 +51,16 @@ fun test_spec(market: &mut Market) {
     requires(!df::exists_with_type<SupplyLimitKey, u64>(&market.id, SupplyLimitKey {}));
     requires(!df::exists_with_type<BorrowFeeKey, u64>(uid(market), BorrowFeeKey {}));
     requires(!df::exists_with_type<ExtraKey, u64>(&market.id, ExtraKey {}));
-    
+
     // Test all three UID getter patterns:
     test_add_with_uid_getter_var(market, fee_value);         // uid_mut stored in variable
-    test_add_with_uid_getter_del(market, supply_value);      // uid_mut_delegated with multiple params  
+    test_add_with_uid_getter_del(market, supply_value);      // uid_mut_delegated with multiple params
     test_add_with_uid_getter(market, extra_value);           // uid_mut called directly
-    
+
     ensures(df::exists_with_type<SupplyLimitKey, u64>(uid(market), SupplyLimitKey {}));
     ensures(df::exists_with_type<BorrowFeeKey, u64>(&market.id, BorrowFeeKey {}));
     ensures(df::exists_with_type<ExtraKey, u64>(&market.id, ExtraKey {}));
-    
+
     // Verify all values are stored correctly
     ensures(*df::borrow<SupplyLimitKey, u64>(uid(market), SupplyLimitKey {}) == supply_value);
     ensures(*df::borrow<BorrowFeeKey, u64>(&market.id, BorrowFeeKey {}) == fee_value);

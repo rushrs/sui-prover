@@ -1,12 +1,13 @@
 ---
 source: crates/sui-prover/tests/integration.rs
+assertion_line: 303
 expression: output
 ---
 exiting with verification errors
 error: prover::ensures does not hold
-   ┌─ tests/inputs/uninterpreted/native_via_pure.fail.move:19:5
+   ┌─ tests/inputs/uninterpreted/native_via_pure.fail.move:27:5
    │
-19 │     ensures(result == x.mul(x)); // fails: pow is uninterpreted inside square$pure
+27 │     ensures(result == x.mul(x)); // fails: pow is uninterpreted inside square$pure
    │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    │
-   =     at tests/inputs/uninterpreted/native_via_pure.fail.move:17: foo_spec
+   =     at tests/inputs/uninterpreted/native_via_pure.fail.move:25: foo_spec

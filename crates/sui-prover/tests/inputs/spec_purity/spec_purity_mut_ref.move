@@ -1,6 +1,6 @@
 module 0x42::foo;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::ensures;
 
 public fun foo() {
@@ -12,7 +12,7 @@ public fun sub_foo(a: &mut u64) {
 }
 
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun foo_spec() {
   foo();
 

@@ -12,11 +12,11 @@ fun foo(x: &mut Foo) {
     dynamic_field::add<u64, u64>(&mut x.id, 10u64, 0);
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun foo_spec(x: &mut Foo) {
     requires(!dynamic_field::exists_with_type<u64, u64>(&x.id, 10u64));
     foo(x);
-    ensures(dynamic_field::exists_(&x.id, 10u64));
+    ensures(dynamic_field::exists(&x.id, 10u64));
     ensures(dynamic_field::exists_with_type<u64, u64>(&x.id, 10u64));
     ensures(dynamic_field::borrow<u64, u64>(&x.id, 10) == 0);
 }

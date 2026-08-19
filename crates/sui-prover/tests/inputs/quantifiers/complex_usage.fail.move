@@ -1,7 +1,7 @@
 #[allow(unused)]
 module 0x42::quantifiers_complex_usage;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::{exists, ensures, invariant};
 use prover::vector_iter::map;
 
@@ -20,7 +20,7 @@ fun vec_leq(u: vector<u8>, v: vector<u8>): bool {
     true
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun vec_leq_spec(u: vector<u8>, v: vector<u8>): bool {
     vec_leq(u, v)
 }

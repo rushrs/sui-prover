@@ -1,7 +1,16 @@
 ---
 source: crates/move-stackless-bytecode/tests/testsuite.rs
+assertion_line: 272
 ---
 ============ initial translation from Move ================
+
+[variant baseline]
+public fun address::length(): u64 {
+     var $t0: u64
+  0: $t0 := 32
+  1: return $t0
+}
+
 
 [variant baseline]
 fun SmokeTest::arithmetic_ops($t0|a: u64): (u64, u64) {

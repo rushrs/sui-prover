@@ -1,10 +1,7 @@
 use codespan_reporting::diagnostic::Severity;
 use itertools::Itertools;
 use move_model::model::{FunctionEnv, GlobalEnv};
-use move_package::{
-    package_lock::PackageLock, source_package::layout::SourcePackageLayout,
-    BuildConfig as MoveBuildConfig,
-};
+use move_package::{source_package::layout::SourcePackageLayout, BuildConfig as MoveBuildConfig};
 use move_stackless_bytecode::{
     function_target_pipeline::{
         FunctionHolderTarget, FunctionTargetPipeline, FunctionTargetsHolder,
@@ -40,8 +37,6 @@ pub fn move_model_for_package_legacy(
     let flags = config.compiler_flags();
     let resolved_graph =
         config.resolution_graph_for_package(path, None, &mut Buffer::no_color())?;
-    let _mutx = PackageLock::lock(); // held until function returns
-
     ModelBuilderLegacy::create(resolved_graph).build_model(flags)
 }
 

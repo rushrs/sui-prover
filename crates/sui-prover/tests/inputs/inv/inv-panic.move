@@ -5,14 +5,13 @@ public fun bar(ctx: &mut TxContext): Versioned {
     create(0, 1u8, ctx)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 public fun bar_spec(ctx: &mut TxContext): Versioned {
     bar(ctx)
 }
 
-#[spec_only]
+#[ext(spec_only)]
 use sui::random::RandomInner;
 
-#[spec]
-#[allow(unused_variable)]
+#[ext(spec)] #[allow(unused_function, unused_variable)]
 fun RandomInner_inv(x: &RandomInner): bool { true }

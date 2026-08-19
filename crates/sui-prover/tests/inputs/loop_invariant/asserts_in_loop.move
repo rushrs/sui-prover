@@ -1,4 +1,12 @@
+#[allow(unused_use)]
 module 0x42::loop_invariant_asserts_tests;
+
+#[ext(spec_only)] use fun prover::integer::from_u8 as u8.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u16 as u16.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u32 as u32.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u64 as u64.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u128 as u128.to_int;
+#[ext(spec_only)] use fun prover::integer::from_u256 as u256.to_int;
 
 use prover::prover::{ensures, asserts, invariant, clone, forall};
 
@@ -34,7 +42,7 @@ fun bounded_loop(n: u64) {
     };
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun bounded_loop_spec(n: u64) {
     asserts(n <= 100);
     bounded_loop(n);
@@ -56,7 +64,7 @@ fun decrement_loop(mut x: u64, n: u64): u64 {
     x
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun decrement_loop_spec(x: u64, n: u64): u64 {
     asserts(x >= n);
     let result = decrement_loop(x, n);
@@ -80,7 +88,7 @@ fun count_u8_loop(n: u64): u8 {
     count
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun count_u8_loop_spec(n: u64): u8 {
     asserts(n <= 255);
     count_u8_loop(n)
@@ -100,7 +108,7 @@ fun visit_vec(v: &vector<u64>) {
     };
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun visit_vec_spec(v: &vector<u64>) {
     visit_vec(v);
 }
@@ -121,7 +129,7 @@ fun progressive_loop(n: u64) {
     };
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun progressive_loop_spec(n: u64) {
     progressive_loop(n);
 }
@@ -154,7 +162,7 @@ fun positive_check(v: &vector<u64>) {
     };
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun positive_check_spec(v: &vector<u64>) {
     asserts(forall!(|j| positive_at(*j, v)));
     positive_check(v);

@@ -1,6 +1,6 @@
 module 0x42::pure_enum_match;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::ensures;
 
 public enum E has copy, drop {
@@ -16,12 +16,12 @@ public fun f(e: E): bool {
     }
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_a() {
     ensures(f(E::A))
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_b_one() {
     ensures(f(E::B(1)))
 }

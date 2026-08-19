@@ -11,7 +11,7 @@ fun foo(): u64 {
     bar()
 }
 
-#[spec(prove, interpreted = bar)] // should error: bar is not #[ext(uninterpreted)]
+#[ext(spec(prove, interpreted = bar))] #[allow(unused_function)] // should error: bar is not #[ext(uninterpreted)]
 fun foo_spec(): u64 {
     let result = foo();
     ensures(result == 42);

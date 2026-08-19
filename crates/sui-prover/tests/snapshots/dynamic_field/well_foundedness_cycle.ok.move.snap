@@ -1,0 +1,11 @@
+---
+source: crates/sui-prover/tests/integration.rs
+assertion_line: 297
+expression: output
+---
+Verification successful
+warning: UID object type not found, dynamic fields will be placed under UID
+   ┌─ tests/inputs/dynamic_field/well_foundedness_cycle.ok.move:31:10
+   │
+31 │     if (!df::exists_with_type<FeeKey, table::Table<u64, u64>>(uid, key)) {
+   │          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

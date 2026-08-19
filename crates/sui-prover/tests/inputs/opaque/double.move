@@ -11,7 +11,7 @@ fun double(x: u64): u64 {
     add(x, x)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun double_spec(x: u64): u64 {
     asserts((x as u128) * 2 <= u64::max_value!() as u128);
 

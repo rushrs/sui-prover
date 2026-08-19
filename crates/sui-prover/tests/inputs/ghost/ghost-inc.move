@@ -18,7 +18,7 @@ fun inc_saturated(x: u64): u64 {
     }
 }
 
-#[spec]
+#[ext(spec)] #[allow(unused_function)]
 fun inc_spec(x: u64): u64 {
     ghost::declare_global_mut<GhostStruct, bool>();
     requires(ghost::global<GhostStruct, _>() == false);
@@ -33,7 +33,7 @@ fun inc_spec(x: u64): u64 {
     result
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun inc_saturated_spec(x: u64): u64 {
     ghost::declare_global_mut<GhostStruct, bool>();
     requires(ghost::global<GhostStruct, _>() == false);

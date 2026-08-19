@@ -1,6 +1,6 @@
 module 0x42::pure_enum_wildcard;
 
-#[spec_only]
+#[ext(spec_only)]
 use prover::prover::ensures;
 
 public enum Color has copy, drop {
@@ -31,22 +31,22 @@ public fun red_channel(c: Color): u8 {
     }
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_primary_red() {
     ensures(is_primary(Color::Red))
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_primary_custom() {
     ensures(!is_primary(Color::Custom(1, 2, 3)))
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_red_channel_custom(g: u8, b: u8) {
     ensures(red_channel(Color::Custom(42, g, b)) == 42)
 }
 
-#[spec(prove)]
+#[ext(spec(prove))] #[allow(unused_function)]
 fun test_red_channel_green() {
     ensures(red_channel(Color::Green) == 0)
 }
